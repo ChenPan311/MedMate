@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/tweezers_menu"
+        android:title="@string/tweezers_menu"
+        android:icon="@drawable/ic_tweezers_open"
+        app:showAsAction="never"
+        android:orderInCategory="0"/>
+
+    <item android:id="@+id/epipen_menu"
+        android:title="@string/epipen_menu"
+        android:icon="@drawable/ic_epipen_horizontal"
+        app:showAsAction="never"
+        android:orderInCategory="1"/>
+
+    <item android:id="@+id/band_aid_menu"
+        android:title="@string/band_aid_menu"
+        android:icon="@drawable/ic_band_aid"
+        app:showAsAction="never"
+        android:orderInCategory="2"/>
+
+    <item android:id="@+id/ointment_menu"
+        android:title="@string/ointment_menu"
+        android:icon="@drawable/ic_ointment"
+        app:showAsAction="never"
+        android:orderInCategory="3"/>
+
+    <item android:id="@+id/defibrillator_menu"
+        android:title="@string/defibrillator_menu"
+        android:icon="@drawable/ic_defibrillator"
+        app:showAsAction="never"
+        android:orderInCategory="4"/>
+
+    <item android:id="@+id/pen_menu"
+        android:title="@string/pen_menu"
+        android:icon="@drawable/ic_pen"
+        app:showAsAction="never"
+        android:orderInCategory="5"/>
+
+</menu>

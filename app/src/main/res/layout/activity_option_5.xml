@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nature_bg_zoom"
+    android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/victim_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_boy_3_full"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/item5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pen"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/first_aid_kit_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_first_aid_kit"/>
+
+</RelativeLayout>

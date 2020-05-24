@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nature_bg_zoom"
+    android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/victim_4z"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_girl_2_zoom"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/bee_splinter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/victim_4z"
+        android:layout_alignTop="@id/victim_4z"
+        android:layout_marginTop="210dp"
+        android:src="@drawable/ic_splinter"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/girl_2_wound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/victim_4z"
+        android:layout_alignTop="@id/victim_4z"
+        android:layout_marginTop="205dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_girl_2_wound"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/girl2_used_band_aid"
+        android:layout_width="13.5dp"
+        android:layout_height="35dp"
+        android:layout_alignEnd="@id/victim_4z"
+        android:layout_alignTop="@id/victim_4z"
+        android:layout_marginTop="211dp"
+        android:layout_marginEnd="17dp"
+        android:src="@drawable/ic_band_aid_used_vertical"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/girl_2_thigh"
+        android:layout_width="100dp"
+        android:layout_height="250dp"
+        android:layout_alignStart="@id/victim_4z"
+        android:layout_alignTop="@id/victim_4z"
+        android:layout_marginTop="205dp"
+        android:layout_marginStart="50dp"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/item4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_pen"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/first_aid_kit_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_first_aid_kit"/>
+
+</RelativeLayout>

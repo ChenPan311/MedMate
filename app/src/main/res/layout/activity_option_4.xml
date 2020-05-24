@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/nature_bg"
+    android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/victim_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_girl_2_full"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/bee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/victim_4"
+        android:layout_marginTop="150dp"
+        android:layout_marginHorizontal="5dp"
+        android:src="@drawable/ic_bee"
+        android:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/research_btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_research_btn"
+        android:background="@color/transparent"/>
+
+    <ImageView
+        android:id="@+id/magnifier4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_magnifier"
+        android:visibility="gone"/>
+
+</RelativeLayout>

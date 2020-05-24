@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Med Mate</string>
+
+    <!--Main Menu-->
+    <string name="play">Play!</string>
+    <string name="score_board">Score Board</string>
+    <string name="rate_us">Rate Us</string>
+
+    <!--First Aid Kit pop Up Menu-->
+    <string name="tweezers_menu">Tweezers</string>
+    <string name="epipen_menu">Epipen</string>
+    <string name="band_aid_menu">Band-Aid</string>
+    <string name="defibrillator_menu">Defibrillator</string>
+    <string name="ointment_menu">Ointment</string>
+    <string name="pen_menu">Pen</string>
+
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android 1 Project</string>
+
+    <!--Main Menu-->
+    <string name="play">שחקו!</string>
+    <string name="score_board">לוח תוצאות</string>
+    <string name="rate_us">דרגו אותנו</string>
+
+    <!--First Aid Kit pop Up Menu-->
+    <string name="tweezers_menu">פינצטה</string>
+    <string name="epipen_menu">אפיפן</string>
+    <string name="band_aid_menu">פלסטר</string>
+    <string name="defibrillator_menu">דיביפרילטור</string>
+    <string name="ointment_menu">משחה</string>
+    <string name="pen_menu">עט</string>
+
+</resources>
