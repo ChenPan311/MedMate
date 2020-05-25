@@ -117,9 +117,9 @@ public class Option4Activity extends AppCompatActivity {
                             break;
 
                         case MotionEvent.ACTION_MOVE:
-                            if (!isOut && mIsTweezers && checkCollision(item1, splinter)) {
+                            if (!isOut && mIsTweezers && checkCollision(item1, splinter) && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
-                                item1.setX(item1.getX() + (20 * mDensity));
+                                item1.setY(item1.getY() + (10 * mDensity));
                                 item1.invalidate();
                                 isClosed = true;
                             } else if (!mIsTweezers || !isClosed)
@@ -127,12 +127,12 @@ public class Option4Activity extends AppCompatActivity {
 
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
-                            layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+                            layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                             v.setLayoutParams(layoutParams);
 
                             if (!isOut && isClosed) {
-                                splinter.setX(item1.getX() - splinter.getWidth() + (15 * mDensity));
-                                splinter.setY(item1.getY() + item1.getHeight() - (15 * mDensity));
+                                splinter.setX(item1.getX() - splinter.getWidth() + (40 * mDensity));
+                                //splinter.setY(item1.getY() + item1.getHeight() - (15 * mDensity));
                                 splinter.invalidate();
                             }
                             break;
@@ -147,6 +147,7 @@ public class Option4Activity extends AppCompatActivity {
                                 item1.setVisibility(View.INVISIBLE);
                                 splinter.setVisibility(View.GONE);
                                 isOut = true;
+                                isClosed = false;
                             } else if (mIsEpipen && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
                                 item1.setVisibility(View.INVISIBLE);
                                 makeDeviceVibrate(250);

@@ -15,15 +15,58 @@
         android:visibility="visible"/>
 
     <ImageView
-        android:id="@+id/pimples_z"
-        android:layout_width="240dp"
-        android:layout_height="175dp"
+        android:id="@+id/pimples11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@id/victim_2z"
-        android:layout_alignEnd="@id/victim_2z"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="94dp"
-        android:src="@drawable/ic_pimples"
-        android:visibility="visible"/>
+        android:layout_alignStart="@id/victim_2z"
+        android:layout_marginTop="95dp"
+        android:layout_marginStart="37dp"
+        android:src="@drawable/ic_pimples11"/>
+    <ImageView
+        android:id="@+id/pimples12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/pimples11"
+        android:layout_alignTop="@id/pimples11"
+        android:layout_marginStart="-1dp"
+        android:src="@drawable/ic_pimples12"/>
+    <ImageView
+        android:id="@+id/pimples13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/pimples12"
+        android:layout_alignTop="@id/pimples12"
+        android:layout_marginStart="-1dp"
+        android:src="@drawable/ic_pimples13"/>
+    <ImageView
+        android:id="@+id/pimples21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pimples11"
+        android:layout_alignStart="@id/pimples11"
+        android:src="@drawable/ic_pimples21"/>
+    <ImageView
+        android:id="@+id/pimples22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pimples12"
+        android:layout_alignStart="@id/pimples12"
+        android:src="@drawable/ic_pimples22"/>
+    <ImageView
+        android:id="@+id/pimples23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pimples13"
+        android:layout_alignStart="@id/pimples13"
+        android:src="@drawable/ic_pimples23"/>
+
+    <com.example.android1project.OintmentWidget
+        android:id="@+id/ointment_apply"
+        android:layout_width="232dp"
+        android:layout_height="171dp"
+        android:layout_alignStart="@id/pimples11"
+        android:layout_alignTop="@id/pimples11"/>
 
     <ImageView
         android:id="@+id/item2"

@@ -20,7 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Option2Activity extends AppCompatActivity {
     private float mDensity;
 
-    private ImageView tri;
+    private ImageView pimples11;
+    private ImageView pimples12;
+    private ImageView pimples13;
+    private ImageView pimples21;
+    private ImageView pimples22;
+    private ImageView pimples23;
+
+    private OintmentWidget ointment_apply;
 
     private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
@@ -36,7 +43,15 @@ public class Option2Activity extends AppCompatActivity {
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView item1 = findViewById(R.id.item2);
-        tri = findViewById(R.id.stam);
+
+        pimples11 = findViewById(R.id.pimples11);
+        pimples12 = findViewById(R.id.pimples12);
+        pimples13 = findViewById(R.id.pimples13);
+        pimples21 = findViewById(R.id.pimples21);
+        pimples22 = findViewById(R.id.pimples22);
+        pimples23 = findViewById(R.id.pimples23);
+
+        ointment_apply = findViewById(R.id.ointment_apply);
 
         final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_2);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +108,7 @@ public class Option2Activity extends AppCompatActivity {
 
 
                 item1.setOnTouchListener(new View.OnTouchListener() {
-                    boolean isClosed = false;
+                    boolean isApplying = false;
                     RelativeLayout.LayoutParams layoutParams;
                     int deltaX = 0, deltaY = 0;
                     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -114,29 +129,30 @@ public class Option2Activity extends AppCompatActivity {
                                     break;
 
                                 case MotionEvent.ACTION_MOVE:
-                                    if (mIsTweezers && checkCollision(item1, tri)) {
-                                        item1.setImageResource(R.drawable.ic_tweezers_close);
-                                        isClosed = true;
-                                    } else if (!mIsTweezers || !isClosed)
-                                        isClosed = false;
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
                                     Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
                                     Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
 
                                     layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                                     layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
-                                    v.setLayoutParams(layoutParams);
 
-                                    if (isClosed) {
-                                        tri.setX(item1.getX() - (item1.getWidth() / 2));
-                                        tri.setY(item1.getY() + item1.getHeight() - 30);
+                                    if (mIsOintment && checkCollision(item1, ointment_apply) && !isApplying) {
+                                        ointment_apply.startApplyOintment(item1.getX() - (item1.getWidth() / 2f), item1.getY() - (5f * mDensity));
+                                        isApplying = true;
+                                    } else if (!mIsOintment || !isApplying) {
+                                        isApplying = false;
                                     }
+
+                                    if (isApplying) {
+                                        ointment_apply.applyOintment(item1.getX() - (item1.getWidth() / 1.5f), item1.getY() - (item1.getHeight() / 8f));
+                                    }
+
+                                    v.setLayoutParams(layoutParams);
                                     break;
 
                                 case MotionEvent.ACTION_UP:
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if (checkCollision(item1, tri)) {
+                                    if (checkCollision(item1, pimples11)) {
                                         makeDeviceVibrate(250);
                                         //Toast.makeText(Option1Activity.this, "Collision", Toast.LENGTH_SHORT).show();
                                     }
@@ -145,6 +161,7 @@ public class Option2Activity extends AppCompatActivity {
                                         layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                         layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                     }
+                                    isApplying = false;
                                     break;
                             }
                             v.requestLayout();

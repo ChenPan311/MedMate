@@ -177,7 +177,7 @@
         android:visibility="gone"/>
 
     <ImageView
-        android:layout_width="2dp"
+        android:layout_width="15dp"
         android:layout_height="2dp"
         android:layout_alignBottom="@id/magnifier1"
         android:background="@color/colorBlack"
