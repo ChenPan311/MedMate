@@ -3,7 +3,7 @@
 *.jks
 *.pro
 *.json
-/local.properties
+*.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml

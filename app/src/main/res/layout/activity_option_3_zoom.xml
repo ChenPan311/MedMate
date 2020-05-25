@@ -151,4 +151,16 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_first_aid_kit"/>
 
+    <com.example.android1project.HealthBar
+        android:id="@+id/hp_bar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="6dp"
+        android:padding="5dp"
+        android:progress="100"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:background="@color/transparent"
+        android:progressDrawable="@drawable/progress_drawable"/>
+
 </RelativeLayout>
