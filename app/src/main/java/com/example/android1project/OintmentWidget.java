@@ -3,18 +3,18 @@ package com.example.android1project;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class OintmentWidget extends View implements Serializable {
+    private ArrayList<Circle> circles = new ArrayList<>();
     private Paint paint;
-    private Path path;
 
     private float mDensity;
 
@@ -22,7 +22,6 @@ public class OintmentWidget extends View implements Serializable {
         super(context, attrs);
 
         mDensity = getResources().getDisplayMetrics().density;
-        path = new Path();
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(getResources().getColor(R.color.colorOintment));
@@ -40,48 +39,63 @@ public class OintmentWidget extends View implements Serializable {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawPath(path, paint);
-    }
-
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                path.moveTo(x, y);
-                return true;
-
-            case MotionEvent.ACTION_MOVE:
-                path.lineTo(x, y);
-                break;
-
-            case MotionEvent.ACTION_UP:
-                break;
-
-            default:
-                return false;
+        for (Circle circle : circles) {
+            paint.setColor(circle.getColor());
+            canvas.drawCircle(circle.getX(), circle.getY(), 5 * mDensity, paint);
         }
-        invalidate();
-        return false;
-    }*/
-
-    public boolean startApplyOintment(float x, float y) {
-        path.moveTo(x, y);
-        invalidate();
-        return false;
     }
 
-    public boolean applyOintment(float x, float y) {
-        path.lineTo(x, y);
+    public void applyOintment(final float x, final float y) {
+        final Circle circle = new Circle(x, y);
+
+        circles.add(circle);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                circles.remove(circle);
+            }
+        }, 750);
         invalidate();
-        return false;
     }
 
-    public boolean stopApplyOintment() {
-        path.close();
-        invalidate();
-        return false;
+    public void finishApplying() {
+        for (final Circle circle : circles) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    circle.setAlpha(0.20f);
+                    invalidate();
+                }
+            }, 100);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    circle.setAlpha(0.15f);
+                    invalidate();
+                }
+            }, 200);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    circle.setAlpha(0.1f);
+                    invalidate();
+                }
+            }, 300);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    circle.setAlpha(0.05f);
+                    invalidate();
+                }
+            }, 400);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    circles.clear();
+                    invalidate();
+                }
+            }, 500);
+        }
     }
 }

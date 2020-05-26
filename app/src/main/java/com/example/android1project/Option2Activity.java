@@ -109,8 +109,19 @@ public class Option2Activity extends AppCompatActivity {
 
                 item1.setOnTouchListener(new View.OnTouchListener() {
                     boolean isApplying = false;
+                    /*boolean isDisappearing11 = false, isDisappearing12 = false, isDisappearing13 = false,
+                    isDisappearing21 = false, isDisappearing22 = false, isDisappearing23 = false;*/
+
+                    MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 500);
+                    MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 500);
+                    MakePimplesDisappear mps13 = new MakePimplesDisappear(pimples13, 500);
+                    MakePimplesDisappear mps21 = new MakePimplesDisappear(pimples21, 500);
+                    MakePimplesDisappear mps22 = new MakePimplesDisappear(pimples22, 500);
+                    MakePimplesDisappear mps23 = new MakePimplesDisappear(pimples23, 500);
+
                     RelativeLayout.LayoutParams layoutParams;
                     int deltaX = 0, deltaY = 0;
+
                     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
                     int screenHeight = displayMetrics.heightPixels;
                     int screenWidth = displayMetrics.widthPixels;
@@ -137,14 +148,31 @@ public class Option2Activity extends AppCompatActivity {
                                     layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
                                     if (mIsOintment && checkCollision(item1, ointment_apply) && !isApplying) {
-                                        ointment_apply.startApplyOintment(item1.getX() - (item1.getWidth() / 2f), item1.getY() - (5f * mDensity));
                                         isApplying = true;
-                                    } else if (!mIsOintment || !isApplying) {
+                                    } else if (!mIsOintment) {
                                         isApplying = false;
                                     }
-
                                     if (isApplying) {
                                         ointment_apply.applyOintment(item1.getX() - (item1.getWidth() / 1.5f), item1.getY() - (item1.getHeight() / 8f));
+                                    }
+
+                                    if (mIsOintment && checkCollision(item1, pimples11) && !mps11.isActive()) {
+                                        mps11.makePimpleDisappear();
+                                    }
+                                    if (mIsOintment && checkCollision(item1, pimples12) && !mps12.isActive()) {
+                                        mps12.makePimpleDisappear();
+                                    }
+                                    if (mIsOintment && checkCollision(item1, pimples13) && !mps13.isActive()) {
+                                        mps13.makePimpleDisappear();
+                                    }
+                                    if (mIsOintment && checkCollision(item1, pimples21) && !mps21.isActive()) {
+                                        mps21.makePimpleDisappear();
+                                    }
+                                    if (mIsOintment && checkCollision(item1, pimples22) && !mps22.isActive()) {
+                                        mps22.makePimpleDisappear();
+                                    }
+                                    if (mIsOintment && checkCollision(item1, pimples23) && !mps23.isActive()) {
+                                        mps23.makePimpleDisappear();
                                     }
 
                                     v.setLayoutParams(layoutParams);
@@ -153,8 +181,7 @@ public class Option2Activity extends AppCompatActivity {
                                 case MotionEvent.ACTION_UP:
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                                     if (checkCollision(item1, pimples11)) {
-                                        makeDeviceVibrate(250);
-                                        //Toast.makeText(Option1Activity.this, "Collision", Toast.LENGTH_SHORT).show();
+                                        //makeDeviceVibrate(250);
                                     }
                                     if (checkCollision(item1, first_aid_kit)) {
                                         item1.setVisibility(View.GONE);
@@ -162,6 +189,7 @@ public class Option2Activity extends AppCompatActivity {
                                         layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                     }
                                     isApplying = false;
+                                    ointment_apply.finishApplying();
                                     break;
                             }
                             v.requestLayout();
