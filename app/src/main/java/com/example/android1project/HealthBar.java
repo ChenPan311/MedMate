@@ -40,12 +40,13 @@ public class HealthBar extends ProgressBar {
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.STROKE);
+        //paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setColor(Color.GREEN);
         paint.setStrokeWidth(2);
         paint.setTextSize(15 * mDensity);
 
-        canvas.drawText("HP: " + mHp, (int) (20 * mDensity), (int) ((getHeight() / 2) + 5 * mDensity), paint);
+        canvas.drawText("HP: " + mHp, (int) (20 * mDensity), (int) ((getHeight() /*/ 2*/) /*+ 5 * mDensity*/), paint);
     }
 
     void setMillis(int millis){

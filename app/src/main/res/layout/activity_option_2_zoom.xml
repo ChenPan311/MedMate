@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="6dp"
-        android:padding="5dp"
+        android:padding="10dp"
         android:progress="100"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:background="@color/transparent"

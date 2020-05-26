@@ -18,9 +18,6 @@ class MakePimplesDisappear {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /*AlphaAnimation anim = new AlphaAnimation(view.getAlpha(), view.getAlpha() > 0 ? view.getAlpha() - 0.1f : 0);
-                anim.setDuration(milliseconds);
-                view.startAnimation(anim);*/
                 view.setAlpha(view.getAlpha() > 0 ? view.getAlpha() - 0.05f : 0);
                 isActive = false;
             }
