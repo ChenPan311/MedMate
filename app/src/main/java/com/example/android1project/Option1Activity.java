@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -36,6 +37,7 @@ public class Option1Activity extends AppCompatActivity {
 
         mHp = findViewById(R.id.hp_bar1z);
 
+        final ImageView white_bg = findViewById(R.id.white_bg_1);
         final ImageView thorn1, thorn2, thorn3, thorn4, thorn5, thorn6;
 
         final ImageView item1 = findViewById(R.id.item1);
@@ -87,6 +89,9 @@ public class Option1Activity extends AppCompatActivity {
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
 
                             makeDeviceVibrate(1000);
+                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                            anim.setDuration(1000);
+                            white_bg.startAnimation(anim);
                             mHp.setHp(0);
 
                         } else if (item.getItemId() == R.id.pen_menu) {

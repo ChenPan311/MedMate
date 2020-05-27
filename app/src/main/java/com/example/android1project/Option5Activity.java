@@ -6,11 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -37,6 +39,7 @@ public class Option5Activity extends AppCompatActivity {
         setContentView(R.layout.activity_option_5);
         mDensity = getResources().getDisplayMetrics().density;
 
+        final ImageView white_bg = findViewById(R.id.white_bg_5);
         final ImageView item1 = findViewById(R.id.item5);
         tri = findViewById(R.id.stam);
 
@@ -82,6 +85,9 @@ public class Option5Activity extends AppCompatActivity {
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
 
                             makeDeviceVibrate(1000);
+                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                            anim.setDuration(1000);
+                            white_bg.startAnimation(anim);
 
                         } else if (item.getItemId() == R.id.pen_menu) {
                             item1.setVisibility(View.VISIBLE);

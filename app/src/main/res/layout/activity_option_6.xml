@@ -6,6 +6,13 @@
     android:layoutDirection="ltr">
 
     <ImageView
+        android:id="@+id/white_bg_6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:visibility="invisible"/>
+
+    <ImageView
         android:id="@+id/victim_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
