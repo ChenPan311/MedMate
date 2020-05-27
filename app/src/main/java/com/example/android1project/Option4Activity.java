@@ -23,6 +23,8 @@ public class Option4Activity extends AppCompatActivity {
     private ImageView splinter;
     private ImageView used_band_aid;
 
+    private HealthBar mHp;
+
     private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
     private boolean mIsBandAid = false;
@@ -39,6 +41,8 @@ public class Option4Activity extends AppCompatActivity {
         final ImageView item1 = findViewById(R.id.item4);
         splinter = findViewById(R.id.bee_splinter);
         used_band_aid = findViewById(R.id.girl2_used_band_aid);
+
+        mHp = findViewById(R.id.hp_bar4z);
 
         final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_4);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {
@@ -74,10 +78,13 @@ public class Option4Activity extends AppCompatActivity {
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
 
                         } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_defibrillator);
+                            //item1.setVisibility(View.VISIBLE);
+                            //item1.setImageResource(R.drawable.ic_defibrillator);
                             mIsDefibrillator = true;
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
+
+                            makeDeviceVibrate(1000);
+                            mHp.setHp(0);
 
                         } else if (item.getItemId() == R.id.pen_menu) {
                             item1.setVisibility(View.VISIBLE);

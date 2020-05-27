@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Option1Activity extends AppCompatActivity {
     private float mDensity;
 
+    private HealthBar mHp;
+
     private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
     private boolean mIsBandAid = false;
@@ -31,6 +33,8 @@ public class Option1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_1_zoom);
         mDensity = getResources().getDisplayMetrics().density;
+
+        mHp = findViewById(R.id.hp_bar1z);
 
         final ImageView thorn1, thorn2, thorn3, thorn4, thorn5, thorn6;
 
@@ -77,10 +81,13 @@ public class Option1Activity extends AppCompatActivity {
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
 
                         } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_defibrillator);
+                            //item1.setVisibility(View.VISIBLE);
+                            //item1.setImageResource(R.drawable.ic_defibrillator);
                             mIsDefibrillator = true;
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
+
+                            makeDeviceVibrate(1000);
+                            mHp.setHp(0);
 
                         } else if (item.getItemId() == R.id.pen_menu) {
                             item1.setVisibility(View.VISIBLE);

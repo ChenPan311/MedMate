@@ -71,7 +71,7 @@
         android:src="@drawable/ic_first_aid_kit"/>
 
     <com.example.android1project.HealthBar
-        android:id="@+id/hp_bar4"
+        android:id="@+id/hp_bar4z"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

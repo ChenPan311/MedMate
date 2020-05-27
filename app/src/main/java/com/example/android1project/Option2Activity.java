@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,7 +28,9 @@ public class Option2Activity extends AppCompatActivity {
     private ImageView pimples22;
     private ImageView pimples23;
 
-    private OintmentWidget ointment_apply;
+    private OintmentWidget mOintmentWidget;
+
+    private HealthBar mHp;
 
     private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
@@ -51,7 +54,9 @@ public class Option2Activity extends AppCompatActivity {
         pimples22 = findViewById(R.id.pimples22);
         pimples23 = findViewById(R.id.pimples23);
 
-        ointment_apply = findViewById(R.id.ointment_apply);
+        mOintmentWidget = findViewById(R.id.ointment_apply);
+
+        mHp = findViewById(R.id.hp_bar2z);
 
         final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_2);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +92,13 @@ public class Option2Activity extends AppCompatActivity {
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
 
                         } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_defibrillator);
+                            //item1.setVisibility(View.VISIBLE);
+                            //item1.setImageResource(R.drawable.ic_defibrillator);
                             mIsDefibrillator = true;
                             mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
+
+                            makeDeviceVibrate(1000);
+                            mHp.setHp(0);
 
                         } else if (item.getItemId() == R.id.pen_menu) {
                             item1.setVisibility(View.VISIBLE);
@@ -147,13 +155,13 @@ public class Option2Activity extends AppCompatActivity {
                                     layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                                     layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
-                                    if (mIsOintment && checkCollision(item1, ointment_apply) && !isApplying) {
+                                    if (mIsOintment && checkCollision(item1, mOintmentWidget) && !isApplying) {
                                         isApplying = true;
                                     } else if (!mIsOintment) {
                                         isApplying = false;
                                     }
                                     if (isApplying) {
-                                        ointment_apply.applyOintment(item1.getX() - (item1.getWidth() / 1.5f), item1.getY() - (item1.getHeight() / 8f));
+                                        mOintmentWidget.applyOintment(item1.getX() - (item1.getWidth() / 1.5f), item1.getY() - (item1.getHeight() / 8f));
                                     }
 
                                     if (mIsOintment && checkCollision(item1, pimples11) && !mps11.isActive()) {
@@ -180,16 +188,21 @@ public class Option2Activity extends AppCompatActivity {
 
                                 case MotionEvent.ACTION_UP:
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if (checkCollision(item1, pimples11)) {
-                                        //makeDeviceVibrate(250);
+                                    if ((mIsTweezers && checkCollision(item1, pimples11))) {
+                                        makeDeviceVibrate(250);
                                     }
-                                    if (checkCollision(item1, first_aid_kit)) {
+                                    if (checkCollision(item1, first_aid_kit)) { /*Put the tool back in the kit*/
                                         item1.setVisibility(View.GONE);
                                         layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                         layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                     }
+                                    if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
+                                            pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
+                                            pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) { /*Success*/
+                                        Toast.makeText(Option2Activity.this, "Well done!", Toast.LENGTH_SHORT).show();
+                                    }
                                     isApplying = false;
-                                    ointment_apply.finishApplying();
+                                    mOintmentWidget.finishApplying();
                                     break;
                             }
                             v.requestLayout();
