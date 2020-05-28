@@ -265,6 +265,9 @@ public class Option1Activity extends AppCompatActivity {
                                 isClosed = isThorn6 = false;
                                 isOut6= true;
                             }
+                            if (isOut1 && isOut2 && isOut3 && isOut4 && isOut5 && isOut6) {
+                                mHp.stop();
+                            }
                             if (checkCollision(item1, first_aid_kit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;

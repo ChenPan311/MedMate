@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 public class HealthBar extends ProgressBar {
     private int mHp = 100;
     private int mMillis = 1000;
+    private boolean mStop = false;
     private Handler mHandler = new Handler();
 
     private float mDensity;
@@ -22,7 +23,7 @@ public class HealthBar extends ProgressBar {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(mHp > 0){
+                while(mHp > 0 && !mStop){
                     mHp--;
                     android.os.SystemClock.sleep(mMillis);
                     mHandler.post(new Runnable() {
@@ -63,5 +64,17 @@ public class HealthBar extends ProgressBar {
     public void setHp(int hp) {
         if (hp >= 0 && hp <= 100)
             this.mHp = hp;
+    }
+
+    public boolean isStopped() {
+        return mStop;
+    }
+
+    public void stop() {
+        this.mStop = true;
+    }
+
+    public void resume() {
+        this.mStop = false;
     }
 }

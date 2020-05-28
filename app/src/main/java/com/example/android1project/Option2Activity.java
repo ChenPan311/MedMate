@@ -204,6 +204,7 @@ public class Option2Activity extends AppCompatActivity {
                                     if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
                                             pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
                                             pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) { /*Success*/
+                                        mHp.stop();
                                         Toast.makeText(Option2Activity.this, "Well done!", Toast.LENGTH_SHORT).show();
                                     }
                                     isApplying = false;

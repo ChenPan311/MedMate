@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -21,7 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Option6Activity extends AppCompatActivity {
     private float mDensity;
 
-    private ImageView tri;
+    private ImageView blue_face;
+    private ImageView mouth;
+    private ImageView neck_anatomy;
+    private ImageView pen_cricothy;
+    private ImageView used_ba;
+    private ImageView good_spot;
 
     private HealthBar mHp;
 
@@ -40,7 +46,13 @@ public class Option6Activity extends AppCompatActivity {
 
         final ImageView white_bg = findViewById(R.id.white_bg_6);
         final ImageView item1 = findViewById(R.id.item6);
-        tri = findViewById(R.id.stam);
+
+        blue_face = findViewById(R.id.girl3_blue_face);
+        mouth = findViewById(R.id.girl3_mouth);
+        neck_anatomy = findViewById(R.id.neck_anatomy);
+        pen_cricothy = findViewById(R.id.pen_cricothy);
+        used_ba = findViewById(R.id.used_band_aid_o6_1);
+        good_spot = findViewById(R.id.good_spot);
 
         mHp = findViewById(R.id.hp_bar6);
 
@@ -105,7 +117,8 @@ public class Option6Activity extends AppCompatActivity {
 
 
                 item1.setOnTouchListener(new View.OnTouchListener() {
-                    boolean isClosed = false;
+                    boolean onNeck = false;
+
                     RelativeLayout.LayoutParams layoutParams;
                     int deltaX = 0, deltaY = 0;
                     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -126,31 +139,60 @@ public class Option6Activity extends AppCompatActivity {
                                     break;
 
                                 case MotionEvent.ACTION_MOVE:
-                                    if (mIsTweezers && checkCollision(item1, tri)) {
-                                        item1.setImageResource(R.drawable.ic_tweezers_close);
-                                        isClosed = true;
-                                    } else if (!mIsTweezers || !isClosed)
-                                        isClosed = false;
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
-                                    Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
-                                    Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
-
                                     layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                                     layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
-                                    v.setLayoutParams(layoutParams);
 
-                                    if (isClosed) {
-                                        tri.setX(item1.getX() - (item1.getWidth() / 2));
-                                        tri.setY(item1.getY() + item1.getHeight() - 30);
+                                    if (mIsPen && checkCollision(item1, neck_anatomy) && neck_anatomy.getVisibility() == View.INVISIBLE) {
+                                        AlphaAnimation anim = new AlphaAnimation(0f, 0.5f);
+                                        anim.setDuration(500);
+                                        anim.setFillAfter(true);
+                                        neck_anatomy.setVisibility(View.VISIBLE);
+                                        neck_anatomy.startAnimation(anim);
+                                    } else if (!checkCollision(item1, neck_anatomy) && neck_anatomy.getVisibility() == View.VISIBLE) {
+                                        AlphaAnimation anim = new AlphaAnimation(0.5f, 0f);
+                                        anim.setDuration(500);
+                                        neck_anatomy.startAnimation(anim);
+                                        neck_anatomy.setVisibility(View.INVISIBLE);
                                     }
+
+                                    v.setLayoutParams(layoutParams);
                                     break;
 
                                 case MotionEvent.ACTION_UP:
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if (checkCollision(item1, tri)) {
+                                    if (mIsPen && checkCollision(item1, good_spot)) {
                                         makeDeviceVibrate(250);
+                                        AlphaAnimation anim = new AlphaAnimation(0f, 1f);
+                                        anim.setDuration(500);
+                                        pen_cricothy.startAnimation(anim);
+                                        pen_cricothy.setVisibility(View.VISIBLE);
+                                        item1.setVisibility(View.GONE);
+
+                                        AlphaAnimation anim2 = new AlphaAnimation(0.5f, 0f);
+                                        anim2.setDuration(500);
+                                        neck_anatomy.startAnimation(anim2);
+                                        neck_anatomy.setVisibility(View.INVISIBLE);
+
+                                        AlphaAnimation anim3 = new AlphaAnimation(1f, 0f);
+                                        anim3.setDuration(3500);
+                                        blue_face.startAnimation(anim3);
+                                        blue_face.setVisibility(View.INVISIBLE);
+
+                                        mHp.setHp(mHp.getHp() - 10);
                                         //Toast.makeText(Option1Activity.this, "Collision", Toast.LENGTH_SHORT).show();
+                                    } else if (mIsPen && checkCollision(item1, neck_anatomy)) {
+                                        makeDeviceVibrate(1000);
+                                        mHp.setHp(0);
+                                    } else if (mIsBandAid && checkCollision(item1, pen_cricothy)) {
+                                        used_ba.setVisibility(View.VISIBLE);
+                                        item1.setVisibility(View.GONE);
+                                        mHp.stop();
+
+                                        RotateAnimation anim = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                                        anim.setDuration(1000);
+                                        anim.setFillAfter(true);
+                                        mouth.startAnimation(anim);
                                     }
                                     if (checkCollision(item1, first_aid_kit)) {
                                         item1.setVisibility(View.GONE);
@@ -170,7 +212,11 @@ public class Option6Activity extends AppCompatActivity {
 
     public boolean checkCollision(View tool, View object) {
         Rect R1, R2;
-        R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
+        if (object.getId() == pen_cricothy.getId()) {
+            R2 = new Rect(object.getLeft(), object.getBottom() + (int) (mDensity * 8), object.getLeft() + (int) (mDensity * 24), object.getBottom() + (int) (mDensity * 4));
+        } else {
+            R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
+        }
 
         if (mIsEpipen) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());

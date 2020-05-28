@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,8 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Option5Activity extends AppCompatActivity {
     private float mDensity;
-
-    private ImageView tri;
 
     private HealthBar mHp;
 
@@ -41,7 +38,6 @@ public class Option5Activity extends AppCompatActivity {
 
         final ImageView white_bg = findViewById(R.id.white_bg_5);
         final ImageView item1 = findViewById(R.id.item5);
-        tri = findViewById(R.id.stam);
 
         mHp = findViewById(R.id.hp_bar5);
 
@@ -89,6 +85,8 @@ public class Option5Activity extends AppCompatActivity {
                             anim.setDuration(1000);
                             white_bg.startAnimation(anim);
 
+                            mHp.stop();
+
                         } else if (item.getItemId() == R.id.pen_menu) {
                             item1.setVisibility(View.VISIBLE);
                             item1.setImageResource(R.drawable.ic_pen);
@@ -126,32 +124,15 @@ public class Option5Activity extends AppCompatActivity {
                                     break;
 
                                 case MotionEvent.ACTION_MOVE:
-                                    if (mIsTweezers && checkCollision(item1, tri)) {
-                                        item1.setImageResource(R.drawable.ic_tweezers_close);
-                                        isClosed = true;
-                                    } else if (!mIsTweezers || !isClosed)
-                                        isClosed = false;
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
-                                    Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
-                                    Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
-
                                     layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                                     layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                                     v.setLayoutParams(layoutParams);
 
-                                    if (isClosed) {
-                                        tri.setX(item1.getX() - (item1.getWidth() / 2));
-                                        tri.setY(item1.getY() + item1.getHeight() - 30);
-                                    }
                                     break;
 
                                 case MotionEvent.ACTION_UP:
                                     layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if (checkCollision(item1, tri)) {
-                                        makeDeviceVibrate(250);
-                                        //Toast.makeText(Option1Activity.this, "Collision", Toast.LENGTH_SHORT).show();
-                                    }
                                     if (checkCollision(item1, first_aid_kit)) {
                                         item1.setVisibility(View.GONE);
                                         layoutParams.leftMargin = (screenWidth - deltaX) / 2;

@@ -22,4 +22,6 @@
 /app/build
 /app/src/androidTest
 /app/src/test
+/app/src/main/res/drawable
+/app/src/main/res/raw
 /app/libs

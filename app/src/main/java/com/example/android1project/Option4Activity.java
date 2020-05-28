@@ -108,7 +108,7 @@ public class Option4Activity extends AppCompatActivity {
         });
 
         item1.setOnTouchListener(new View.OnTouchListener() {
-            boolean isClosed = false, isOut = false;
+            boolean isClosed = false, isOut = false, isBaUsed = false, isEpipenUsed = false;
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -155,6 +155,7 @@ public class Option4Activity extends AppCompatActivity {
                                 used_band_aid.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.INVISIBLE);
                                 Toast.makeText(Option4Activity.this, "Well Done!", Toast.LENGTH_SHORT).show();
+                                isBaUsed = true;
                             } else if (!isOut && mIsTweezers && isClosed) {
                                 item1.setVisibility(View.INVISIBLE);
                                 splinter.setVisibility(View.GONE);
@@ -163,6 +164,10 @@ public class Option4Activity extends AppCompatActivity {
                             } else if (mIsEpipen && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
                                 item1.setVisibility(View.INVISIBLE);
                                 makeDeviceVibrate(250);
+                                isEpipenUsed = true;
+                            }
+                            if (isOut && isBaUsed && isEpipenUsed) {
+                                mHp.stop();
                             }
                             if (checkCollision(item1, first_aid_kit)) {
                                 item1.setVisibility(View.GONE);

@@ -21,6 +21,78 @@
         android:src="@drawable/ic_girl_3_full"
         android:scaleType="centerCrop"
         android:visibility="visible"/>
+    <ImageView
+        android:id="@+id/girl3_blue_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/victim_6"
+        android:layout_marginTop="103dp"
+        android:src="@drawable/ic_girl_3_blue_face"/>
+    <ImageView
+        android:id="@+id/girl3_eyes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/girl3_blue_face"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ic_girl_3_eyes"/>
+    <ImageView
+        android:id="@+id/girl3_mouth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/girl3_eyes"
+        android:layout_marginTop="47dp"
+        android:src="@drawable/ic_girl_3_mouth"/>
+
+    <ImageView
+        android:id="@+id/neck_anatomy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/victim_6"
+        android:layout_marginTop="234.5dp"
+        android:src="@drawable/ic_neck_anatomy"
+        android:alpha="0.5"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/pen_cricothy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/neck_anatomy"
+        android:layout_alignStart="@id/neck_anatomy"
+        android:layout_marginBottom="26dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_pen_cricothy"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="8dp"
+        android:layout_alignBottom="@id/pen_cricothy"
+        android:layout_alignStart="@id/pen_cricothy"
+        android:background="@color/colorBlack"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/used_band_aid_o6_1"
+        android:layout_width="34dp"
+        android:layout_height="13dp"
+        android:layout_alignBottom="@id/pen_cricothy"
+        android:layout_alignEnd="@id/pen_cricothy"
+        android:layout_marginEnd="21dp"
+        android:src="@drawable/ic_band_aid_used"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/good_spot"
+        android:layout_width="11dp"
+        android:layout_height="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/neck_anatomy"
+        android:layout_marginTop="22dp"/>
 
     <ImageView
         android:id="@+id/item6"

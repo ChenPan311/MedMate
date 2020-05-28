@@ -194,6 +194,9 @@ public class Option3Activity extends AppCompatActivity {
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa6 = true;
                             }
+                            if (isBa1 && isBa2 && isBa3 && isBa4 && isBa5 && isBa6) {
+                                mHp.stop();
+                            }
                             if (checkCollision(item1, first_aid_kit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
