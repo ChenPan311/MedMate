@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         doBindService();
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
-//        startService(music);
+        startService(music);
         if (!mSoundOn)
             mService.pauseMusic();
         btn_sound.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**<----- Background Music ----->**/
-    private ServiceConnection serviceConnection =new ServiceConnection(){
+    private ServiceConnection serviceConnection = new ServiceConnection(){
 
         public void onServiceConnected(ComponentName name, IBinder
                 binder) {
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         /**<----- Background Music ----->**/
         if (mService != null && mSoundOn) {
-//            mService.resumeMusic();
+            mService.resumeMusic();
         }
         /**<----- Background Music ----->**/
     }

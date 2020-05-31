@@ -18,7 +18,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_boy_2_zoom"
+        android:scaleType="centerCrop"
         android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/leg1_o3"
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_alignBottom="@id/victim_3z"
+        android:layout_alignStart="@id/victim_3z"
+        android:layout_marginStart="50dp"/>
+    <ImageView
+        android:id="@+id/leg2_o3"
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_alignBottom="@id/victim_3z"
+        android:layout_alignEnd="@id/victim_3z"
+        android:layout_marginEnd="50dp"/>
 
     <ImageView
         android:id="@+id/wound_o3_1"
@@ -149,7 +165,7 @@
         android:src="@drawable/ic_play_arrow_black_50dp"
         android:visibility="invisible"/>
 
-    <ImageView
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

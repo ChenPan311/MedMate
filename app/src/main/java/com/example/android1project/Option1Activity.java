@@ -1,33 +1,41 @@
 package com.example.android1project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option1Activity extends AppCompatActivity {
     private float mDensity;
 
+    private MedKit mMedKit;
+
     private HealthBar mHp;
 
-    private boolean mIsTweezers = false;
+    /*private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
     private boolean mIsBandAid = false;
     private boolean mIsOintment = false;
     private boolean mIsDefibrillator = false;
-    private boolean mIsPen = false;
+    private boolean mIsPen = false;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,7 @@ public class Option1Activity extends AppCompatActivity {
         mDensity = getResources().getDisplayMetrics().density;
 
         mHp = findViewById(R.id.hp_bar1z);
+        mHp.setActivity(Option1Activity.this);
 
         final ImageView white_bg = findViewById(R.id.white_bg_1);
         final ImageView thorn1, thorn2, thorn3, thorn4, thorn5, thorn6;
@@ -49,7 +58,10 @@ public class Option1Activity extends AppCompatActivity {
         thorn5 = findViewById(R.id.thorn_5z);
         thorn6 = findViewById(R.id.thorn_6z);
 
-        final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_1);
+        mMedKit = findViewById(R.id.first_aid_kit_1);
+        mMedKit.setItemId(item1.getId());
+        mMedKit.setOnClickListener(mMedKit);
+        /*final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_1);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +120,51 @@ public class Option1Activity extends AppCompatActivity {
                 });
                 popupMenu.show();
             }
+        });*/
+
+        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        defi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(true);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
+
+                makeDeviceVibrate(1000);
+                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                anim.setDuration(1000);
+                white_bg.startAnimation(anim);
+                mHp.setHp(0);
+            }
         });
+
+        final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn);
+        play_pause_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play_pause_btn.setAlpha(0.25f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(50);
+                scaleAnimation.setRepeatMode(Animation.REVERSE);
+                scaleAnimation.setRepeatCount(1);
+                play_pause_btn.startAnimation(scaleAnimation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        play_pause_btn.setAlpha(1f);
+                    }
+                }, 50);
+
+                mHp.stop();
+                showPausedDialog();
+            }
+        });
+
 
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isThorn1 = false, isThorn2 = false, isThorn3 = false,
@@ -137,7 +193,8 @@ public class Option1Activity extends AppCompatActivity {
                             break;
 
                         case MotionEvent.ACTION_MOVE:
-                            if (mIsTweezers && checkCollision(item1, thorn1) && !isOut1 && !isClosed) {
+                            //item1.getTag().equals("tweezers")
+                            if (mMedKit.isTweezers() && checkCollision(item1, thorn1) && !isOut1 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn1.getX() + thorn2.getWidth() + (10 * mDensity));
@@ -145,7 +202,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn1 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mIsTweezers && checkCollision(item1, thorn2) && !isOut2 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn2) && !isOut2 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn2.getX() + thorn2.getWidth() + (10 * mDensity));
@@ -153,7 +210,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn2 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mIsTweezers && checkCollision(item1, thorn3) && !isOut3 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn3) && !isOut3 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn3.getX() + thorn2.getWidth() - (10 * mDensity));
@@ -161,7 +218,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn3 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mIsTweezers && checkCollision(item1, thorn4) && !isOut4 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn4) && !isOut4 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn4.getX() + (3 * mDensity));
@@ -169,7 +226,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn4 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mIsTweezers && checkCollision(item1, thorn5) && !isOut5 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn5) && !isOut5 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn5.getX() + (3 * mDensity));
@@ -177,7 +234,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn5 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mIsTweezers && checkCollision(item1, thorn6) && !isOut6 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn6) && !isOut6 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn6.getX() + (3 * mDensity));
@@ -185,7 +242,7 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn6 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (!mIsTweezers || !isClosed)
+                            } else if (!mMedKit.isTweezers() || !isClosed)
                                 isClosed = false;
 
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
@@ -194,7 +251,8 @@ public class Option1Activity extends AppCompatActivity {
                             v.setLayoutParams(layoutParams);
 
                             if (isClosed && isThorn1) {
-                                thorn1.setX(item1.getX() - thorn1.getWidth() + (30 * mDensity));
+                                thorn1.setX(Math.max(item1.getX() - thorn1.getWidth() + (30 * mDensity), findViewById(R.id.skin_1z).getX()));
+                                thorn1.setLeft((int) (Math.max(item1.getX() - thorn1.getWidth() + (30 * mDensity), findViewById(R.id.skin_1z).getX())));
                                 //thorn1.setY(item1.getY() + item1.getHeight() - (10 * mDensity));
                                 thorn1.invalidate();
                             } else if (isClosed && isThorn2) {
@@ -206,7 +264,7 @@ public class Option1Activity extends AppCompatActivity {
                                 //thorn3.setY(item1.getY() + item1.getHeight() - (10 * mDensity));
                                 thorn3.invalidate();
                             } else if (isClosed && isThorn4) {
-                                thorn4.setX(item1.getX() + (15 * mDensity));
+                                thorn4.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_4z).getX() - (17 * mDensity)));
                                 //thorn4.setY(item1.getY() + item1.getHeight() - (10 * mDensity));
                                 thorn4.invalidate();
                             } else if (isClosed && isThorn5) {
@@ -222,7 +280,7 @@ public class Option1Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                            if (!isOut1 && isThorn1) {
+                            if (!isOut1 && isThorn1 && !checkSimpleCollision(thorn1, findViewById(R.id.skin_1z))) {
                                 item1.setImageResource(R.drawable.ic_tweezers_open);
                                 //item1.setX(item1.getX() - (20 * mDensity));
                                 item1.invalidate();
@@ -265,10 +323,21 @@ public class Option1Activity extends AppCompatActivity {
                                 isClosed = isThorn6 = false;
                                 isOut6= true;
                             }
+
                             if (isOut1 && isOut2 && isOut3 && isOut4 && isOut5 && isOut6) {
                                 mHp.stop();
+                                showSuccessDialog();
                             }
-                            if (checkCollision(item1, first_aid_kit)) {
+
+                            if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg1_o1))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            } else if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg2_o1))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            }
+
+                            if (checkCollision(item1, mMedKit/*first_aid_kit*/)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
@@ -286,17 +355,17 @@ public class Option1Activity extends AppCompatActivity {
         Rect R1, R2;
         R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
 
-        if (mIsEpipen) {
+        if (mMedKit.isEpipen()) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
-        } else if (mIsTweezers) {
+        } else if (mMedKit.isTweezers()) {
             R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
-        } else if (mIsBandAid) {
+        } else if (mMedKit.isBandAid()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsOintment) {
+        } else if (mMedKit.isOintment()) {
             R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
-        } else if (mIsDefibrillator) {
+        } else if (mMedKit.isDefibrillator()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsPen) {
+        } else if (mMedKit.isPen()) {
             R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
         } else {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
@@ -304,12 +373,106 @@ public class Option1Activity extends AppCompatActivity {
         return R1.intersect(R2);
     }
 
-    public void makeDeviceVibrate(int milliseconds){
+    public boolean checkSimpleCollision(View tool, View object) {
+        Rect R1, R2;
+        R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
+        R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
+        return R1.intersect(R2);
+    }
+
+    public void makeDeviceVibrate(int milliseconds) {
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE));
         } else { //deprecated in API 26
             vibrator.vibrate(milliseconds);
         }
+    }
+
+    void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option1Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option1Activity.this).inflate(R.layout.dialog_win,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        view.findViewById(R.id.btn_restart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.btn_next_level).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option1Activity.this, Option2Preview.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
+    }
+
+    void showPausedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option1Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option1Activity.this).inflate(R.layout.dialog_pause,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final ImageButton btn_back = view.findViewById(R.id.btn_back);
+        final ImageButton btn_resume = view.findViewById(R.id.btn_resume);
+        final ImageButton btn_restart = view.findViewById(R.id.btn_restart);
+
+        final AlertDialog alertDialog = builder.create();
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btn_restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        btn_resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHp.resume();
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 }

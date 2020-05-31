@@ -38,7 +38,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setVolume(50, 50);
         }
 
-
         mPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
             public boolean onError(MediaPlayer mp, int what, int
@@ -85,7 +84,6 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.setVolume(50, 50);
             mPlayer.start();
         }
-
     }
 
     public void stopMusic() {

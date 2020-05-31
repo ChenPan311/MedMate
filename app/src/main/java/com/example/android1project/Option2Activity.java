@@ -8,12 +8,10 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,14 +29,9 @@ public class Option2Activity extends AppCompatActivity {
 
     private OintmentWidget mOintmentWidget;
 
-    private HealthBar mHp;
+    private MedKit mMedKit;
 
-    private boolean mIsTweezers = false;
-    private boolean mIsEpipen = false;
-    private boolean mIsBandAid = false;
-    private boolean mIsOintment = false;
-    private boolean mIsDefibrillator = false;
-    private boolean mIsPen = false;
+    private HealthBar mHp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,163 +52,136 @@ public class Option2Activity extends AppCompatActivity {
         mOintmentWidget = findViewById(R.id.ointment_apply);
 
         mHp = findViewById(R.id.hp_bar2z);
+        mHp.setActivity(this);
 
-        final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_2);
-        first_aid_kit.setOnClickListener(new View.OnClickListener() {
+        mMedKit = findViewById(R.id.first_aid_kit_2);
+        mMedKit.setItemId(item1.getId());
+        mMedKit.setOnClickListener(mMedKit);
+
+        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Option2Activity.this, v);
-                getMenuInflater().inflate(R.menu.first_aid_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.epipen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_epipen);
-                            mIsEpipen = true;
-                            mIsTweezers = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(true);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
 
-                        } else if (item.getItemId() == R.id.tweezers_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_tweezers_open);
-                            mIsTweezers = true;
-                            mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+                makeDeviceVibrate(1000);
+                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                anim.setDuration(1000);
+                white_bg.startAnimation(anim);
+                mHp.setHp(0);
+            }
+        });
 
-                        } else if (item.getItemId() == R.id.band_aid_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_band_aid);
-                            mIsBandAid = true;
-                            mIsTweezers = mIsEpipen = mIsOintment = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.ointment_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_ointment);
-                            mIsOintment = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            //item1.setVisibility(View.VISIBLE);
-                            //item1.setImageResource(R.drawable.ic_defibrillator);
-                            mIsDefibrillator = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
-
-                            makeDeviceVibrate(1000);
-                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
-                            anim.setDuration(1000);
-                            white_bg.startAnimation(anim);
-                            mHp.setHp(0);
-
-                        } else if (item.getItemId() == R.id.pen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_pen);
-                            mIsPen = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = false;
-
-                        } else {
-                            item1.setVisibility(View.INVISIBLE);
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-
-
-                item1.setOnTouchListener(new View.OnTouchListener() {
-                    boolean isApplying = false;
+        item1.setOnTouchListener(new View.OnTouchListener() {
+            boolean isApplying = false;
                     /*boolean isDisappearing11 = false, isDisappearing12 = false, isDisappearing13 = false,
                     isDisappearing21 = false, isDisappearing22 = false, isDisappearing23 = false;*/
 
-                    MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 500);
-                    MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 500);
-                    MakePimplesDisappear mps13 = new MakePimplesDisappear(pimples13, 500);
-                    MakePimplesDisappear mps21 = new MakePimplesDisappear(pimples21, 500);
-                    MakePimplesDisappear mps22 = new MakePimplesDisappear(pimples22, 500);
-                    MakePimplesDisappear mps23 = new MakePimplesDisappear(pimples23, 500);
+            MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 500);
+            MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 500);
+            MakePimplesDisappear mps13 = new MakePimplesDisappear(pimples13, 500);
+            MakePimplesDisappear mps21 = new MakePimplesDisappear(pimples21, 500);
+            MakePimplesDisappear mps22 = new MakePimplesDisappear(pimples22, 500);
+            MakePimplesDisappear mps23 = new MakePimplesDisappear(pimples23, 500);
 
-                    RelativeLayout.LayoutParams layoutParams;
-                    int deltaX = 0, deltaY = 0;
+            RelativeLayout.LayoutParams layoutParams;
+            int deltaX = 0, deltaY = 0;
 
-                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                    int screenHeight = displayMetrics.heightPixels;
-                    int screenWidth = displayMetrics.widthPixels;
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            int screenHeight = displayMetrics.heightPixels;
+            int screenWidth = displayMetrics.widthPixels;
 
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (item1.getVisibility() == View.VISIBLE) {
-                            int x = (int) event.getRawX();
-                            int y = (int) event.getRawY();
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (item1.getVisibility() == View.VISIBLE) {
+                    int x = (int) event.getRawX();
+                    int y = (int) event.getRawY();
 
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    deltaX = x - layoutParams.getMarginStart();
-                                    deltaY = y - layoutParams.topMargin;
-                                    break;
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            deltaX = x - layoutParams.getMarginStart();
+                            deltaY = y - layoutParams.topMargin;
+                            break;
 
-                                case MotionEvent.ACTION_MOVE:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
-                                    Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
+                        case MotionEvent.ACTION_MOVE:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
+                            Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
 
-                                    layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
-                                    layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+                            layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
+                            layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
-                                    if (mIsOintment && checkCollision(item1, mOintmentWidget) && !isApplying) {
-                                        isApplying = true;
-                                    } else if (!mIsOintment) {
-                                        isApplying = false;
-                                    }
-                                    if (isApplying) {
-                                        mOintmentWidget.applyOintment(item1.getX() - (item1.getWidth() / 1.5f), item1.getY() - (item1.getHeight() / 8f));
-                                    }
-
-                                    if (mIsOintment && checkCollision(item1, pimples11) && !mps11.isActive()) {
-                                        mps11.makePimpleDisappear();
-                                    }
-                                    if (mIsOintment && checkCollision(item1, pimples12) && !mps12.isActive()) {
-                                        mps12.makePimpleDisappear();
-                                    }
-                                    if (mIsOintment && checkCollision(item1, pimples13) && !mps13.isActive()) {
-                                        mps13.makePimpleDisappear();
-                                    }
-                                    if (mIsOintment && checkCollision(item1, pimples21) && !mps21.isActive()) {
-                                        mps21.makePimpleDisappear();
-                                    }
-                                    if (mIsOintment && checkCollision(item1, pimples22) && !mps22.isActive()) {
-                                        mps22.makePimpleDisappear();
-                                    }
-                                    if (mIsOintment && checkCollision(item1, pimples23) && !mps23.isActive()) {
-                                        mps23.makePimpleDisappear();
-                                    }
-
-                                    v.setLayoutParams(layoutParams);
-                                    break;
-
-                                case MotionEvent.ACTION_UP:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if ((mIsTweezers && checkCollision(item1, pimples11))) {
-                                        makeDeviceVibrate(250);
-                                    }
-                                    if (checkCollision(item1, first_aid_kit)) { /*Put the tool back in the kit*/
-                                        item1.setVisibility(View.GONE);
-                                        layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                        layoutParams.topMargin = (screenHeight - deltaY) / 2;
-                                    }
-                                    if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
-                                            pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
-                                            pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) { /*Success*/
-                                        mHp.stop();
-                                        Toast.makeText(Option2Activity.this, "Well done!", Toast.LENGTH_SHORT).show();
-                                    }
-                                    isApplying = false;
-                                    mOintmentWidget.finishApplying();
-                                    break;
+                            if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget) && !isApplying) {
+                                isApplying = true;
+                            } else if (!mMedKit.isOintment()) {
+                                isApplying = false;
                             }
-                            v.requestLayout();
-                        }
-                        return true;
+                            if (isApplying) {
+                                mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (20 * mDensity));
+                            }
+
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples11) && !mps11.isActive()) {
+                                mps11.makePimpleDisappear();
+                            }
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples12) && !mps12.isActive()) {
+                                mps12.makePimpleDisappear();
+                            }
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples13) && !mps13.isActive()) {
+                                mps13.makePimpleDisappear();
+                            }
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples21) && !mps21.isActive()) {
+                                mps21.makePimpleDisappear();
+                            }
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples22) && !mps22.isActive()) {
+                                mps22.makePimpleDisappear();
+                            }
+                            if (mMedKit.isOintment() && checkCollision(item1, pimples23) && !mps23.isActive()) {
+                                mps23.makePimpleDisappear();
+                            }
+
+                            v.setLayoutParams(layoutParams);
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            if (mMedKit.isTweezers() && (checkCollision(item1, pimples11) || checkCollision(item1, pimples12) ||
+                                    checkCollision(item1, pimples13) || checkCollision(item1, pimples21) ||
+                                    checkCollision(item1, pimples22) || checkCollision(item1, pimples23))) {
+                                mHp.setHp(mHp.getHp() - 1);
+                                makeDeviceVibrate(100);
+                            }
+                            if (checkCollision(item1, mMedKit)) { /*Put the tool back in the kit*/
+                                item1.setVisibility(View.GONE);
+                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
+                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                            }
+                            if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
+                                    pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
+                                    pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) { /*Success*/
+                                mHp.stop();
+                                Toast.makeText(Option2Activity.this, "Well done!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.body_o2)) || checkCollision(item1, mOintmentWidget))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            }
+
+                            isApplying = false;
+                            mOintmentWidget.finishApplying();
+                            break;
                     }
-                });
+                    v.requestLayout();
+                }
+                return true;
             }
         });
     }
@@ -224,17 +190,17 @@ public class Option2Activity extends AppCompatActivity {
         Rect R1, R2;
         R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
 
-        if (mIsEpipen) {
+        if (mMedKit.isEpipen()) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
-        } else if (mIsTweezers) {
+        } else if (mMedKit.isTweezers()) {
             R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
-        } else if (mIsBandAid) {
+        } else if (mMedKit.isBandAid()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsOintment) {
+        } else if (mMedKit.isOintment()) {
             R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
-        } else if (mIsDefibrillator) {
+        } else if (mMedKit.isDefibrillator()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsPen) {
+        } else if (mMedKit.isPen()) {
             R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
         } else {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());

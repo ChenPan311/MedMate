@@ -47,6 +47,14 @@
         android:src="@drawable/ic_girl_3_mouth"/>
 
     <ImageView
+        android:id="@+id/body_o6"
+        android:layout_width="195dp"
+        android:layout_height="160dp"
+        android:layout_alignBottom="@id/victim_6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"/>
+
+    <ImageView
         android:id="@+id/neck_anatomy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,7 +109,7 @@
         android:src="@drawable/ic_pen"
         android:visibility="gone"/>
 
-    <ImageView
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

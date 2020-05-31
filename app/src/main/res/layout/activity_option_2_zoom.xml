@@ -19,7 +19,16 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_girl_1_zoom"
+        android:scaleType="centerCrop"
         android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/body_o2"
+        android:layout_width="245dp"
+        android:layout_height="230dp"
+        android:layout_alignBottom="@id/victim_2z"
+        android:layout_alignStart="@id/victim_2z"
+        android:layout_marginStart="15dp"/>
 
     <ImageView
         android:id="@+id/pimples11"
@@ -82,7 +91,7 @@
         android:src="@drawable/ic_pen"
         android:visibility="gone"/>
 
-    <ImageView
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

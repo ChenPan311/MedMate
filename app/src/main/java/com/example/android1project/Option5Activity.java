@@ -2,33 +2,31 @@ package com.example.android1project;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option5Activity extends AppCompatActivity {
     private float mDensity;
+    private MediaPlayer mPlayer;
 
     private HealthBar mHp;
 
-    private boolean mIsTweezers = false;
-    private boolean mIsEpipen = false;
-    private boolean mIsBandAid = false;
-    private boolean mIsOintment = false;
-    private boolean mIsDefibrillator = false;
-    private boolean mIsPen = false;
+    private MedKit mMedKit;
+
+    private ImageView mouth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,112 +37,102 @@ public class Option5Activity extends AppCompatActivity {
         final ImageView white_bg = findViewById(R.id.white_bg_5);
         final ImageView item1 = findViewById(R.id.item5);
 
-        mHp = findViewById(R.id.hp_bar5);
+        mouth = findViewById(R.id.boy3_mouth);
 
-        final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_5);
-        first_aid_kit.setOnClickListener(new View.OnClickListener() {
+        mHp = findViewById(R.id.hp_bar5);
+        mHp.setActivity(this);
+
+        mPlayer = MediaPlayer.create(Option5Activity.this, R.raw.flatline_heartbeat);
+        mPlayer.start();
+
+        mMedKit = findViewById(R.id.first_aid_kit_5);
+        mMedKit.setItemId(item1.getId());
+        mMedKit.setOnClickListener(mMedKit);
+
+        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Option5Activity.this, v);
-                getMenuInflater().inflate(R.menu.first_aid_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.epipen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_epipen);
-                            mIsEpipen = true;
-                            mIsTweezers = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(true);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
 
-                        } else if (item.getItemId() == R.id.tweezers_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_tweezers_open);
-                            mIsTweezers = true;
-                            mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+                makeDeviceVibrate(1000);
+                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                anim.setDuration(1000);
+                white_bg.startAnimation(anim);
 
-                        } else if (item.getItemId() == R.id.band_aid_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_band_aid);
-                            mIsBandAid = true;
-                            mIsTweezers = mIsEpipen = mIsOintment = mIsDefibrillator = mIsPen = false;
+                mHp.stop();
 
-                        } else if (item.getItemId() == R.id.ointment_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_ointment);
-                            mIsOintment = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
+                RotateAnimation anim2 = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim2.setDuration(2000);
+                anim2.setFillAfter(true);
+                mouth.startAnimation(anim2);
 
-                        } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            //item1.setVisibility(View.VISIBLE);
-                            //item1.setImageResource(R.drawable.ic_defibrillator);
-                            mIsDefibrillator = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
-
-                            makeDeviceVibrate(1000);
-                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
-                            anim.setDuration(1000);
-                            white_bg.startAnimation(anim);
-
-                            mHp.stop();
-
-                        } else if (item.getItemId() == R.id.pen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_pen);
-                            mIsPen = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = false;
-
-                        } else {
-                            item1.setVisibility(View.INVISIBLE);
-                        }
-                        return false;
+                if (mPlayer != null) {
+                    try {
+                        mPlayer.stop();
+                        mPlayer.release();
+                    } finally {
+                        mPlayer = null;
                     }
-                });
-                popupMenu.show();
+                }
+            }
+        });
 
+        item1.setOnTouchListener(new View.OnTouchListener() {
+            boolean isClosed = false;
+            RelativeLayout.LayoutParams layoutParams;
+            int deltaX = 0, deltaY = 0;
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            int screenHeight = displayMetrics.heightPixels;
+            int screenWidth = displayMetrics.widthPixels;
 
-                item1.setOnTouchListener(new View.OnTouchListener() {
-                    boolean isClosed = false;
-                    RelativeLayout.LayoutParams layoutParams;
-                    int deltaX = 0, deltaY = 0;
-                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                    int screenHeight = displayMetrics.heightPixels;
-                    int screenWidth = displayMetrics.widthPixels;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (item1.getVisibility() == View.VISIBLE) {
+                    int x = (int) event.getRawX();
+                    int y = (int) event.getRawY();
 
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (item1.getVisibility() == View.VISIBLE) {
-                            int x = (int) event.getRawX();
-                            int y = (int) event.getRawY();
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            deltaX = x - layoutParams.getMarginStart();
+                            deltaY = y - layoutParams.topMargin;
+                            break;
 
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    deltaX = x - layoutParams.getMarginStart();
-                                    deltaY = y - layoutParams.topMargin;
-                                    break;
+                        case MotionEvent.ACTION_MOVE:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
+                            layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+                            v.setLayoutParams(layoutParams);
 
-                                case MotionEvent.ACTION_MOVE:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
-                                    layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
-                                    v.setLayoutParams(layoutParams);
+                            break;
 
-                                    break;
+                        case MotionEvent.ACTION_UP:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
-                                case MotionEvent.ACTION_UP:
-                                    layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                                    if (checkCollision(item1, first_aid_kit)) {
-                                        item1.setVisibility(View.GONE);
-                                        layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                        layoutParams.topMargin = (screenHeight - deltaY) / 2;
-                                    }
-                                    break;
+                            if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.head_o5))
+                                    || checkCollision(item1, findViewById(R.id.body_o5)))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
                             }
-                            v.requestLayout();
-                        }
-                        return true;
+
+                            if (checkCollision(item1, mMedKit)) {
+                                item1.setVisibility(View.GONE);
+                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
+                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                            }
+                            break;
                     }
-                });
+                    v.requestLayout();
+                }
+                return true;
             }
         });
     }
@@ -153,17 +141,17 @@ public class Option5Activity extends AppCompatActivity {
         Rect R1, R2;
         R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
 
-        if (mIsEpipen) {
+        if (mMedKit.isEpipen()) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
-        } else if (mIsTweezers) {
+        } else if (mMedKit.isTweezers()) {
             R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
-        } else if (mIsBandAid) {
+        } else if (mMedKit.isBandAid()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsOintment) {
+        } else if (mMedKit.isOintment()) {
             R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
-        } else if (mIsDefibrillator) {
+        } else if (mMedKit.isDefibrillator()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
-        } else if (mIsPen) {
+        } else if (mMedKit.isPen()) {
             R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
         } else {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
@@ -177,6 +165,32 @@ public class Option5Activity extends AppCompatActivity {
             vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE));
         } else { //deprecated in API 26
             vibrator.vibrate(milliseconds);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mPlayer != null) {
+            try {
+                mPlayer.stop();
+                mPlayer.release();
+            } finally {
+                mPlayer = null;
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPlayer != null) {
+            try {
+                mPlayer.stop();
+                mPlayer.release();
+            } finally {
+                mPlayer = null;
+            }
         }
     }
 }

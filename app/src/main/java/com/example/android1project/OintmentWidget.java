@@ -32,7 +32,6 @@ public class OintmentWidget extends View implements Serializable {
 
     public OintmentWidget(Context context) {
         super(context);
-
     }
 
     @Override

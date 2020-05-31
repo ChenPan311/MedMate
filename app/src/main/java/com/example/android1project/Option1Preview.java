@@ -87,6 +87,7 @@ public class Option1Preview extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option1Preview.this, Option1Activity.class);
+                            finish();
                             startActivity(intent);
                         }
                         break;

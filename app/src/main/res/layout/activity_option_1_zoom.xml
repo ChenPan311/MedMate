@@ -18,7 +18,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_boy_1_zoom"
+        android:scaleType="centerCrop"
         android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/leg1_o1"
+        android:layout_width="60dp"
+        android:layout_height="320dp"
+        android:layout_alignStart="@id/victim_1z"
+        android:layout_alignBottom="@id/victim_1z"
+        android:layout_marginStart="55dp"/>
+    <ImageView
+        android:id="@+id/leg2_o1"
+        android:layout_width="60dp"
+        android:layout_height="320dp"
+        android:layout_alignBottom="@id/victim_1z"
+        android:layout_alignEnd="@id/victim_1z"
+        android:layout_marginEnd="60dp"/>
 
     <ImageView
         android:id="@+id/thorn_1z"
@@ -154,9 +170,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_pen"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
 
-    <ImageView
+    <!--<ImageView
+        android:id="@+id/first_aid_kit_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_first_aid_kit"/>-->
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -176,5 +200,22 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:background="@color/transparent"
         android:progressDrawable="@drawable/progress_drawable"/>
+
+    <ImageView
+        android:id="@+id/pause_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"
+        android:alpha="0.7"
+        android:visibility="invisible"/>
+    <ImageButton
+        android:id="@+id/play_pause_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_pause_btn"
+        android:background="@color/transparent"
+        android:scaleType="fitXY"/>
 
 </RelativeLayout>

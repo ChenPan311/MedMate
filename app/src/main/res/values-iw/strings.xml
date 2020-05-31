@@ -15,4 +15,14 @@
     <string name="ointment_menu">משחה</string>
     <string name="pen_menu">עט</string>
 
+    <!--Dialogs-->
+    <string name="dlg_success_title">כל הכבוד!</string>
+    <string name="dlg_success_msg">הצלת חיי אדם!!!</string>
+
+    <string name="dlg_pause_title">המשחק הופסק</string>
+    <string name="dlg_pause_msg">מה כל כך חשוב??</string>
+
+    <string name="dlg_fail_title">אוי לא…</string>
+    <string name="dlg_fail_msg">בהצלחה בפעם הבאה!</string>
+
 </resources>

@@ -14,4 +14,14 @@
     <string name="ointment_menu">Ointment</string>
     <string name="pen_menu">Pen</string>
 
+    <!--Dialogs-->
+    <string name="dlg_success_title">Well Done!</string>
+    <string name="dlg_success_msg">You Saved a Person\'s Life!!!</string>
+
+    <string name="dlg_pause_title">Game Paused</string>
+    <string name="dlg_pause_msg">What\'s so important??</string>
+
+    <string name="dlg_fail_title">Oh No…</string>
+    <string name="dlg_fail_msg">Better Luck Next Time!</string>
+
 </resources>

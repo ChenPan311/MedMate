@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_girl_2_zoom"
+        android:scaleType="centerCrop"
         android:visibility="visible"/>
 
     <ImageView
@@ -68,7 +69,7 @@
         android:src="@drawable/ic_pen"
         android:visibility="gone"/>
 
-    <ImageView
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

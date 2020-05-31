@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,14 +31,9 @@ public class Option3Activity extends AppCompatActivity {
     private ImageView used_ba5;
     private ImageView used_ba6;
 
-    private HealthBar mHp;
+    private MedKit mMedKit;
 
-    private boolean mIsTweezers = false;
-    private boolean mIsEpipen = false;
-    private boolean mIsBandAid = false;
-    private boolean mIsOintment = false;
-    private boolean mIsDefibrillator = false;
-    private boolean mIsPen = false;
+    private HealthBar mHp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,65 +58,30 @@ public class Option3Activity extends AppCompatActivity {
         used_ba6 = findViewById(R.id.used_band_aid_o3_6z);
 
         mHp = findViewById(R.id.hp_bar3z);
+        mHp.setActivity(this);
 
-        final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_3);
-        first_aid_kit.setOnClickListener(new View.OnClickListener() {
+        mMedKit = findViewById(R.id.first_aid_kit_3);
+        mMedKit.setItemId(item1.getId());
+        mMedKit.setOnClickListener(mMedKit);
+
+        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Option3Activity.this, v);
-                getMenuInflater().inflate(R.menu.first_aid_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.epipen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_epipen);
-                            mIsEpipen = true;
-                            mIsTweezers = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(true);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
 
-                        } else if (item.getItemId() == R.id.tweezers_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_tweezers_open);
-                            mIsTweezers = true;
-                            mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.band_aid_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_band_aid);
-                            mIsBandAid = true;
-                            mIsTweezers = mIsEpipen = mIsOintment = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.ointment_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_ointment);
-                            mIsOintment = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            //item1.setVisibility(View.VISIBLE);
-                            //item1.setImageResource(R.drawable.ic_defibrillator);
-                            mIsDefibrillator = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
-
-                            makeDeviceVibrate(1000);
-                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
-                            anim.setDuration(1000);
-                            white_bg.startAnimation(anim);
-                            mHp.setHp(0);
-
-                        } else if (item.getItemId() == R.id.pen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_pen);
-                            mIsPen = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = false;
-
-                        } else {
-                            item1.setVisibility(View.INVISIBLE);
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                makeDeviceVibrate(1000);
+                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                anim.setDuration(1000);
+                white_bg.startAnimation(anim);
+                mHp.setHp(0);
             }
         });
 
@@ -157,37 +115,37 @@ public class Option3Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                            if (mIsBandAid && checkCollision(item1, wound1) && !isBa1) {
+                            if (mMedKit.isBandAid() && checkCollision(item1, wound1) && !isBa1) {
                                 used_ba1.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa1 = true;
-                            } else if (mIsBandAid && checkCollision(item1, wound2) && !isBa2) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound2) && !isBa2) {
                                 used_ba2.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa2 = true;
-                            } else if (mIsBandAid && checkCollision(item1, wound3) && !isBa3) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound3) && !isBa3) {
                                 used_ba3.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa3 = true;
-                            } else if (mIsBandAid && checkCollision(item1, wound4) && !isBa4) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound4) && !isBa4) {
                                 used_ba4.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa4 = true;
-                            } else if (mIsBandAid && checkCollision(item1, wound5) && !isBa5) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound5) && !isBa5) {
                                 used_ba5.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa5 = true;
-                            } else if (mIsBandAid && checkCollision(item1, wound6) && !isBa6) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound6) && !isBa6) {
                                 used_ba6.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -197,7 +155,16 @@ public class Option3Activity extends AppCompatActivity {
                             if (isBa1 && isBa2 && isBa3 && isBa4 && isBa5 && isBa6) {
                                 mHp.stop();
                             }
-                            if (checkCollision(item1, first_aid_kit)) {
+
+                            if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg1_o3))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            } else if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg2_o3))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            }
+
+                            if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
@@ -215,22 +182,22 @@ public class Option3Activity extends AppCompatActivity {
         Rect R2;
         R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
 
-        if (mIsEpipen) {
+        if (mMedKit.isEpipen()) {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
-        } else if (mIsTweezers) {
+        } else if (mMedKit.isTweezers()) {
             Rect R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
             return R1.intersect(R2);
-        } else if (mIsBandAid) {
+        } else if (mMedKit.isBandAid()) {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
-        } else if (mIsOintment) {
+        } else if (mMedKit.isOintment()) {
             Rect R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
             return R1.intersect(R2);
-        } else if (mIsDefibrillator) {
+        } else if (mMedKit.isDefibrillator()) {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
-        } else if (mIsPen) {
+        } else if (mMedKit.isPen()) {
             Rect R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
             return R1.intersect(R2);
         } else {

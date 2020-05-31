@@ -82,6 +82,7 @@ public class Option2Preview extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         if (checkCollision(magnifier, pimples)) {
                             Intent intent = new Intent(Option2Preview.this, Option2Activity.class);
+                            finish();
                             startActivity(intent);
                         }
                         break;

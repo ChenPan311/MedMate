@@ -19,7 +19,31 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_boy_3_full"
+        android:scaleType="centerCrop"
         android:visibility="visible"/>
+    <ImageView
+        android:id="@+id/boy3_mouth"
+        android:layout_width="72dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/victim_5"
+        android:layout_marginTop="185dp"
+        android:src="@drawable/ic_girl_3_mouth"/>
+
+    <ImageView
+        android:id="@+id/head_o5"
+        android:layout_width="190dp"
+        android:layout_height="150dp"
+        android:layout_alignTop="@id/victim_5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"/>
+    <ImageView
+        android:id="@+id/body_o5"
+        android:layout_width="330dp"
+        android:layout_height="160dp"
+        android:layout_alignBottom="@id/victim_5"
+        android:layout_alignStart="@id/victim_5"
+        android:layout_marginStart="10dp"/>
 
     <ImageView
         android:id="@+id/item5"
@@ -28,7 +52,7 @@
         android:src="@drawable/ic_pen"
         android:visibility="gone"/>
 
-    <ImageView
+    <com.example.android1project.MedKit
         android:id="@+id/first_aid_kit_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

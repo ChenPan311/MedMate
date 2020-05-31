@@ -6,12 +6,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_med_mate_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_med_mate_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,35 +22,47 @@
         </activity>
 
         <activity android:name=".GameMenuActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".ScoreBoardActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option1Preview"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity android:name=".Option1Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option2Preview"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity android:name=".Option2Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option3Preview"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity android:name=".Option3Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option4Preview"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity android:name=".Option4Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option5Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Option6Activity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
         <service android:name=".MusicService"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_medkit_open"
+    android:id="@+id/medKit_popup"
+    android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/tweezers"
+        android:layout_width="57dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_tweezers_close"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="30dp"
+        android:rotation="-4"
+        android:tag="tweezers"/>
+
+    <ImageView
+        android:id="@+id/bandaid"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/tweezers"
+        android:layout_alignStart="@id/tweezers"
+        android:layout_marginStart="19dp"
+        android:src="@drawable/ic_band_aid"/>
+
+    <ImageView
+        android:id="@+id/ointment"
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="70dp"
+        android:layout_toEndOf="@id/tweezers"
+        android:src="@drawable/ic_ointment"/>
+
+    <ImageView
+        android:id="@+id/epipen"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:layout_toEndOf="@id/ointment"
+        android:layout_marginTop="71dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_epipen"/>
+
+    <ImageView
+        android:id="@+id/pen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/epipen"
+        android:layout_marginTop="75dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_pen"
+        android:tag="pen"/>
+
+    <ImageView
+        android:id="@+id/defibrillator"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_toEndOf="@id/pen"
+        android:layout_marginTop="75dp"
+        android:layout_marginStart="7dp"
+        android:src="@drawable/ic_defibrillator"/>
+
+</RelativeLayout>
