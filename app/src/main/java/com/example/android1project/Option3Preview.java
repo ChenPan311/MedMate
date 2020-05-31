@@ -23,6 +23,8 @@ public class Option3Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_3);
 
+        final int difficulty = getIntent().getIntExtra("difficulty", 1);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView victim = findViewById(R.id.victim_3);
@@ -87,6 +89,7 @@ public class Option3Preview extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option3Preview.this, Option3Activity.class);
+                            intent.putExtra("difficulty", difficulty);
                             finish();
                             startActivity(intent);
                         }

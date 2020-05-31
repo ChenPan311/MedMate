@@ -5,40 +5,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_play"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_score"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="@string/play"
-        style="@style/MenuBtnStyle"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:background="@drawable/main_menu_btn_selector"/>
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/btn_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="@string/score_board"
-        style="@style/MenuBtnStyle"
-        android:layout_centerInParent="true"
-        android:background="@drawable/main_menu_btn_selector"/>
+        <Button
+            android:id="@+id/btn_resume_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="Resume Game"
+            style="@style/MenuBtnStyle"
+            android:background="@drawable/main_menu_btn_selector"
+            android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/btn_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_score"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:text="@string/rate_us"
-        style="@style/MenuBtnStyle"
-        android:layout_centerInParent="true"
-        android:background="@drawable/main_menu_btn_selector"/>
+        <Button
+            android:id="@+id/btn_new_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="New Game!"
+            style="@style/MenuBtnStyle"
+            android:background="@drawable/main_menu_btn_selector"/>
+
+        <Button
+            android:id="@+id/btn_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="@string/score_board"
+            style="@style/MenuBtnStyle"
+            android:background="@drawable/main_menu_btn_selector"/>
+
+        <Button
+            android:id="@+id/btn_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="@string/rate_us"
+            style="@style/MenuBtnStyle"
+            android:background="@drawable/main_menu_btn_selector"/>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/btn_sound"

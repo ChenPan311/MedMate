@@ -1,24 +1,33 @@
 package com.example.android1project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option5Activity extends AppCompatActivity {
+    private int difficulty;
+
     private float mDensity;
     private MediaPlayer mPlayer;
 
@@ -32,6 +41,7 @@ public class Option5Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_5);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView white_bg = findViewById(R.id.white_bg_5);
@@ -39,8 +49,16 @@ public class Option5Activity extends AppCompatActivity {
 
         mouth = findViewById(R.id.boy3_mouth);
 
+        difficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar5);
         mHp.setActivity(this);
+        if (difficulty == 1) {
+            mHp.setMillis(1000);
+        }
+        else if (difficulty == 2)
+            mHp.setMillis(500);
+        else if (difficulty == 3)
+            mHp.setMillis(250);
 
         mPlayer = MediaPlayer.create(Option5Activity.this, R.raw.flatline_heartbeat);
         mPlayer.start();
@@ -73,6 +91,22 @@ public class Option5Activity extends AppCompatActivity {
                 anim2.setDuration(2000);
                 anim2.setFillAfter(true);
                 mouth.startAnimation(anim2);
+                anim2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        showSuccessDialog();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
 
                 if (mPlayer != null) {
                     try {
@@ -82,6 +116,28 @@ public class Option5Activity extends AppCompatActivity {
                         mPlayer = null;
                     }
                 }
+            }
+        });
+
+        final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_5);
+        play_pause_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                play_pause_btn.setAlpha(0.25f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(50);
+                scaleAnimation.setRepeatMode(Animation.REVERSE);
+                scaleAnimation.setRepeatCount(1);
+                play_pause_btn.startAnimation(scaleAnimation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        play_pause_btn.setAlpha(1f);
+                    }
+                }, 50);
+
+                mHp.stop();
+                showPausedDialog();
             }
         });
 
@@ -166,6 +222,96 @@ public class Option5Activity extends AppCompatActivity {
         } else { //deprecated in API 26
             vibrator.vibrate(milliseconds);
         }
+    }
+
+    void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option5Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option5Activity.this).inflate(R.layout.dialog_win,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        view.findViewById(R.id.btn_restart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option5Activity.this, Option5Activity.class);
+                intent.putExtra("difficulty", difficulty);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.btn_next_level).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option5Activity.this, Option6Activity.class);
+                intent.putExtra("difficulty", difficulty);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
+    }
+
+    void showPausedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option5Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option5Activity.this).inflate(R.layout.dialog_pause,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final ImageButton btn_back = view.findViewById(R.id.btn_back);
+        final ImageButton btn_resume = view.findViewById(R.id.btn_resume);
+        final ImageButton btn_restart = view.findViewById(R.id.btn_restart);
+
+        final AlertDialog alertDialog = builder.create();
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btn_restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Option5Activity.this, Option5Activity.class);
+                intent.putExtra("difficulty", difficulty);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        btn_resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHp.resume();
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 
     @Override

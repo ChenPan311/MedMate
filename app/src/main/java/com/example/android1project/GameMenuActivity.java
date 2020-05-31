@@ -14,12 +14,15 @@ public class GameMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_menu);
 
+        final int difficulty = getIntent().getIntExtra("difficulty", 1);
+
         final ImageButton option1 = findViewById(R.id.option_1);
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 option1.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option1Preview.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -36,6 +39,7 @@ public class GameMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option2.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option2Preview.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -52,6 +56,7 @@ public class GameMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option3.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option3Preview.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -68,6 +73,7 @@ public class GameMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option4.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option4Preview.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -84,6 +90,7 @@ public class GameMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option5.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option5Activity.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -100,6 +107,7 @@ public class GameMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 option6.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option6Activity.class);
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override

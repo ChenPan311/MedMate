@@ -186,4 +186,14 @@
         android:background="@color/transparent"
         android:progressDrawable="@drawable/progress_drawable"/>
 
+    <ImageButton
+        android:id="@+id/play_pause_btn_3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_pause_btn"
+        android:background="@color/transparent"
+        android:scaleType="fitXY"/>
+
 </RelativeLayout>

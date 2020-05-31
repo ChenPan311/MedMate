@@ -7,12 +7,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
     private boolean mSoundOn = true;
@@ -25,12 +28,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn_play = findViewById(R.id.btn_play);
-        btn_play.setOnClickListener(new View.OnClickListener() {
+        Button btn_resume = findViewById(R.id.btn_resume_game);
+        btn_resume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Button btn_new_game = findViewById(R.id.btn_new_game);
+        btn_new_game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDifficultyDialog();
             }
         });
 
@@ -163,5 +174,62 @@ public class MainActivity extends AppCompatActivity {
         stopService(music);
         mHomeWatcher.stopWatch();
         /**<----- Background Music ----->**/
+    }
+
+
+    void showDifficultyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_difficulty,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+
+        final AlertDialog alertDialog = builder.create();
+
+        view.findViewById(R.id.btn_easy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
+                intent.putExtra("difficulty", 1);
+                startActivity(intent);
+
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_medium).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
+                intent.putExtra("difficulty", 2);
+                startActivity(intent);
+
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_hard).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
+                intent.putExtra("difficulty", 3);
+                startActivity(intent);
+
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 }

@@ -24,6 +24,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option1Activity extends AppCompatActivity {
+    private int difficulty;
+
     private float mDensity;
 
     private MedKit mMedKit;
@@ -43,8 +45,16 @@ public class Option1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_option_1_zoom);
         mDensity = getResources().getDisplayMetrics().density;
 
+        difficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar1z);
         mHp.setActivity(Option1Activity.this);
+        if (difficulty == 1) {
+            mHp.setMillis(1000);
+        }
+        else if (difficulty == 2)
+            mHp.setMillis(500);
+        else if (difficulty == 3)
+            mHp.setMillis(250);
 
         final ImageView white_bg = findViewById(R.id.white_bg_1);
         final ImageView thorn1, thorn2, thorn3, thorn4, thorn5, thorn6;
@@ -143,7 +153,7 @@ public class Option1Activity extends AppCompatActivity {
             }
         });
 
-        final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn);
+        final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_1);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -410,6 +420,7 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
+                intent.putExtra("difficulty", difficulty);
                 finish();
                 startActivity(intent);
             }
@@ -419,6 +430,7 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option2Preview.class);
+                intent.putExtra("difficulty", difficulty);
                 finish();
                 startActivity(intent);
             }
@@ -456,6 +468,7 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
+                intent.putExtra("difficulty", difficulty);
                 finish();
                 startActivity(intent);
             }

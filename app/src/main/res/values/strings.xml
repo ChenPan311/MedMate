@@ -2,9 +2,16 @@
     <string name="app_name">Med Mate</string>
 
     <!--Main Menu-->
-    <string name="play">Play!</string>
+    <string name="new_game">New Game!</string>
+    <string name="resume_game">Resume Game</string>
     <string name="score_board">Score Board</string>
     <string name="rate_us">Rate Us</string>
+
+    <!--First Aid Kit pop Up Menu-->
+    <string name="difficulty">Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
 
     <!--First Aid Kit pop Up Menu-->
     <string name="tweezers_menu">Tweezers</string>

@@ -23,6 +23,8 @@ public class Option4Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_4);
 
+        final int difficulty = getIntent().getIntExtra("difficulty", 1);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView victim = findViewById(R.id.victim_4);
@@ -80,6 +82,7 @@ public class Option4Preview extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option4Preview.this, Option4Activity.class);
+                            intent.putExtra("difficulty", difficulty);
                             finish();
                             startActivity(intent);
                         }

@@ -23,6 +23,8 @@ public class Option2Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_2);
 
+        final int difficulty = getIntent().getIntExtra("difficulty", 1);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView victim = findViewById(R.id.victim_2);
@@ -82,6 +84,7 @@ public class Option2Preview extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         if (checkCollision(magnifier, pimples)) {
                             Intent intent = new Intent(Option2Preview.this, Option2Activity.class);
+                            intent.putExtra("difficulty", difficulty);
                             finish();
                             startActivity(intent);
                         }
