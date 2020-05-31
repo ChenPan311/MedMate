@@ -2,6 +2,7 @@ package com.example.android1project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -24,7 +25,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option4Activity extends AppCompatActivity {
-    private int difficulty;
+    private SharedPreferences mData;
+
+    private int mDifficulty;
 
     private float mDensity;
 
@@ -39,6 +42,9 @@ public class Option4Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_4_zoom);
+
+        mData = getSharedPreferences("score", MODE_PRIVATE);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView white_bg = findViewById(R.id.white_bg_4);
@@ -47,15 +53,15 @@ public class Option4Activity extends AppCompatActivity {
         used_band_aid = findViewById(R.id.girl2_used_band_aid);
 
 
-        difficulty = getIntent().getIntExtra("difficulty", 1);
+        mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar4z);
         mHp.setActivity(this);
-        if (difficulty == 1) {
+        if (mDifficulty == 1) {
             mHp.setMillis(1000);
         }
-        else if (difficulty == 2)
+        else if (mDifficulty == 2)
             mHp.setMillis(500);
-        else if (difficulty == 3)
+        else if (mDifficulty == 3)
             mHp.setMillis(250);
 
         mMedKit = findViewById(R.id.first_aid_kit_4);
@@ -165,6 +171,9 @@ public class Option4Activity extends AppCompatActivity {
                             }
                             if (isOut && isBaUsed && isEpipenUsed) {
                                 mHp.stop();
+
+                                mData.edit().putInt("user_score_4", mHp.getHp() * mDifficulty).commit();
+
                                 showSuccessDialog();
                             }
                             if (checkCollision(item1, mMedKit)) {
@@ -237,6 +246,7 @@ public class Option4Activity extends AppCompatActivity {
         view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -245,7 +255,8 @@ public class Option4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option4Activity.this, Option4Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -255,7 +266,8 @@ public class Option4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option4Activity.this, Option5Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -285,6 +297,7 @@ public class Option4Activity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -293,7 +306,8 @@ public class Option4Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option4Activity.this, Option4Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -312,5 +326,16 @@ public class Option4Activity extends AppCompatActivity {
         }
 
         alertDialog.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        int final_score = 0;
+        for (int i = 1; i <= 6; i++)
+            final_score += mData.getInt("user_score_" + i, 0);
+
+        mData.edit().putInt("final_score", final_score).commit();
     }
 }

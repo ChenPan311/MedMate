@@ -1,36 +1,30 @@
 package com.example.android1project;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ScoreBoardActivity extends ListActivity {
+    SharedPreferences mData;
+    ArrayList<UserInfo> mUsers = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scores);
 
-        //final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        //setListAdapter(adapter);
+        mData = getSharedPreferences("score", MODE_PRIVATE);
 
-        /*List<Map<String, Object>> data = new ArrayList<>();
-        Map<String, Object> spain = new HashMap<>();
-        spain.put("image", R.drawable.ic_boy_1);
-        spain.put("name", "spain");
-        spain.put("is_good", true);
-        data.add(spain);
+        for (int i = 0; i < 20; i++) {
+            mUsers.add(new UserInfo("Chenko", 3000 + i));
+        }
 
-        String[] from = {"image", "name", "is_good"};
-        int[] to = {R.id.btn_play};
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.activity_game_menu, from, to);
-        setListAdapter(simpleAdapter);*/
+        final ArrayAdapter<UserInfo> adapter = new ArrayAdapter<>(this, R.layout.score_cell, R.id.tv, mUsers);
+        setListAdapter(adapter);
+
+
     }
 }

@@ -165,6 +165,7 @@ public class HealthBar extends ProgressBar {
         view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 activity.finish();
             }
         });
@@ -174,6 +175,7 @@ public class HealthBar extends ProgressBar {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, activity.getClass());
                 intent.putExtra("difficulty", activity.getIntent().getIntExtra("difficulty", 1));
+                alertDialog.dismiss();
                 activity.finish();
                 activity.startActivity(intent);
             }

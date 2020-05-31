@@ -2,6 +2,7 @@ package com.example.android1project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -24,7 +25,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option1Activity extends AppCompatActivity {
-    private int difficulty;
+    private SharedPreferences mData;
+
+    private int mDifficulty;
 
     private float mDensity;
 
@@ -43,17 +46,20 @@ public class Option1Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_1_zoom);
+
+        mData = getSharedPreferences("score", MODE_PRIVATE);
+
         mDensity = getResources().getDisplayMetrics().density;
 
-        difficulty = getIntent().getIntExtra("difficulty", 1);
+        mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar1z);
         mHp.setActivity(Option1Activity.this);
-        if (difficulty == 1) {
+        if (mDifficulty == 1) {
             mHp.setMillis(1000);
         }
-        else if (difficulty == 2)
+        else if (mDifficulty == 2)
             mHp.setMillis(500);
-        else if (difficulty == 3)
+        else if (mDifficulty == 3)
             mHp.setMillis(250);
 
         final ImageView white_bg = findViewById(R.id.white_bg_1);
@@ -336,6 +342,9 @@ public class Option1Activity extends AppCompatActivity {
 
                             if (isOut1 && isOut2 && isOut3 && isOut4 && isOut5 && isOut6) {
                                 mHp.stop();
+
+                                mData.edit().putInt("user_score_1", mHp.getHp() * mDifficulty).commit();
+
                                 showSuccessDialog();
                             }
 
@@ -412,6 +421,7 @@ public class Option1Activity extends AppCompatActivity {
         view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -420,7 +430,8 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -430,7 +441,8 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option2Preview.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -460,6 +472,7 @@ public class Option1Activity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -468,7 +481,8 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -487,5 +501,16 @@ public class Option1Activity extends AppCompatActivity {
         }
 
         alertDialog.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        int final_score = 0;
+        for (int i = 1; i <= 6; i++)
+            final_score += mData.getInt("user_score_" + i, 0);
+
+        mData.edit().putInt("final_score", final_score).commit();
     }
 }

@@ -2,6 +2,7 @@ package com.example.android1project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -25,7 +26,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option6Activity extends AppCompatActivity {
-    private int difficulty;
+    private SharedPreferences mData;
+
+    private int mDifficulty;
 
     private float mDensity;
 
@@ -44,6 +47,9 @@ public class Option6Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_6);
+
+        mData = getSharedPreferences("score", MODE_PRIVATE);
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView white_bg = findViewById(R.id.white_bg_6);
@@ -56,15 +62,15 @@ public class Option6Activity extends AppCompatActivity {
         used_ba = findViewById(R.id.used_band_aid_o6_1);
         good_spot = findViewById(R.id.good_spot);
 
-        difficulty = getIntent().getIntExtra("difficulty", 1);
+        mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar6);
         mHp.setActivity(this);
-        if (difficulty == 1) {
+        if (mDifficulty == 1) {
             mHp.setMillis(1000);
         }
-        else if (difficulty == 2)
+        else if (mDifficulty == 2)
             mHp.setMillis(500);
-        else if (difficulty == 3)
+        else if (mDifficulty == 3)
             mHp.setMillis(250);
 
         mMedKit = findViewById(R.id.first_aid_kit_6);
@@ -188,6 +194,8 @@ public class Option6Activity extends AppCompatActivity {
                                 item1.setVisibility(View.GONE);
                                 mHp.stop();
 
+                                mData.edit().putInt("user_score_6", mHp.getHp() * mDifficulty).commit();
+
                                 RotateAnimation anim = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                                 anim.setDuration(1000);
                                 anim.setFillAfter(true);
@@ -278,6 +286,7 @@ public class Option6Activity extends AppCompatActivity {
         view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -286,7 +295,8 @@ public class Option6Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -296,7 +306,8 @@ public class Option6Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -326,6 +337,7 @@ public class Option6Activity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 finish();
             }
         });
@@ -334,7 +346,8 @@ public class Option6Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", mDifficulty);
+                alertDialog.dismiss();
                 finish();
                 startActivity(intent);
             }
@@ -353,5 +366,16 @@ public class Option6Activity extends AppCompatActivity {
         }
 
         alertDialog.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        int final_score = 0;
+        for (int i = 1; i <= 6; i++)
+            final_score += mData.getInt("user_score_" + i, 0);
+
+        mData.edit().putInt("final_score", final_score).commit();
     }
 }
