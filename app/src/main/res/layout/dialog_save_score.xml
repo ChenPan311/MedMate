@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layoutDialogContainer"
+    android:layout_margin="20dp"
+    android:padding="20dp">
+    
+    <RelativeLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
+        android:layout_centerHorizontal="true">
+        
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:text="@string/dlg_score_title"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/txt_message_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_title"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/dlg_score_msg_1"
+            style="@style/MenuBtnStyle"
+            android:textStyle="bold|italic"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/txt_message_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_message_1"
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/dlg_score_msg_2"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
+
+        <EditText
+            android:id="@+id/user_name_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_message_2"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:hint="@string/dlg_score_edit_txt"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/main_menu_btn_selector"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:maxLines="1"
+            android:inputType="textPersonName"/>
+        
+    </RelativeLayout>
+
+
+    <ImageButton
+        android:id="@+id/btn_cancel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/btn_dummy"
+        android:layout_toStartOf="@id/btn_dummy"
+        android:src="@drawable/ic_cancel_btn"
+        android:background="@color/transparent"
+        android:scaleType="fitCenter"/>
+
+    <ImageView
+        android:id="@+id/btn_dummy"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/layoutDialog"
+        android:layout_marginBottom="-22dp"
+        android:layout_marginHorizontal="25dp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+        android:id="@+id/btn_confirm"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/btn_dummy"
+        android:layout_toEndOf="@id/btn_dummy"
+        android:src="@drawable/ic_confirm_btn"
+        android:background="@color/transparent"
+        android:scaleType="fitCenter"/>
+
+</RelativeLayout>

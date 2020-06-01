@@ -2,7 +2,7 @@ package com.example.android1project;
 
 import java.io.Serializable;
 
-public class UserInfo implements Serializable {
+public class UserInfo implements Serializable, Comparable<UserInfo> {
     private String mName;
     private int mScore;
 
@@ -30,5 +30,10 @@ public class UserInfo implements Serializable {
     @Override
     public String toString() {
         return mName + " \t " + mScore;
+    }
+
+    @Override
+    public int compareTo(UserInfo user) {
+        return Integer.compare(user.mScore, this.mScore);
     }
 }

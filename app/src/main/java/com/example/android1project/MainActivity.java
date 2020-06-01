@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -23,16 +24,28 @@ public class MainActivity extends AppCompatActivity {
     private MusicService mService;
     HomeWatcher mHomeWatcher;
 
+    private SharedPreferences mData;
+
+    private Button btn_resume;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn_resume = findViewById(R.id.btn_resume_game);
+
+        btn_resume = findViewById(R.id.btn_resume_game);
+
+        mData = getSharedPreferences("score", MODE_PRIVATE);
+        if (mData.getInt("user_score_1", 0) > 0) {
+            btn_resume.setVisibility(View.VISIBLE);
+        }
+
         btn_resume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
+                intent.putExtra("difficulty", mData.getInt("difficulty", 1));
                 startActivity(intent);
             }
         });
@@ -41,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         btn_new_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = mData.edit();
+                for (int i = 1; i <= 6; i++) {
+                    editor.putInt("user_score_" + i, 0);
+                }
+                editor.commit();
+
                 showDifficultyDialog();
             }
         });
@@ -139,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        mData = getSharedPreferences("score", MODE_PRIVATE);
+        if (mData.getInt("user_score_1", 0) > 0) {
+            btn_resume.setVisibility(View.VISIBLE);
+        }
+
         /**<----- Background Music ----->**/
         if (mService != null && mSoundOn) {
             mService.resumeMusic();

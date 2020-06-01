@@ -209,7 +209,10 @@ public class Option6Activity extends AppCompatActivity {
 
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
-                                        showSuccessDialog();
+                                        Intent intent = new Intent(Option6Activity.this, ScoreBoardActivity.class);
+                                        intent.putExtra("game_completed", true);
+                                        finish();
+                                        startActivity(intent);
                                     }
 
                                     @Override
