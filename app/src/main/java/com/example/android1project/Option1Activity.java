@@ -4,12 +4,9 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,15 +23,12 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieProperty;
-import com.airbnb.lottie.model.KeyPath;
-import com.airbnb.lottie.value.LottieFrameInfo;
-import com.airbnb.lottie.value.SimpleLottieValueCallback;
 
 public class Option1Activity extends AppCompatActivity {
     private SharedPreferences mData;
@@ -165,7 +159,38 @@ public class Option1Activity extends AppCompatActivity {
                 mMedKit.setIsPen(false);
                 mMedKit.DismissWindow();
 
-                showDefibrillatorDialog();
+                if ((mDifficulty == 1 && mHp.getHp() > 5) || (mDifficulty == 2 && mHp.getHp() > 10) || (mDifficulty == 3 && mHp.getHp() > 20))
+                    showDefibrillatorDialog();
+                else
+                    Toast.makeText(Option1Activity.this, R.string.too_late_toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final LottieAnimationView ekg = findViewById(R.id.ekg_1);
+        mMedKit.mLayout.findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ekg.setVisibility(View.VISIBLE);
+                ekg.playAnimation();
+                ekg.addAnimatorListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ekg.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
+                mMedKit.DismissWindow();
             }
         });
 
@@ -276,42 +301,66 @@ public class Option1Activity extends AppCompatActivity {
                             layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                             v.setLayoutParams(layoutParams);
 
+                            float thorn1X, thorn2X, thorn3X, thorn4X, thorn5X, thorn6X;
                             if (isClosed && isThorn1) {
+                                thorn1X = thorn1.getX();
+
                                 thorn1.setX(Math.max(item1.getX() - thorn1.getWidth() + (30 * mDensity), findViewById(R.id.skin_1z).getX()));
                                 thorn1.setLeft((int) (Math.max(item1.getX() - thorn1.getWidth() + (30 * mDensity), findViewById(R.id.skin_1z).getX())));
                                 //thorn1.setX(item1.getX() - thorn1.getWidth() + (30 * mDensity));
                                 //thorn1.setY(item1.getY() + item1.getHeight() - (10 * mDensity));
                                 thorn1.invalidate();
+
+                                if (thorn1X > thorn1.getX() && checkSimpleCollision(thorn1, findViewById(R.id.skin_1z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn2) {
+                                thorn2X = thorn2.getX();
+
                                 thorn2.setX(Math.max(item1.getX() - thorn2.getWidth() + (30 * mDensity), findViewById(R.id.skin_2z).getX()));
                                 thorn2.setLeft((int) (Math.max(item1.getX() - thorn2.getWidth() + (30 * mDensity), findViewById(R.id.skin_2z).getX())));
                                 thorn2.invalidate();
+
+                                if (thorn2X > thorn2.getX() && checkSimpleCollision(thorn2, findViewById(R.id.skin_2z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn3) {
+                                thorn3X = thorn3.getX();
+
                                 thorn3.setX(Math.max(item1.getX() - thorn3.getWidth() + (30 * mDensity), findViewById(R.id.skin_3z).getX()));
                                 thorn3.setLeft((int) (Math.max(item1.getX() - thorn3.getWidth() + (30 * mDensity), findViewById(R.id.skin_3z).getX())));
                                 thorn3.invalidate();
-                                Log.d("Thorn3", "" + (thorn3.getLeft()));
-                                Log.d("skin3", "" + (findViewById(R.id.skin_3z).getLeft() + findViewById(R.id.skin_3z).getWidth()));
+
+                                if (thorn3X > thorn3.getX() && checkSimpleCollision(thorn3, findViewById(R.id.skin_3z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn4) {
+                                thorn4X = thorn4.getX();
+
                                 thorn4.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_4z).getX() - (17 * mDensity)));
                                 thorn4.setRight((int) (item1.getX() + thorn4.getWidth() + (15 * mDensity)));
                                 //thorn4.setX(item1.getX() + (15 * mDensity));
                                 thorn4.invalidate();
-                                int xx = (thorn4.getRight());
-                                boolean bb = checkSimpleCollision(thorn4, findViewById(R.id.skin_4z));
-                                Log.d("Collision_4", "" + bb);
-                                Log.d("Thorn_4", "" + xx);
-                                Log.d("skin_4", "" + findViewById(R.id.skin_4z).getX()); //1034
+
+                                if (thorn4X < thorn4.getX() && checkSimpleCollision(thorn4, findViewById(R.id.skin_4z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn5) {
+                                thorn5X = thorn5.getX();
+
                                 thorn5.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_5z).getX() - (17 * mDensity)));
                                 thorn5.setRight((int) (item1.getX() + thorn5.getWidth() + (15 * mDensity)));
                                 //thorn5.setX(item1.getX() + (15 * mDensity));
                                 thorn5.invalidate();
+
+                                if (thorn5X < thorn5.getX() && checkSimpleCollision(thorn5, findViewById(R.id.skin_5z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn6) {
+                                thorn6X = thorn6.getX();
+
                                 thorn6.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_6z).getX() - (17 * mDensity)));
                                 thorn6.setRight((int) (item1.getX() + thorn6.getWidth() + (15 * mDensity)));
                                 //thorn6.setX(item1.getX() + (15 * mDensity));
                                 thorn6.invalidate();
+
+                                if (thorn6X < thorn6.getX() && checkSimpleCollision(thorn6, findViewById(R.id.skin_6z)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             }
                             break;
 
@@ -436,7 +485,7 @@ public class Option1Activity extends AppCompatActivity {
 
         final ImageButton btn_back = view.findViewById(R.id.btn_cancel);
         LottieAnimationView anim = view.findViewById(R.id.count_down_anim);
-        anim.addValueCallback(
+        /*anim.addValueCallback(
                 new KeyPath("**"),
                 LottieProperty.COLOR_FILTER,
                 new SimpleLottieValueCallback<ColorFilter>() {
@@ -445,7 +494,7 @@ public class Option1Activity extends AppCompatActivity {
                         return new PorterDuffColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                     }
                 }
-        );
+        );*/
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override

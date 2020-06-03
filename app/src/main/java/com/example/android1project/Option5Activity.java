@@ -4,9 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -26,15 +23,12 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieProperty;
-import com.airbnb.lottie.model.KeyPath;
-import com.airbnb.lottie.value.LottieFrameInfo;
-import com.airbnb.lottie.value.SimpleLottieValueCallback;
 
 public class Option5Activity extends AppCompatActivity {
     private SharedPreferences mData;
@@ -51,6 +45,7 @@ public class Option5Activity extends AppCompatActivity {
     private ImageView mouth;
 
     private ImageView white_bg;
+    private ImageView ekg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +72,6 @@ public class Option5Activity extends AppCompatActivity {
         else if (mDifficulty == 3)
             mHp.setMillis(250);
 
-        mPlayer = MediaPlayer.create(Option5Activity.this, R.raw.flatline_heartbeat);
-        mPlayer.start();
-
         mMedKit = findViewById(R.id.first_aid_kit_5);
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
@@ -97,7 +89,27 @@ public class Option5Activity extends AppCompatActivity {
                 mMedKit.setIsPen(false);
                 mMedKit.DismissWindow();
 
-                showDefibrillatorDialog();
+                if ((mDifficulty == 1 && mHp.getHp() > 5) || (mDifficulty == 2 && mHp.getHp() > 10) || (mDifficulty == 3 && mHp.getHp() > 20))
+                    showDefibrillatorDialog();
+                else
+                    Toast.makeText(Option5Activity.this, R.string.too_late_toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ekg = findViewById(R.id.ekg_5);
+        mMedKit.mLayout.findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ekg.setVisibility(View.VISIBLE);
+                mPlayer = MediaPlayer.create(Option5Activity.this, R.raw.flatline_heartbeat);
+                mPlayer.start();
+                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        ekg.setVisibility(View.GONE);
+                    }
+                });
+                mMedKit.DismissWindow();
             }
         });
 
@@ -218,16 +230,6 @@ public class Option5Activity extends AppCompatActivity {
 
         final ImageButton btn_back = view.findViewById(R.id.btn_cancel);
         LottieAnimationView anim = view.findViewById(R.id.count_down_anim);
-        anim.addValueCallback(
-                new KeyPath("**"),
-                LottieProperty.COLOR_FILTER,
-                new SimpleLottieValueCallback<ColorFilter>() {
-                    @Override
-                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
-                        return new PorterDuffColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                    }
-                }
-        );
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override

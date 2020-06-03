@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/nature_bg_zoom"
     android:layoutDirection="ltr">
 
@@ -185,6 +186,18 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:background="@color/transparent"
         android:progressDrawable="@drawable/progress_drawable"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/ekg_3"
+        android:layout_width="250dp"
+        android:layout_height="160dp"
+        android:layout_below="@id/hp_bar3z"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="30dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/ekg_normal"
+        android:visibility="gone"/>
 
     <ImageButton
         android:id="@+id/play_pause_btn_3"

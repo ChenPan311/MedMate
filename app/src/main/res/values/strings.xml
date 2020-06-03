@@ -38,6 +38,9 @@
     <string name="dlg_score_title">Congratulations !!!</string>
     <string name="dlg_score_msg_1">You saved them all</string>
     <string name="dlg_score_msg_2">Would you like to save your score?</string>
-    <string name="dlg_score_edit_txt">Enter your name here...</string>
+    <string name="dlg_score_edit_txt">Enter your name here…</string>
+
+    <!--Too Late Toast-->
+    <string name="too_late_toast">Too Late…</string>
 
 </resources>

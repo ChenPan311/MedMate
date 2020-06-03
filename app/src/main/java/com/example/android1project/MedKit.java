@@ -55,7 +55,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
     public void onClick(View v) {
         //Some offset to align the popup a bit to the right, and a bit down, relative to button's position:
         int OFFSET_X = (int) (200 * mDensity);
-        int OFFSET_Y = (int) (250 * mDensity);
+        int OFFSET_Y = (int) (300 * mDensity);
 
         // Displaying the popup at the specified location, + offsets:
         mPopupWindow.showAtLocation(mLayout, Gravity.NO_GRAVITY, (int) this.getX() - OFFSET_X, (int) this.getY() - OFFSET_Y);
@@ -66,7 +66,6 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         ImageView ointment = mLayout.findViewById(R.id.ointment);
         ImageView epipen = mLayout.findViewById(R.id.epipen);
         ImageView pen = mLayout.findViewById(R.id.pen);
-        ImageView defibrillator = mLayout.findViewById(R.id.defibrillator);
 
         tweezers.setOnClickListener(new OnClickListener() {
             @Override

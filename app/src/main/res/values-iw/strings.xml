@@ -41,4 +41,7 @@
     <string name="dlg_score_msg_2">האם תרצה לשמור את תוצאתך?</string>
     <string name="dlg_score_edit_txt">הכנס את שמך כאן…</string>
 
+    <!--Too Late Toast-->
+    <string name="too_late_toast">מאוחר מידי…</string>
+
 </resources>

@@ -4,9 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -24,15 +21,12 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieProperty;
-import com.airbnb.lottie.model.KeyPath;
-import com.airbnb.lottie.value.LottieFrameInfo;
-import com.airbnb.lottie.value.SimpleLottieValueCallback;
 
 public class Option4Activity extends AppCompatActivity {
     private SharedPreferences mData;
@@ -93,7 +87,10 @@ public class Option4Activity extends AppCompatActivity {
                 mMedKit.setIsPen(false);
                 mMedKit.DismissWindow();
 
-                showDefibrillatorDialog();
+                if ((mDifficulty == 1 && mHp.getHp() > 5) || (mDifficulty == 2 && mHp.getHp() > 10) || (mDifficulty == 3 && mHp.getHp() > 20))
+                    showDefibrillatorDialog();
+                else
+                    Toast.makeText(Option4Activity.this, R.string.too_late_toast, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -146,18 +143,26 @@ public class Option4Activity extends AppCompatActivity {
                                 item1.setY(item1.getY() + (10 * mDensity));
                                 item1.invalidate();
                                 isClosed = true;
-                            } else if (!mMedKit.isTweezers() || !isClosed)
+                            } else if (!mMedKit.isTweezers() || !isClosed) {
                                 isClosed = false;
+                            }
 
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                             v.setLayoutParams(layoutParams);
 
+                            float splinterX;
                             if (!isOut && isClosed) {
-                                splinter.setX(item1.getX() - splinter.getWidth() + (40 * mDensity));
+                                splinterX = splinter.getX();
+
+                                splinter.setX(Math.max(item1.getX() - splinter.getWidth() + (40 * mDensity), findViewById(R.id.girl_2_wound).getX()));
+                                splinter.setLeft((int) (Math.max(item1.getX() - splinter.getWidth() + (40 * mDensity), findViewById(R.id.girl_2_wound).getX())));
                                 //splinter.setY(item1.getY() + item1.getHeight() - (15 * mDensity));
                                 splinter.invalidate();
+
+                                if (splinterX > splinter.getX() && checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound)))
+                                    mHp.setHp(mHp.getHp() - 1);
                             }
                             break;
 
@@ -167,7 +172,7 @@ public class Option4Activity extends AppCompatActivity {
                                 used_band_aid.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.INVISIBLE);
                                 isBaUsed = true;
-                            } else if (!isOut && mMedKit.isTweezers() && isClosed) {
+                            } else if (!isOut && mMedKit.isTweezers() && isClosed && !checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound))) {
                                 item1.setVisibility(View.INVISIBLE);
                                 splinter.setVisibility(View.GONE);
                                 isOut = true;
@@ -232,6 +237,13 @@ public class Option4Activity extends AppCompatActivity {
         }
     }
 
+    public boolean checkSimpleCollision(View tool, View object) {
+        Rect R1, R2;
+        R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
+        R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
+        return R1.intersect(R2);
+    }
+
     public void makeDeviceVibrate(int milliseconds){
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -253,16 +265,6 @@ public class Option4Activity extends AppCompatActivity {
 
         final ImageButton btn_back = view.findViewById(R.id.btn_cancel);
         LottieAnimationView anim = view.findViewById(R.id.count_down_anim);
-        anim.addValueCallback(
-                new KeyPath("**"),
-                LottieProperty.COLOR_FILTER,
-                new SimpleLottieValueCallback<ColorFilter>() {
-                    @Override
-                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
-                        return new PorterDuffColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                    }
-                }
-        );
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
