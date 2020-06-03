@@ -1,8 +1,12 @@
 package com.example.android1project;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -26,6 +30,12 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieProperty;
+import com.airbnb.lottie.model.KeyPath;
+import com.airbnb.lottie.value.LottieFrameInfo;
+import com.airbnb.lottie.value.SimpleLottieValueCallback;
+
 public class Option5Activity extends AppCompatActivity {
     private SharedPreferences mData;
 
@@ -40,6 +50,8 @@ public class Option5Activity extends AppCompatActivity {
 
     private ImageView mouth;
 
+    private ImageView white_bg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +61,7 @@ public class Option5Activity extends AppCompatActivity {
 
         mDensity = getResources().getDisplayMetrics().density;
 
-        final ImageView white_bg = findViewById(R.id.white_bg_5);
+        white_bg = findViewById(R.id.white_bg_5);
         final ImageView item1 = findViewById(R.id.item5);
 
         mouth = findViewById(R.id.boy3_mouth);
@@ -85,44 +97,7 @@ public class Option5Activity extends AppCompatActivity {
                 mMedKit.setIsPen(false);
                 mMedKit.DismissWindow();
 
-                makeDeviceVibrate(1000);
-                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
-                anim.setDuration(1000);
-                white_bg.startAnimation(anim);
-
-                mHp.stop();
-
-                RotateAnimation anim2 = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                anim2.setDuration(2000);
-                anim2.setFillAfter(true);
-                mouth.startAnimation(anim2);
-                anim2.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        showSuccessDialog();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-
-                mData.edit().putInt("user_score_5", mHp.getHp() * mDifficulty).commit();
-
-                if (mPlayer != null) {
-                    try {
-                        mPlayer.stop();
-                        mPlayer.release();
-                    } finally {
-                        mPlayer = null;
-                    }
-                }
+                showDefibrillatorDialog();
             }
         });
 
@@ -229,6 +204,99 @@ public class Option5Activity extends AppCompatActivity {
         } else { //deprecated in API 26
             vibrator.vibrate(milliseconds);
         }
+    }
+
+    void showDefibrillatorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option5Activity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option5Activity.this).inflate(R.layout.dialog_defibrillator,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+
+        final ImageButton btn_back = view.findViewById(R.id.btn_cancel);
+        LottieAnimationView anim = view.findViewById(R.id.count_down_anim);
+        anim.addValueCallback(
+                new KeyPath("**"),
+                LottieProperty.COLOR_FILTER,
+                new SimpleLottieValueCallback<ColorFilter>() {
+                    @Override
+                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
+                        return new PorterDuffColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                    }
+                }
+        );
+        anim.setMinAndMaxFrame(300, 600);
+        anim.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                alertDialog.dismiss();
+
+                makeDeviceVibrate(1000);
+                AlphaAnimation anim = new AlphaAnimation(1f, 0f);
+                anim.setDuration(1000);
+                white_bg.startAnimation(anim);
+
+                mHp.stop();
+
+                RotateAnimation anim2 = new RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim2.setDuration(2000);
+                anim2.setFillAfter(true);
+                mouth.startAnimation(anim2);
+                anim2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        showSuccessDialog();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+
+                mData.edit().putInt("user_score_5", mHp.getHp() * mDifficulty).commit();
+
+                if (mPlayer != null) {
+                    try {
+                        mPlayer.stop();
+                        mPlayer.release();
+                    } finally {
+                        mPlayer = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 
     void showSuccessDialog() {
@@ -357,5 +425,11 @@ public class Option5Activity extends AppCompatActivity {
                 mPlayer = null;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mHp.stop();
+        super.onBackPressed();
     }
 }
