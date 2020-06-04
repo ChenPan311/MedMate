@@ -58,4 +58,9 @@
     <string name="clue_5">I can\'t find anything wrong…\n Maybe try to check his pulse</string>
     <string name="clue_6">I tried anything I could!\n It\'s time to open an airway…</string>
 
+    <!--Clues-->
+    <string name="guidance_title">It\'s Your First Game!</string>
+    <string name="guidance_tv">Would you like some guidance?</string>
+    <string name="medkit_guide_tv">Here you got your tools, a book instruction, a button for checking pulse, and an optional nurse\'s clue.</string>
+
 </resources>

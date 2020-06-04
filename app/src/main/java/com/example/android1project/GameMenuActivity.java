@@ -44,6 +44,8 @@ public class GameMenuActivity extends AppCompatActivity {
                 option1.setAlpha(0.25f);
                 Intent intent = new Intent(GameMenuActivity.this, Option1Preview.class);
                 intent.putExtra("difficulty", difficulty);
+                if (mData.getInt("user_score_1", 0) == 0)
+                    intent.putExtra("guidance", true);
                 startActivity(intent);
                 new Handler().postDelayed(new Runnable() {
                     @Override

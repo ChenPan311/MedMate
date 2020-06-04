@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,6 +46,8 @@ public class Option1Activity extends AppCompatActivity {
 
     private ImageView white_bg;
 
+    private boolean guide;
+
     /*private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
     private boolean mIsBandAid = false;
@@ -60,6 +63,33 @@ public class Option1Activity extends AppCompatActivity {
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mDensity = getResources().getDisplayMetrics().density;
+
+        guide = getIntent().getBooleanExtra("guide", false);
+        final ImageView kit_guide = findViewById(R.id.first_aid_guide);
+        final ImageView hp_guide = findViewById(R.id.hp_guide);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_out);
+        if (guide) {
+            kit_guide.setVisibility(View.VISIBLE);
+            kit_guide.setAnimation(anim);
+            kit_guide.startAnimation(anim);
+            hp_guide.setVisibility(View.VISIBLE);
+            hp_guide.startAnimation(anim);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hp_guide.clearAnimation();
+                    hp_guide.setVisibility(View.GONE);
+                }
+            }, 3000);
+        }
+
+        kit_guide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kit_guide.clearAnimation();
+                kit_guide.setVisibility(View.GONE);
+            }
+        });
 
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar1z);
@@ -86,6 +116,8 @@ public class Option1Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_1);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setGuide(guide);
+        mMedKit.setGuideTvId(findViewById(R.id.guide_tv).getId());
         mMedKit.setOnClickListener(mMedKit);
         /*final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_1);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {

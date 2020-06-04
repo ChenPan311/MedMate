@@ -6,16 +6,6 @@
     android:layoutDirection="ltr">
 
     <ImageView
-        android:id="@+id/stam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_play_arrow_black_50dp"
-        android:background="@color/colorBlack"
-        android:visibility="visible"/>
-
-    <ImageView
         android:id="@+id/victim_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -161,26 +151,41 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_research_btn"
         android:background="@color/transparent"/>
+    <ImageButton
+        android:id="@+id/research_btn_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_research_btn_guide"
+        android:background="@color/transparent"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/magnifier_guide_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/victim_1"
+        android:layout_marginBottom="22dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_legs_guide"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/magnifier_guide_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/ic_arrow_guide"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/magnifier1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_magnifier"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:layout_width="2dp"
-        android:layout_height="4dp"
-        android:layout_toEndOf="@id/magnifier1"
-        android:background="@color/colorBlack"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:layout_width="15dp"
-        android:layout_height="2dp"
-        android:layout_alignBottom="@id/magnifier1"
-        android:background="@color/colorBlack"
         android:visibility="gone"/>
 
 </RelativeLayout>

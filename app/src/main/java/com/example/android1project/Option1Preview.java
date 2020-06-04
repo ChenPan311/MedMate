@@ -2,21 +2,29 @@ package com.example.android1project;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Option1Preview extends AppCompatActivity {
     private float mDensity;
+
+    private ImageView btn_guide;
+    private boolean guide = false;
+    private Animation anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +33,16 @@ public class Option1Preview extends AppCompatActivity {
 
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
 
+        btn_guide = findViewById(R.id.research_btn_guide);
+        anim = AnimationUtils.loadAnimation(Option1Preview.this, R.anim.fade_in_out);
+        btn_guide.setAnimation(anim);
+
+        if (getIntent().getBooleanExtra("guidance", false))
+            showGuidanceDialog();
+
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView victim = findViewById(R.id.victim_1);
-
-        ImageView thorn1 = findViewById(R.id.thorn_1);
-        ImageView thorn2 = findViewById(R.id.thorn_2);
-        ImageView thorn3 = findViewById(R.id.thorn_3);
-        ImageView thorn4 = findViewById(R.id.thorn_4);
-        ImageView thorn5 = findViewById(R.id.thorn_5);
-        ImageView thorn6 = findViewById(R.id.thorn_6);
 
         final ImageView magnifier = findViewById(R.id.magnifier1);
 
@@ -57,6 +65,37 @@ public class Option1Preview extends AppCompatActivity {
                 magnifier.setVisibility(View.VISIBLE);
             }
         });
+        btn_guide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_guide.setVisibility(View.GONE);
+                btn_guide.clearAnimation();
+
+                research_btn.setAlpha(0.25f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(50);
+                scaleAnimation.setRepeatMode(Animation.REVERSE);
+                scaleAnimation.setRepeatCount(1);
+                research_btn.startAnimation(scaleAnimation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        research_btn.setAlpha(1f);
+                    }
+                }, 50);
+                magnifier.setVisibility(View.VISIBLE);
+
+                ScaleAnimation scaleAnimation1 = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+                scaleAnimation1.setDuration(1000);
+                findViewById(R.id.magnifier_guide_1).setAnimation(scaleAnimation1);
+                findViewById(R.id.magnifier_guide_1).setVisibility(View.VISIBLE);
+
+                findViewById(R.id.magnifier_guide_2).setAnimation(anim);
+                findViewById(R.id.magnifier_guide_2).setVisibility(View.VISIBLE);
+                findViewById(R.id.magnifier_guide_2).startAnimation(anim);
+            }
+        });
+
 
         magnifier.setOnTouchListener(new View.OnTouchListener() {
             RelativeLayout.LayoutParams layoutParams;
@@ -90,6 +129,8 @@ public class Option1Preview extends AppCompatActivity {
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option1Preview.this, Option1Activity.class);
                             intent.putExtra("difficulty", difficulty);
+                            if (guide)
+                                intent.putExtra("guide", true);
                             finish();
                             startActivity(intent);
                         }
@@ -99,6 +140,45 @@ public class Option1Preview extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    void showGuidanceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Option1Preview.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(Option1Preview.this).inflate(R.layout.dialog_guidance,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final ImageButton btn_cancel = view.findViewById(R.id.btn_cancel);
+        final ImageButton btn_confirm = view.findViewById(R.id.btn_confirm);
+
+        final AlertDialog alertDialog = builder.create();
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guide = false;
+                alertDialog.dismiss();
+            }
+        });
+
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                guide = true;
+                anim = AnimationUtils.loadAnimation(Option1Preview.this, R.anim.fade_in_out);
+                btn_guide.setVisibility(View.VISIBLE);
+                btn_guide.startAnimation(anim);
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
     }
 
     public boolean checkCollision(View tool, View object) {

@@ -189,6 +189,30 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_first_aid_kit"/>
+    <ImageView
+        android:id="@+id/first_aid_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/first_aid_kit_1"
+        android:layout_alignEnd="@id/first_aid_kit_1"
+        android:src="@drawable/ic_first_aid_guide"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/guide_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hp_bar1z"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:text="@string/medkit_guide_tv"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:background="@drawable/dialog_background"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:visibility="gone"/>
+
 
     <com.example.android1project.HealthBar
         android:id="@+id/hp_bar1z"
@@ -201,6 +225,15 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:background="@color/transparent"
         android:progressDrawable="@drawable/progress_drawable"/>
+    <ImageView
+        android:id="@+id/hp_guide"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorLightYellow"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/open_book"

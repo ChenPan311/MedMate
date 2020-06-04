@@ -59,4 +59,9 @@
     <string name="clue_5">אני לא רואה שום בעיה אצלו…\n אולי תנסו לבדוק לו דופק</string>
     <string name="clue_6">ניסיתי כל מה שאני יכולה!\n צריך לפתוח לה דרך אוויר…</string>
 
+    <!--Clues-->
+    <string name="guidance_title">זה המשחק הראשון שלך!</string>
+    <string name="guidance_tv">האם להוסיף הדרכה לשלב הראשון?</string>
+    <string name="medkit_guide_tv">פה נמצאים הכלים שלך, ספר הדרכה, כפתור למדידת דופק וכפתור לרמז מהאחות.</string>
+
 </resources>

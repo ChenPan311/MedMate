@@ -7,9 +7,12 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MedKit extends androidx.appcompat.widget.AppCompatImageView implements View.OnClickListener {
     private Activity mContext;
@@ -22,6 +25,9 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
     private int mToolId;
 
     private boolean mIsTweezers, mIsBandAid, mIsOintment, mIsEpipen, mIsPen, mIsDefibrillator;
+
+    private boolean guide;
+    private int guideTvId;
 
     private float mDensity;
 
@@ -55,7 +61,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
     public void onClick(View v) {
         //Some offset to align the popup a bit to the right, and a bit down, relative to button's position:
         int OFFSET_X = (int) (200 * mDensity);
-        int OFFSET_Y = (int) (300 * mDensity);
+        int OFFSET_Y = (int) (310 * mDensity);
 
         // Displaying the popup at the specified location, + offsets:
         mPopupWindow.showAtLocation(mLayout, Gravity.NO_GRAVITY, (int) this.getX() - OFFSET_X, (int) this.getY() - OFFSET_Y);
@@ -66,6 +72,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         ImageView ointment = mLayout.findViewById(R.id.ointment);
         ImageView epipen = mLayout.findViewById(R.id.epipen);
         ImageView pen = mLayout.findViewById(R.id.pen);
+
+        final TextView guideTv = this.mContext.findViewById(guideTvId);
 
         tweezers.setOnClickListener(new OnClickListener() {
             @Override
@@ -126,6 +134,28 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 mIsTweezers = mIsBandAid = mIsOintment = mIsEpipen = mIsDefibrillator = false;
             }
         });
+
+        if (guide) {
+            ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            scaleAnimation.setDuration(600);
+            guideTv.setAnimation(scaleAnimation);
+            guideTv.setVisibility(View.VISIBLE);
+            guideTv.startAnimation(scaleAnimation);
+        }
+
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (guide) {
+                    ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    scaleAnimation.setDuration(300);
+                    guideTv.setAnimation(scaleAnimation);
+                    guideTv.setVisibility(View.GONE);
+                    guideTv.startAnimation(scaleAnimation);
+                    guide = false;
+                }
+            }
+        });
     }
 
     public void setItemId(final int toolId) {
@@ -178,6 +208,14 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
     public void setIsDefibrillator(boolean isDefibrillator) {
         this.mIsDefibrillator = isDefibrillator;
+    }
+
+    public void setGuide(boolean guide) {
+        this.guide = guide;
+    }
+
+    public void setGuideTvId(final int id) {
+        this.guideTvId = id;
     }
 
     public void DismissWindow() {
