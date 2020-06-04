@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +24,9 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -110,6 +114,26 @@ public class Option5Activity extends AppCompatActivity {
                     }
                 });
                 mMedKit.DismissWindow();
+            }
+        });
+
+        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMedKit.DismissWindow();
+                RelativeLayout mViewGroup = findViewById(R.id.clue_popup);
+                LayoutInflater mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View mLayout = mLayoutInflater.inflate(R.layout.clue_popup_window, mViewGroup);
+                PopupWindow popupWindow = new PopupWindow(Option5Activity.this);
+                popupWindow.setContentView(mLayout);
+                popupWindow.setFocusable(true);
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow.setAnimationStyle(R.style.MedKitPopupWindowAnimation);
+                int OFFSET_X = (int) (20 * mDensity);
+                int OFFSET_Y = (int) (70 * mDensity);
+                popupWindow.showAtLocation(mLayout, Gravity.NO_GRAVITY, OFFSET_X, (int) (mHp.getY() + OFFSET_Y));
+                TextView tv = mLayout.findViewById(R.id.clue_tv);
+                tv.setText(R.string.clue_5);
             }
         });
 
