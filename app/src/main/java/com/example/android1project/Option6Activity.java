@@ -103,6 +103,35 @@ public class Option6Activity extends AppCompatActivity {
             }
         });
 
+        final RelativeLayout book = findViewById(R.id.open_book);
+        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(false);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
+
+                ScaleAnimation anim = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim.setDuration(200);
+                book.startAnimation(anim);
+                book.setVisibility(View.VISIBLE);
+                findViewById(R.id.close_book_btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ScaleAnimation anim2 = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        anim2.setDuration(200);
+                        book.startAnimation(anim2);
+                        book.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_6);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override

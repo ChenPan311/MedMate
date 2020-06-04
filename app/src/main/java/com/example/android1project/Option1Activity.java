@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +22,9 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -170,6 +172,15 @@ public class Option1Activity extends AppCompatActivity {
         mMedKit.mLayout.findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(false);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
+
                 ekg.setVisibility(View.VISIBLE);
                 ekg.playAnimation();
                 ekg.addAnimatorListener(new Animator.AnimatorListener() {
@@ -190,7 +201,55 @@ public class Option1Activity extends AppCompatActivity {
                     public void onAnimationRepeat(Animator animation) {
                     }
                 });
+            }
+        });
+
+        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mMedKit.DismissWindow();
+                RelativeLayout mViewGroup = findViewById(R.id.clue_popup);
+                LayoutInflater mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View mLayout = mLayoutInflater.inflate(R.layout.clue_popup_window, mViewGroup);
+                PopupWindow popupWindow = new PopupWindow(Option1Activity.this);
+                popupWindow.setContentView(mLayout);
+                popupWindow.setFocusable(true);
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow.setAnimationStyle(R.style.MedKitPopupWindowAnimation);
+                int OFFSET_X = (int) (20 * mDensity);
+                int OFFSET_Y = (int) (70 * mDensity);
+                popupWindow.showAtLocation(mLayout, Gravity.NO_GRAVITY, OFFSET_X, (int) (mHp.getY() + OFFSET_Y));
+                TextView tv = mLayout.findViewById(R.id.clue_tv);
+                tv.setText(R.string.clue_1);
+            }
+        });
+
+        final RelativeLayout book = findViewById(R.id.open_book);
+        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(false);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
+
+                ScaleAnimation anim = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim.setDuration(200);
+                book.startAnimation(anim);
+                book.setVisibility(View.VISIBLE);
+                findViewById(R.id.close_book_btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ScaleAnimation anim2 = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        anim2.setDuration(200);
+                        book.startAnimation(anim2);
+                        book.setVisibility(View.GONE);
+                    }
+                });
             }
         });
 

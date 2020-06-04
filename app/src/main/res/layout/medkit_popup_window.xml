@@ -90,7 +90,16 @@
         android:layout_alignTop="@id/med_kit"
         android:layout_toEndOf="@id/pen"
         android:layout_marginTop="75dp"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="8dp"
         android:src="@drawable/ic_defibrillator"/>
+
+    <ImageView
+        android:id="@+id/book"
+        android:layout_width="61dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/defibrillator"
+        android:layout_alignStart="@id/defibrillator"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_book_close"/>
 
 </RelativeLayout>

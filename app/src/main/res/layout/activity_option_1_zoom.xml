@@ -202,6 +202,74 @@
         android:background="@color/transparent"
         android:progressDrawable="@drawable/progress_drawable"/>
 
+    <RelativeLayout
+        android:id="@+id/open_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_book_open"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="45dp"
+            android:text="@string/defibrillator_instruction_1"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="78dp"
+            android:layout_marginStart="45dp"
+            android:text="@string/defibrillator_instruction_2"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="147dp"
+            android:layout_marginStart="50dp"
+            android:text="@string/pen_instruction"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="185dp"
+            android:text="@string/epipen_instruction"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="147dp"
+            android:layout_marginStart="185dp"
+            android:text="@string/ointment_instruction"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBlack"/>
+        <ImageButton
+            android:id="@+id/close_book_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="212dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_cancel_btn"
+            android:background="@color/transparent"
+            android:scaleType="centerCrop"/>
+    </RelativeLayout>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/ekg_1"
         android:layout_width="wrap_content"

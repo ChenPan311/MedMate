@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/clue_popup"
+    android:background="@drawable/dialog_background">
+
+    <ImageView
+        android:id="@+id/clue_nurse"
+        android:layout_width="98dp"
+        android:layout_height="120dp"
+        android:layout_marginVertical="3dp"
+        android:layout_marginHorizontal="10dp"
+        android:src="@drawable/ic_nurse"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:id="@+id/clue_tv"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/clue_nurse"
+        android:layout_marginHorizontal="5dp"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold|italic"
+        android:textAllCaps="false"
+        android:gravity="center"/>
+
+</RelativeLayout>

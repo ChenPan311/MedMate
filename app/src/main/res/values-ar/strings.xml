@@ -38,8 +38,8 @@
     <!--Save Score Dialog-->
     <string name="dlg_score_title">עבודה מצויינת!!!</string>
     <string name="dlg_score_msg_1">הצלת את כולם</string>
-    <string name="dlg_score_msg_2">האם תרצו לשמור את תוצאתכם?</string>
-    <string name="dlg_score_edit_txt">הכניסו את שמכם כאן…</string>
+    <string name="dlg_score_msg_2">האם תרצה לשמור את תוצאתך?</string>
+    <string name="dlg_score_edit_txt">הכנס את שמך כאן…</string>
 
     <!--Too Late Toast-->
     <string name="too_late_toast">מאוחר מידי…</string>
@@ -58,5 +58,4 @@
     <string name="clue_4">עקיצת דבורה יכולה לגרום לתגובה אלרגית חמורה…</string>
     <string name="clue_5">אני לא רואה שום בעיה אצלו…\n אולי תנסו לבדוק לו דופק</string>
     <string name="clue_6">ניסיתי כל מה שאני יכולה!\n צריך לפתוח לה דרך אוויר…</string>
-
 </resources>
