@@ -23,6 +23,7 @@ public class Option2Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_2);
 
+        /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
 
         mDensity = getResources().getDisplayMetrics().density;
@@ -33,6 +34,7 @@ public class Option2Preview extends AppCompatActivity {
 
         final ImageView magnifier = findViewById(R.id.magnifier2);
 
+        /**<-------Sets the magnifier button's On Click Listener------->*/
         final ImageButton research_btn = findViewById(R.id.research_btn2);
         research_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +55,7 @@ public class Option2Preview extends AppCompatActivity {
             }
         });
 
+        /**<-------Moving the magnifier according to the user movement------->*/
         magnifier.setOnTouchListener(new View.OnTouchListener() {
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
@@ -82,6 +85,8 @@ public class Option2Preview extends AppCompatActivity {
                         break;
 
                     case MotionEvent.ACTION_UP:
+                        /**<-------if the user put the magnifier on the right place move him on
+                         *                      to the next screen------->*/
                         if (checkCollision(magnifier, pimples)) {
                             Intent intent = new Intent(Option2Preview.this, Option2Activity.class);
                             intent.putExtra("difficulty", difficulty);

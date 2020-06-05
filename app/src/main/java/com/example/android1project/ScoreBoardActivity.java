@@ -31,6 +31,7 @@ public class ScoreBoardActivity extends ListActivity {
         mData = getSharedPreferences("score", MODE_PRIVATE);
         mUserInfo = getSharedPreferences("users", MODE_PRIVATE);
 
+        /**<-------if the user completed the game ask him on if he wants to save his score------->*/
         boolean game_completed = getIntent().getBooleanExtra("game_completed", false);
         if (game_completed) {
             showSaveScoreDialog();
@@ -39,6 +40,7 @@ public class ScoreBoardActivity extends ListActivity {
 
         int size = mUserInfo.getInt("size", 0);
 
+        /**<-------getting the all the user's info from the device and put it in an array------->*/
         for (int i = 1; i <= size; i++) {
             mUsers.add(new UserInfo(mUserInfo.getString("userName_" + i, "Unknown"), mUserInfo.getInt("userScore_" + i, 0)));
         }
@@ -74,6 +76,7 @@ public class ScoreBoardActivity extends ListActivity {
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**<-------Saves the user's score------->*/
                 int size = mUserInfo.getInt("size", 0);
                 size++;
 

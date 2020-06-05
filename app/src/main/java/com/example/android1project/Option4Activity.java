@@ -62,7 +62,7 @@ public class Option4Activity extends AppCompatActivity {
         splinter = findViewById(R.id.bee_splinter);
         used_band_aid = findViewById(R.id.girl2_used_band_aid);
 
-
+        /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar4z);
         mHp.setActivity(this);
@@ -78,6 +78,7 @@ public class Option4Activity extends AppCompatActivity {
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +148,7 @@ public class Option4Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_4);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +171,9 @@ public class Option4Activity extends AppCompatActivity {
             }
         });
 
+
+        /**<-------That's where we decide what happens with each user's decision
+         *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isClosed = false, isOut = false, isBaUsed = false, isEpipenUsed = false;
             RelativeLayout.LayoutParams layoutParams;
@@ -191,6 +196,8 @@ public class Option4Activity extends AppCompatActivity {
                             break;
 
                         case MotionEvent.ACTION_MOVE:
+                            /**<-------if the user picked tweezers grabbed the splinter while it's in
+                             *                  close the tweezers on the splinter------->*/
                             if (!isOut && mMedKit.isTweezers() && checkCollision(item1, splinter) && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 item1.setY(item1.getY() + (10 * mDensity));
@@ -205,6 +212,9 @@ public class Option4Activity extends AppCompatActivity {
                             layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                             v.setLayoutParams(layoutParams);
 
+                            /**<-------if the tweezers are closed on the splinter while it's in
+                             *      start pull the splinter out. But if the user is not being gentle
+                             *     or is pushing the splinter farther in it will damage the character------->*/
                             float splinterX;
                             if (!isOut && isClosed) {
                                 splinterX = splinter.getX();
@@ -221,20 +231,35 @@ public class Option4Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            /**<-------if the user picked a bandage and put it on the untreated wound
+                             *                  put that bandage on the wound------->*/
                             if (!isBaUsed && isOut && mMedKit.isBandAid() && checkCollision(item1, findViewById(R.id.girl_2_wound))) {
                                 used_band_aid.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.INVISIBLE);
                                 isBaUsed = true;
-                            } else if (!isOut && mMedKit.isTweezers() && isClosed && !checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound))) {
+                            }
+                            /**<-------if the user pulled out the splinter out completely
+                             *               remove the splinter form the screen------->*/
+                            else if (!isOut && mMedKit.isTweezers() && isClosed && !checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound))) {
                                 item1.setVisibility(View.INVISIBLE);
                                 splinter.setVisibility(View.GONE);
                                 isOut = true;
                                 isClosed = false;
-                            } else if (!isEpipenUsed && mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
+                            }
+                            /**<-------if the user picked Epipen and stabbed the girl's thigh with it
+                             *                  make the device vibrate------->*/
+                            else if (!isEpipenUsed && mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
                                 item1.setVisibility(View.INVISIBLE);
                                 makeDeviceVibrate(250);
                                 isEpipenUsed = true;
                             }
+                            /**<-------if the user will try to use the Epipen more than once it will damage the character severely------->*/
+                            else if (isEpipenUsed && mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
+                                makeDeviceVibrate(1000);
+                                mHp.setHp(mHp.getHp() - 50);
+                            }
+
+                            /**<-------Success!!!------->*/
                             if (isOut && isBaUsed && isEpipenUsed) {
                                 mHp.stop();
 
@@ -242,6 +267,8 @@ public class Option4Activity extends AppCompatActivity {
 
                                 showSuccessDialog();
                             }
+
+                            /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -321,11 +348,11 @@ public class Option4Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------if the user used defibrillator it will kill the character------->*/
                 alertDialog.dismiss();
                 makeDeviceVibrate(1000);
                 AlphaAnimation anim = new AlphaAnimation(1f, 0f);
@@ -335,12 +362,9 @@ public class Option4Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation){}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -455,7 +479,7 @@ public class Option4Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);

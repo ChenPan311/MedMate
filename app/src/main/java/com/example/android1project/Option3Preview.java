@@ -23,21 +23,16 @@ public class Option3Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_3);
 
+        /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
 
         mDensity = getResources().getDisplayMetrics().density;
 
         final ImageView victim = findViewById(R.id.victim_3);
 
-        ImageView used_ba1 = findViewById(R.id.used_band_aid_o3_1);
-        ImageView used_ba2 = findViewById(R.id.used_band_aid_o3_2);
-        ImageView used_ba3 = findViewById(R.id.used_band_aid_o3_3);
-        ImageView used_ba4 = findViewById(R.id.used_band_aid_o3_4);
-        ImageView used_ba5 = findViewById(R.id.used_band_aid_o3_5);
-        ImageView used_ba6 = findViewById(R.id.used_band_aid_o3_6);
-
         final ImageView magnifier = findViewById(R.id.magnifier3);
 
+        /**<-------Sets the magnifier button's On Click Listener------->*/
         final ImageButton research_btn = findViewById(R.id.research_btn3);
         research_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +53,7 @@ public class Option3Preview extends AppCompatActivity {
             }
         });
 
+        /**<-------Moving the magnifier according to the user movement------->*/
         magnifier.setOnTouchListener(new View.OnTouchListener() {
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
@@ -87,6 +83,8 @@ public class Option3Preview extends AppCompatActivity {
                         break;
 
                     case MotionEvent.ACTION_UP:
+                        /**<-------if the user put the magnifier on the right place move him on
+                         *                      to the next screen------->*/
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option3Preview.this, Option3Activity.class);
                             intent.putExtra("difficulty", difficulty);

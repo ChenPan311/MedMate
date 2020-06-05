@@ -3,6 +3,7 @@ package com.example.android1project;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ValueAnimator;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ImageView background_1 = findViewById(R.id.background_1);
+        final ImageView background_2 = findViewById(R.id.background_2);
+
+        final ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(20000L);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                final float progress = (float) animation.getAnimatedValue();
+                final float width = background_1.getWidth();
+                final float translationX = width * progress;
+                background_1.setTranslationX(translationX);
+                background_2.setTranslationX(translationX - width);
+            }
+        });
+        animator.start();
 
         btn_resume = findViewById(R.id.btn_resume_game);
 

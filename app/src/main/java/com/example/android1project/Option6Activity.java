@@ -72,6 +72,7 @@ public class Option6Activity extends AppCompatActivity {
         used_ba = findViewById(R.id.used_band_aid_o6_1);
         good_spot = findViewById(R.id.good_spot);
 
+        /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar6);
         mHp.setActivity(this);
@@ -87,6 +88,7 @@ public class Option6Activity extends AppCompatActivity {
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +158,7 @@ public class Option6Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_6);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +182,8 @@ public class Option6Activity extends AppCompatActivity {
         });
 
 
+        /**<-------That's where we decide what happens with each user's decision
+         *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean onNeck = false;
 
@@ -206,13 +211,18 @@ public class Option6Activity extends AppCompatActivity {
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
+                            /**<-------if the user picked the pen is hovering above the girl's neck show the user the throat anatomy
+                             *            so he'd be able to decide where's the right spot to open an airway with this pen------->*/
                             if (mMedKit.isPen() && checkCollision(item1, neck_anatomy) && neck_anatomy.getVisibility() == View.INVISIBLE) {
                                 AlphaAnimation anim = new AlphaAnimation(0f, 0.5f);
                                 anim.setDuration(500);
                                 anim.setFillAfter(true);
                                 neck_anatomy.setVisibility(View.VISIBLE);
                                 neck_anatomy.startAnimation(anim);
-                            } else if (!checkCollision(item1, neck_anatomy) && neck_anatomy.getVisibility() == View.VISIBLE) {
+                            }
+                            /**<-------if the user stopped hovering above the girl's neck with the pen
+                             *                  make the throat anatomy disappear------->*/
+                            else if (!checkCollision(item1, neck_anatomy) && neck_anatomy.getVisibility() == View.VISIBLE) {
                                 AlphaAnimation anim = new AlphaAnimation(0.5f, 0f);
                                 anim.setDuration(500);
                                 neck_anatomy.startAnimation(anim);
@@ -224,6 +234,8 @@ public class Option6Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            /**<-------if the user picked the pen and stabbed the girl's throat with it
+                             *                  the right place, open an airway with the pen------->*/
                             if (mMedKit.isPen() && checkCollision(item1, good_spot) && pen_cricothy.getVisibility() != View.VISIBLE) {
                                 makeDeviceVibrate(250);
                                 AlphaAnimation anim = new AlphaAnimation(0f, 1f);
@@ -244,10 +256,15 @@ public class Option6Activity extends AppCompatActivity {
 
                                 mHp.setHp(mHp.getHp() - 10);
                                 //Toast.makeText(Option1Activity.this, "Collision", Toast.LENGTH_SHORT).show();
-                            } else if (mMedKit.isPen() && checkCollision(item1, neck_anatomy)) {
+                            }
+                            /**<-------if the user picked the pen and stabbed the girl's throat with it
+                             *                  the wrong place, it will kill the character------->*/
+                            else if (mMedKit.isPen() && checkCollision(item1, neck_anatomy)) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(0);
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, pen_cricothy) && used_ba.getVisibility() != View.VISIBLE) {
+                            }
+                            /**<-------Success!!!------->*/
+                            else if (mMedKit.isBandAid() && checkCollision(item1, pen_cricothy) && used_ba.getVisibility() != View.VISIBLE) {
                                 used_ba.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 mHp.stop();
@@ -261,9 +278,7 @@ public class Option6Activity extends AppCompatActivity {
 
                                 anim.setAnimationListener(new Animation.AnimationListener() {
                                     @Override
-                                    public void onAnimationStart(Animation animation) {
-
-                                    }
+                                    public void onAnimationStart(Animation animation){}
 
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
@@ -274,17 +289,17 @@ public class Option6Activity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onAnimationRepeat(Animation animation) {
-
-                                    }
+                                    public void onAnimationRepeat(Animation animation){}
                                 });
                             }
 
+                            /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.body_o6)) || checkCollision(item1, blue_face) || checkCollision(item1, neck_anatomy))) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(mHp.getHp() - 50);
                             }
 
+                            /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -340,11 +355,11 @@ public class Option6Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------if the user used defibrillator it will kill the character------->*/
                 alertDialog.dismiss();
                 makeDeviceVibrate(1000);
                 AlphaAnimation anim = new AlphaAnimation(1f, 0f);
@@ -354,12 +369,9 @@ public class Option6Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation){}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -383,53 +395,6 @@ public class Option6Activity extends AppCompatActivity {
         } else { //deprecated in API 26
             vibrator.vibrate(milliseconds);
         }
-    }
-
-    void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Option6Activity.this, R.style.AlertDialogTheme);
-        View view = LayoutInflater.from(Option6Activity.this).inflate(R.layout.dialog_win,
-                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
-
-        builder.setView(view);
-        builder.setCancelable(false);
-
-        final AlertDialog alertDialog = builder.create();
-
-        view.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                finish();
-            }
-        });
-
-        view.findViewById(R.id.btn_restart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
-                intent.putExtra("difficulty", mDifficulty);
-                alertDialog.dismiss();
-                finish();
-                startActivity(intent);
-            }
-        });
-
-        view.findViewById(R.id.btn_next_level).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
-                intent.putExtra("difficulty", mDifficulty);
-                alertDialog.dismiss();
-                finish();
-                startActivity(intent);
-            }
-        });
-
-        if (alertDialog.getWindow() != null) {
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
-
-        alertDialog.show();
     }
 
     void showPausedDialog() {
@@ -483,7 +448,7 @@ public class Option6Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);

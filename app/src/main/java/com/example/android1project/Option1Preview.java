@@ -31,12 +31,15 @@ public class Option1Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_1);
 
+        /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
 
         btn_guide = findViewById(R.id.research_btn_guide);
         anim = AnimationUtils.loadAnimation(Option1Preview.this, R.anim.fade_in_out);
         btn_guide.setAnimation(anim);
 
+        /**<-------if the user chose 'New Game' and it's the first time he's opening this level
+         *              ask the user if he'd like guidance through this level------->*/
         if (getIntent().getBooleanExtra("guidance", false))
             showGuidanceDialog();
 
@@ -46,6 +49,7 @@ public class Option1Preview extends AppCompatActivity {
 
         final ImageView magnifier = findViewById(R.id.magnifier1);
 
+        /**<-------Sets the magnifier button's On Click Listener------->*/
         final ImageButton research_btn = findViewById(R.id.research_btn1);
         research_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +101,7 @@ public class Option1Preview extends AppCompatActivity {
         });
 
 
+        /**<-------Moving the magnifier according to the user movement------->*/
         magnifier.setOnTouchListener(new View.OnTouchListener() {
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
@@ -126,6 +131,8 @@ public class Option1Preview extends AppCompatActivity {
                         break;
 
                     case MotionEvent.ACTION_UP:
+                        /**<-------if the user put the magnifier on the right place move him on
+                         *                      to the next screen------->*/
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option1Preview.this, Option1Activity.class);
                             intent.putExtra("difficulty", difficulty);
@@ -155,6 +162,8 @@ public class Option1Preview extends AppCompatActivity {
 
         final AlertDialog alertDialog = builder.create();
 
+        /**<-------getting the user's decision whether to take guidance or not
+         *                  and sets the level accordingly------->*/
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

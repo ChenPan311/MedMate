@@ -83,6 +83,7 @@ public class Option3Activity extends AppCompatActivity {
         used_ba5 = findViewById(R.id.used_band_aid_o3_5z);
         used_ba6 = findViewById(R.id.used_band_aid_o3_6z);
 
+        /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar3z);
         mHp.setActivity(this);
@@ -98,6 +99,7 @@ public class Option3Activity extends AppCompatActivity {
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +169,7 @@ public class Option3Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_3);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,6 +192,9 @@ public class Option3Activity extends AppCompatActivity {
             }
         });
 
+
+        /**<-------That's where we decide what happens with each user's decision
+         *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isBa1 = false, isBa2 = false, isBa3 = false, isBa4 = false, isBa5 = false, isBa6 = false;
             RelativeLayout.LayoutParams layoutParams;
@@ -219,6 +225,8 @@ public class Option3Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            /**<-------if the user picked a bandage and put it on an untreated wound
+                             *                  put that bandage on this wound------->*/
                             if (mMedKit.isBandAid() && checkCollision(item1, wound1) && !isBa1) {
                                 used_ba1.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
@@ -256,6 +264,8 @@ public class Option3Activity extends AppCompatActivity {
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa6 = true;
                             }
+
+                            /**<-------Success!!!------->*/
                             if (isBa1 && isBa2 && isBa3 && isBa4 && isBa5 && isBa6) {
                                 mHp.stop();
 
@@ -264,6 +274,7 @@ public class Option3Activity extends AppCompatActivity {
                                 showSuccessDialog();
                             }
 
+                            /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg1_o3))) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(mHp.getHp() - 50);
@@ -272,6 +283,7 @@ public class Option3Activity extends AppCompatActivity {
                                 mHp.setHp(mHp.getHp() - 50);
                             }
 
+                            /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -338,11 +350,11 @@ public class Option3Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------if the user used defibrillator it will kill the character------->*/
                 alertDialog.dismiss();
                 makeDeviceVibrate(1000);
                 AlphaAnimation anim = new AlphaAnimation(1f, 0f);
@@ -352,12 +364,9 @@ public class Option3Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation){}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -472,7 +481,7 @@ public class Option3Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);

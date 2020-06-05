@@ -27,6 +27,7 @@ public class GameMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_menu);
 
+        /**<-------getting the user's chosen difficulty and passing it on------->*/
         difficulty = getIntent().getIntExtra("difficulty", 1);
 
         option1 = findViewById(R.id.option_1);
@@ -143,6 +144,8 @@ public class GameMenuActivity extends AppCompatActivity {
     }
 
     void myOnResume() {
+        /**<-------This function's purpose is to show the levels's status on the menu
+         *                     accordingly to the user's progress------->*/
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mData.edit().putInt("difficulty", difficulty).commit();

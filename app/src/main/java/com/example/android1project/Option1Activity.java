@@ -64,6 +64,7 @@ public class Option1Activity extends AppCompatActivity {
 
         mDensity = getResources().getDisplayMetrics().density;
 
+        /**<-------Checks if the user wants guidance through this level and set's the level accordingly------->*/
         guide = getIntent().getBooleanExtra("guide", false);
         final ImageView kit_guide = findViewById(R.id.first_aid_guide);
         final ImageView hp_guide = findViewById(R.id.hp_guide);
@@ -91,6 +92,7 @@ public class Option1Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar1z);
         mHp.setActivity(Option1Activity.this);
@@ -180,6 +182,7 @@ public class Option1Activity extends AppCompatActivity {
             }
         });*/
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,8 +220,7 @@ public class Option1Activity extends AppCompatActivity {
                 ekg.playAnimation();
                 ekg.addAnimatorListener(new Animator.AnimatorListener() {
                     @Override
-                    public void onAnimationStart(Animator animation) {
-                    }
+                    public void onAnimationStart(Animator animation){}
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -226,12 +228,9 @@ public class Option1Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onAnimationCancel(Animator animation) {
-                    }
-
+                    public void onAnimationCancel(Animator animation){}
                     @Override
-                    public void onAnimationRepeat(Animator animation) {
-                    }
+                    public void onAnimationRepeat(Animator animation){}
                 });
             }
         });
@@ -285,6 +284,7 @@ public class Option1Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_1);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,6 +308,8 @@ public class Option1Activity extends AppCompatActivity {
         });
 
 
+        /**<-------That's where we decide what happens with each user's decision
+         *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isThorn1 = false, isThorn2 = false, isThorn3 = false,
                     isThorn4 = false, isThorn5 = false, isThorn6 = false,
@@ -335,7 +337,8 @@ public class Option1Activity extends AppCompatActivity {
                             break;
 
                         case MotionEvent.ACTION_MOVE:
-                            //item1.getTag().equals("tweezers")
+                            /**<-------if the user picked tweezers and grabbed a thorn that's not out yet
+                             *                  close the tweezers on that thorn------->*/
                             if (mMedKit.isTweezers() && checkCollision(item1, thorn1) && !isOut1 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
@@ -392,6 +395,9 @@ public class Option1Activity extends AppCompatActivity {
                             layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                             v.setLayoutParams(layoutParams);
 
+                            /**<-------if the tweezers closed on a thorn, pull it out accordingly to the user's movement.
+                             *          But if the user is not being gentle or is pushing the thorn farther into the
+                             *                      skin, it will damage the character------->*/
                             float thorn1X, thorn2X, thorn3X, thorn4X, thorn5X, thorn6X;
                             if (isClosed && isThorn1) {
                                 thorn1X = thorn1.getX();
@@ -457,6 +463,8 @@ public class Option1Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                            /**<-------if the thorn isn't out yet and the user pulled it out completely,
+                             *                  remove the thorn away form the screen------->*/
                             if (!isOut1 && isThorn1 && !checkSimpleCollision(thorn1, findViewById(R.id.skin_1z))) {
                                 item1.setImageResource(R.drawable.ic_tweezers_open);
                                 //item1.setX(item1.getX() - (20 * mDensity));
@@ -496,6 +504,7 @@ public class Option1Activity extends AppCompatActivity {
                                 isOut6= true;
                             }
 
+                            /**<-------Success!!!------->*/
                             if (isOut1 && isOut2 && isOut3 && isOut4 && isOut5 && isOut6) {
                                 mHp.stop();
 
@@ -504,6 +513,7 @@ public class Option1Activity extends AppCompatActivity {
                                 showSuccessDialog();
                             }
 
+                            /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.leg1_o1))) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(mHp.getHp() - 50);
@@ -512,6 +522,7 @@ public class Option1Activity extends AppCompatActivity {
                                 mHp.setHp(mHp.getHp() - 50);
                             }
 
+                            /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit/*first_aid_kit*/)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -589,11 +600,11 @@ public class Option1Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------if the user used defibrillator it will kill the character------->*/
                 alertDialog.dismiss();
                 makeDeviceVibrate(1000);
                 AlphaAnimation anim = new AlphaAnimation(1f, 0f);
@@ -603,12 +614,9 @@ public class Option1Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation){}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -723,7 +731,7 @@ public class Option1Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);

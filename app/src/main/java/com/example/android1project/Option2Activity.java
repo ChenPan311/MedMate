@@ -67,6 +67,9 @@ public class Option2Activity extends AppCompatActivity {
         white_bg = findViewById(R.id.white_bg_2);
         final ImageView item1 = findViewById(R.id.item2);
 
+        final ImageView mouth = findViewById(R.id.girl_1z_mouth);
+        final ImageView smile = findViewById(R.id.girl_1z_smile);
+
         pimples11 = findViewById(R.id.pimples11);
         pimples12 = findViewById(R.id.pimples12);
         pimples13 = findViewById(R.id.pimples13);
@@ -76,6 +79,7 @@ public class Option2Activity extends AppCompatActivity {
 
         mOintmentWidget = findViewById(R.id.ointment_apply);
 
+        /**<-------getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar2z);
         mHp.setActivity(this);
@@ -91,6 +95,7 @@ public class Option2Activity extends AppCompatActivity {
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +165,7 @@ public class Option2Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_2);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +188,9 @@ public class Option2Activity extends AppCompatActivity {
             }
         });
 
+
+        /**<-------That's where we decide what happens with each user's decision
+         *                   and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isApplying = false;
 
@@ -220,6 +229,8 @@ public class Option2Activity extends AppCompatActivity {
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
+                            /**<-------if the user picked ointment and is touching the "pimples"
+                             *                  start applying the ointment------->*/
                             if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget) && !isApplying) {
                                 isApplying = true;
                             } else if (!mMedKit.isOintment()) {
@@ -229,6 +240,8 @@ public class Option2Activity extends AppCompatActivity {
                                 mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (20 * mDensity));
                             }
 
+                            /**<-------if the "pimple" are still there, and the ointment is being applied
+                             *              make the visible "pimple" disappear gradually------->*/
                             if (mMedKit.isOintment() && checkCollision(item1, pimples11) && !mps11.isActive()) {
                                 mps11.makePimpleDisappear();
                             }
@@ -253,27 +266,52 @@ public class Option2Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+
+                            /**<-------if the user will try to pop up a "pimple" with a tweezers
+                             *                  it will damage the character------->*/
                             if (mMedKit.isTweezers() && (checkCollision(item1, pimples11) || checkCollision(item1, pimples12) ||
                                     checkCollision(item1, pimples13) || checkCollision(item1, pimples21) ||
                                     checkCollision(item1, pimples22) || checkCollision(item1, pimples23))) {
                                 mHp.setHp(mHp.getHp() - 1);
                                 makeDeviceVibrate(100);
                             }
-                            if (checkCollision(item1, mMedKit)) { /*Put the tool back in the kit*/
+                            /**<-------Put the tool back in the kit------->*/
+                            if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                             }
+                            /**<-------Success!!!------->*/
                             if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
                                     pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
-                                    pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) { /*Success*/
+                                    pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) {
                                 mHp.stop();
 
                                 mData.edit().putInt("user_score_2", mHp.getHp() * mDifficulty).commit();
 
-                                showSuccessDialog();
-                            }
+                                Animation animFadeOut = new AlphaAnimation(1f, 0f);
+                                animFadeOut.setDuration(1000);
+                                final Animation animFadeIn = new AlphaAnimation(0f, 1f);
+                                animFadeIn.setDuration(1000);
+                                mouth.startAnimation(animFadeOut);
+                                animFadeOut.setAnimationListener(new Animation.AnimationListener() {
+                                    @Override
+                                    public void onAnimationStart(Animation animation) {
+                                        smile.setVisibility(View.VISIBLE);
+                                        smile.startAnimation(animFadeIn);
+                                    }
 
+                                    @Override
+                                    public void onAnimationEnd(Animation animation) {
+                                        mouth.setVisibility(View.GONE);
+                                        showSuccessDialog();
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animation animation){}
+                                });
+                            }
+                            /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.body_o2)) || checkCollision(item1, mOintmentWidget))) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(mHp.getHp() - 50);
@@ -336,11 +374,11 @@ public class Option2Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------if the user used defibrillator it will kill the character------->*/
                 alertDialog.dismiss();
                 makeDeviceVibrate(1000);
                 AlphaAnimation anim = new AlphaAnimation(1f, 0f);
@@ -350,12 +388,9 @@ public class Option2Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
+            public void onAnimationCancel(Animator animation){}
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -470,7 +505,7 @@ public class Option2Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);

@@ -65,6 +65,7 @@ public class Option5Activity extends AppCompatActivity {
 
         mouth = findViewById(R.id.boy3_mouth);
 
+        /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar5);
         mHp.setActivity(this);
@@ -80,6 +81,7 @@ public class Option5Activity extends AppCompatActivity {
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
 
+        /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +168,7 @@ public class Option5Activity extends AppCompatActivity {
             }
         });
 
+        /**<-------Pause button's OnClick Listener------->*/
         final ImageButton play_pause_btn = findViewById(R.id.play_pause_btn_5);
         play_pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +191,9 @@ public class Option5Activity extends AppCompatActivity {
             }
         });
 
+
+        /**<-------That's where we decide what happens with each user's decision
+         *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isClosed = false;
             RelativeLayout.LayoutParams layoutParams;
@@ -220,12 +226,14 @@ public class Option5Activity extends AppCompatActivity {
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
+                            /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.head_o5))
                                     || checkCollision(item1, findViewById(R.id.body_o5)))) {
                                 makeDeviceVibrate(1000);
                                 mHp.setHp(mHp.getHp() - 50);
                             }
 
+                            /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
@@ -286,11 +294,11 @@ public class Option5Activity extends AppCompatActivity {
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation) {
-            }
+            public void onAnimationStart(Animator animation){}
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                /**<-------Success!!!------->*/
                 alertDialog.dismiss();
 
                 makeDeviceVibrate(1000);
@@ -332,12 +340,10 @@ public class Option5Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-            }
+            public void onAnimationCancel(Animator animation){}
 
             @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
+            public void onAnimationRepeat(Animator animation){}
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -452,26 +458,14 @@ public class Option5Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        /**<-------Calculating and saving here the user's final score------->*/
         int final_score = 0;
         for (int i = 1; i <= 6; i++)
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
 
-        if (mPlayer != null) {
-            try {
-                mPlayer.stop();
-                mPlayer.release();
-            } finally {
-                mPlayer = null;
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        /**<-------Terminates the Media Player------->*/
         if (mPlayer != null) {
             try {
                 mPlayer.stop();
