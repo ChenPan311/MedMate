@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final ImageView background_1 = findViewById(R.id.background_1);
         final ImageView background_2 = findViewById(R.id.background_2);
 
+        /**<-------Makes the background move------->**/
         final ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_resume = findViewById(R.id.btn_resume_game);
 
+        /**<-------if the user started a game already show him the 'Resume Game' option------->**/
         mData = getSharedPreferences("score", MODE_PRIVATE);
         if (mData.getInt("user_score_1", 0) > 0) {
             btn_resume.setVisibility(View.VISIBLE);
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**<-------if the user chooses 'New Game' ask him which difficulty we'd like------->**/
         Button btn_new_game = findViewById(R.id.btn_new_game);
         btn_new_game.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
         btn_rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-                builder.setTitle(R.string.rate_us + "!");
             }
         });
 
