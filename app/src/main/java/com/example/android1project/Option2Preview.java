@@ -58,6 +58,8 @@ public class Option2Preview extends AppCompatActivity {
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            final int screenHeight = displayMetrics.heightPixels;
+            final int screenWidth = displayMetrics.widthPixels;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -73,10 +75,6 @@ public class Option2Preview extends AppCompatActivity {
 
                     case MotionEvent.ACTION_MOVE:
                         layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
-                        int screenHeight = displayMetrics.heightPixels;
-                        int screenWidth = displayMetrics.widthPixels;
-
                         layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                         layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
                         v.setLayoutParams(layoutParams);

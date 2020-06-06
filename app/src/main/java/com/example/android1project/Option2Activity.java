@@ -116,6 +116,38 @@ public class Option2Activity extends AppCompatActivity {
             }
         });
 
+        final LottieAnimationView ekg = findViewById(R.id.ekg_2);
+        mMedKit.getLayout().findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item1.setVisibility(View.GONE);
+                mMedKit.setIsTweezers(false);
+                mMedKit.setIsBandAid(false);
+                mMedKit.setIsOintment(false);
+                mMedKit.setIsEpipen(false);
+                mMedKit.setIsDefibrillator(false);
+                mMedKit.setIsPen(false);
+                mMedKit.DismissWindow();
+
+                ekg.setVisibility(View.VISIBLE);
+                ekg.playAnimation();
+                ekg.addAnimatorListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation){}
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ekg.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation){}
+                    @Override
+                    public void onAnimationRepeat(Animator animation){}
+                });
+            }
+        });
+
         mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

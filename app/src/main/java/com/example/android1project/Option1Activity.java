@@ -336,7 +336,8 @@ public class Option1Activity extends AppCompatActivity {
                         case MotionEvent.ACTION_MOVE:
                             /**<-------if the user picked tweezers and grabbed a thorn that's not out yet
                              *                  close the tweezers on that thorn------->*/
-                            if (mMedKit.isTweezers() && checkCollision(item1, thorn1) && !isOut1 && !isClosed) {
+                            if (mMedKit.isTweezers() && checkCollision(item1, thorn1) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_1z)) && !isOut1 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn1.getX() + thorn2.getWidth() + (10 * mDensity));
@@ -344,7 +345,8 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn1 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn2) && !isOut2 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn2) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_2z)) && !isOut2 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn2.getX() + thorn2.getWidth() + (10 * mDensity));
@@ -352,7 +354,8 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn2 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn3) && !isOut3 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn3) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_3z)) && !isOut3 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn3.getX() + thorn2.getWidth() - (10 * mDensity));
@@ -360,7 +363,8 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn3 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn4) && !isOut4 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn4) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_4z)) && !isOut4 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn4.getX() + (3 * mDensity));
@@ -368,7 +372,8 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn4 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn5) && !isOut5 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn5) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_5z)) && !isOut5 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn5.getX() + (3 * mDensity));
@@ -376,7 +381,8 @@ public class Option1Activity extends AppCompatActivity {
                                 item1.invalidate();
                                 isThorn5 = isClosed = true;
                                 isFirstThorn = false;
-                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn6) && !isOut6 && !isClosed) {
+                            } else if (mMedKit.isTweezers() && checkCollision(item1, thorn6) &&
+                                    !checkCollision(item1, findViewById(R.id.skin_6z)) && !isOut6 && !isClosed) {
                                 item1.setImageResource(R.drawable.ic_tweezers_close);
                                 //item1.setX(item1.getX() + (20 * mDensity));
                                 //item1.setX(thorn6.getX() + (3 * mDensity));
