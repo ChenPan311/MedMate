@@ -89,7 +89,7 @@ public class Option6Activity extends AppCompatActivity {
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
-        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +110,7 @@ public class Option6Activity extends AppCompatActivity {
         });
 
         final RelativeLayout book = findViewById(R.id.open_book);
-        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class Option6Activity extends AppCompatActivity {
             }
         });
 
-        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMedKit.DismissWindow();

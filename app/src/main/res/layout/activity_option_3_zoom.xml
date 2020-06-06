@@ -163,7 +163,7 @@
         android:id="@+id/item3z"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_play_arrow_black_50dp"
+        android:src="@drawable/ic_band_aid"
         android:visibility="invisible"/>
 
     <com.example.android1project.MedKit

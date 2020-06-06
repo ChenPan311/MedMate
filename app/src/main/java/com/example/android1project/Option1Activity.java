@@ -46,7 +46,7 @@ public class Option1Activity extends AppCompatActivity {
 
     private ImageView white_bg;
 
-    private boolean guide;
+    private boolean guide = false;
 
     /*private boolean mIsTweezers = false;
     private boolean mIsEpipen = false;
@@ -64,33 +64,6 @@ public class Option1Activity extends AppCompatActivity {
 
         mDensity = getResources().getDisplayMetrics().density;
 
-        /**<-------Checks if the user wants guidance through this level and set's the level accordingly------->*/
-        guide = getIntent().getBooleanExtra("guide", false);
-        final ImageView kit_guide = findViewById(R.id.first_aid_guide);
-        final ImageView hp_guide = findViewById(R.id.hp_guide);
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_out);
-        if (guide) {
-            kit_guide.setVisibility(View.VISIBLE);
-            kit_guide.setAnimation(anim);
-            kit_guide.startAnimation(anim);
-            hp_guide.setVisibility(View.VISIBLE);
-            hp_guide.startAnimation(anim);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hp_guide.clearAnimation();
-                    hp_guide.setVisibility(View.GONE);
-                }
-            }, 3000);
-        }
-
-        kit_guide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                kit_guide.clearAnimation();
-                kit_guide.setVisibility(View.GONE);
-            }
-        });
 
         /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
@@ -116,11 +89,35 @@ public class Option1Activity extends AppCompatActivity {
         thorn5 = findViewById(R.id.thorn_5z);
         thorn6 = findViewById(R.id.thorn_6z);
 
+        /**<-------Checks if the user wants guidance through this level and set's the level accordingly------->*/
+        guide = getIntent().getBooleanExtra("guide", false);
+
         mMedKit = findViewById(R.id.first_aid_kit_1);
         mMedKit.setItemId(item1.getId());
         mMedKit.setGuide(guide);
-        mMedKit.setGuideTvId(findViewById(R.id.guide_tv).getId());
         mMedKit.setOnClickListener(mMedKit);
+        if (guide) {
+            mMedKit.setHealthBar(mHp);
+            mHp.setHp(100);
+            mHp.stop();
+        }
+
+
+        final ImageView kit_guide = findViewById(R.id.first_aid_guide);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_out);
+        if (guide) {
+            kit_guide.setVisibility(View.VISIBLE);
+            kit_guide.setAnimation(anim);
+            kit_guide.startAnimation(anim);
+        }
+        kit_guide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kit_guide.clearAnimation();
+                kit_guide.setVisibility(View.GONE);
+                mMedKit.performClick();
+            }
+        });
         /*final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_1);
         first_aid_kit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +180,7 @@ public class Option1Activity extends AppCompatActivity {
         });*/
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
-        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,7 +201,7 @@ public class Option1Activity extends AppCompatActivity {
         });
 
         final LottieAnimationView ekg = findViewById(R.id.ekg_1);
-        mMedKit.mLayout.findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -235,7 +232,7 @@ public class Option1Activity extends AppCompatActivity {
             }
         });
 
-        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMedKit.DismissWindow();
@@ -256,7 +253,7 @@ public class Option1Activity extends AppCompatActivity {
         });
 
         final RelativeLayout book = findViewById(R.id.open_book);
-        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -667,6 +664,7 @@ public class Option1Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option2Preview.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", guide);
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);

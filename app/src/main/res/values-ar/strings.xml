@@ -63,4 +63,5 @@
     <string name="guidance_title">זה המשחק הראשון שלך!</string>
     <string name="guidance_tv">האם להוסיף הדרכה לשלב הראשון?</string>
     <string name="medkit_guide_tv">פה נמצאים הכלים שלך, ספר הדרכה, כפתור למדידת דופק וכפתור לרמז מהאחות.</string>
+    <string name="epipen_guide_tv">הידעת?\n מזריקים אפיפן לירך</string>
 </resources>

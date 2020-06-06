@@ -74,12 +74,17 @@ public class Option4Activity extends AppCompatActivity {
         else if (mDifficulty == 3)
             mHp.setMillis(250);
 
+
         mMedKit = findViewById(R.id.first_aid_kit_4);
         mMedKit.setItemId(item1.getId());
         mMedKit.setOnClickListener(mMedKit);
+        /**<-------if the user chose he'd like guidance a message will pop up
+         *       to let him know the Epipen should be injected to the thigh------->*/
+        mMedKit.setFirstEpipenUse(getIntent().getBooleanExtra("guide", false));
+
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
-        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +104,7 @@ public class Option4Activity extends AppCompatActivity {
             }
         });
 
-        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMedKit.DismissWindow();
@@ -120,7 +125,7 @@ public class Option4Activity extends AppCompatActivity {
         });
 
         final RelativeLayout book = findViewById(R.id.open_book);
-        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -170,6 +175,7 @@ public class Option4Activity extends AppCompatActivity {
                 showPausedDialog();
             }
         });
+
 
 
         /**<-------That's where we decide what happens with each user's decision
@@ -246,7 +252,7 @@ public class Option4Activity extends AppCompatActivity {
                                 isOut = true;
                                 isClosed = false;
                             }
-                            /**<-------if the user picked Epipen and stabbed the girl's thigh with it
+                            /**<-------if the user picked Epipen and injected it to the girl's thigh
                              *                  make the device vibrate------->*/
                             else if (!isEpipenUsed && mMedKit.isEpipen() && checkCollision(item1, findViewById(R.id.girl_2_thigh))) {
                                 item1.setVisibility(View.INVISIBLE);
@@ -455,6 +461,7 @@ public class Option4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option4Activity.this, Option4Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);

@@ -100,7 +100,7 @@ public class Option3Activity extends AppCompatActivity {
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
-        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +120,7 @@ public class Option3Activity extends AppCompatActivity {
             }
         });
 
-        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMedKit.DismissWindow();
@@ -141,7 +141,7 @@ public class Option3Activity extends AppCompatActivity {
         });
 
         final RelativeLayout book = findViewById(R.id.open_book);
-        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -230,36 +230,42 @@ public class Option3Activity extends AppCompatActivity {
                             if (mMedKit.isBandAid() && checkCollision(item1, wound1) && !isBa1) {
                                 used_ba1.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa1 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound2) && !isBa2) {
                                 used_ba2.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa2 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound3) && !isBa3) {
                                 used_ba3.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa3 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound4) && !isBa4) {
                                 used_ba4.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa4 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound5) && !isBa5) {
                                 used_ba5.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa5 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound6) && !isBa6) {
                                 used_ba6.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
+                                item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa6 = true;
@@ -267,6 +273,8 @@ public class Option3Activity extends AppCompatActivity {
 
                             /**<-------Success!!!------->*/
                             if (isBa1 && isBa2 && isBa3 && isBa4 && isBa5 && isBa6) {
+                                item1.setVisibility(View.GONE);
+
                                 mHp.stop();
 
                                 mData.edit().putInt("user_score_3", mHp.getHp() * mDifficulty).commit();
@@ -417,6 +425,7 @@ public class Option3Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option3Activity.this, Option4Preview.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);

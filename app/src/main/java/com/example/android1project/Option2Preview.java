@@ -28,8 +28,6 @@ public class Option2Preview extends AppCompatActivity {
 
         mDensity = getResources().getDisplayMetrics().density;
 
-        final ImageView victim = findViewById(R.id.victim_2);
-
         final ImageView pimples = findViewById(R.id.pimples);
 
         final ImageView magnifier = findViewById(R.id.magnifier2);
@@ -90,6 +88,7 @@ public class Option2Preview extends AppCompatActivity {
                         if (checkCollision(magnifier, pimples)) {
                             Intent intent = new Intent(Option2Preview.this, Option2Activity.class);
                             intent.putExtra("difficulty", difficulty);
+                            intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                             finish();
                             startActivity(intent);
                         }

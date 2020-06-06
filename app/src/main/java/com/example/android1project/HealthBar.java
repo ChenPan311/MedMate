@@ -175,6 +175,7 @@ public class HealthBar extends ProgressBar {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, activity.getClass());
                 intent.putExtra("difficulty", activity.getIntent().getIntExtra("difficulty", 1));
+                intent.putExtra("guide", activity.getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 activity.finish();
                 activity.startActivity(intent);

@@ -61,6 +61,7 @@
     <!--Clues-->
     <string name="guidance_title">It\'s Your First Game!</string>
     <string name="guidance_tv">Would you like some guidance?</string>
-    <string name="medkit_guide_tv">Here you got your tools, a book instruction, a button for checking pulse, and an optional nurse\'s clue.</string>
+    <string name="medkit_guide_tv">Here you got your tools, a book instruction, a button for checking pulse, and the nurse\'s clue.</string>
+    <string name="epipen_guide_tv">Did you know?\nEpipen should be\ninjected to the thigh</string>
 
 </resources>

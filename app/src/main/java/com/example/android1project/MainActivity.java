@@ -77,12 +77,6 @@ public class MainActivity extends AppCompatActivity {
         btn_new_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = mData.edit();
-                for (int i = 1; i <= 6; i++) {
-                    editor.putInt("user_score_" + i, 0);
-                }
-                editor.commit();
-
                 showDifficultyDialog();
             }
         });
@@ -234,6 +228,12 @@ public class MainActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_easy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = mData.edit();
+                for (int i = 1; i <= 6; i++) {
+                    editor.putInt("user_score_" + i, 0);
+                }
+                editor.commit();
+
                 Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
                 intent.putExtra("difficulty", 1);
                 startActivity(intent);
@@ -245,6 +245,12 @@ public class MainActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_medium).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = mData.edit();
+                for (int i = 1; i <= 6; i++) {
+                    editor.putInt("user_score_" + i, 0);
+                }
+                editor.commit();
+
                 Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
                 intent.putExtra("difficulty", 2);
                 startActivity(intent);
@@ -256,6 +262,12 @@ public class MainActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_hard).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = mData.edit();
+                for (int i = 1; i <= 6; i++) {
+                    editor.putInt("user_score_" + i, 0);
+                }
+                editor.commit();
+
                 Intent intent = new Intent(MainActivity.this, GameMenuActivity.class);
                 intent.putExtra("difficulty", 3);
                 startActivity(intent);

@@ -9,22 +9,39 @@
         android:id="@+id/ekg_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="5dp"
         android:layout_marginStart="50dp"
         android:src="@drawable/ic_ekg_btn"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
+    <ImageView
+        android:id="@+id/ekg_btn_guide"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginStart="50dp"
+        android:src="@drawable/ic_research_btn_guide"
+        android:visibility="invisible"/>
 
     <ImageButton
         android:id="@+id/help_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignEnd="@id/med_kit"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="5dp"
         android:layout_marginEnd="50dp"
         android:src="@drawable/ic_nurse_btn"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
+    <ImageView
+        android:id="@+id/help_btn_guide"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignEnd="@id/med_kit"
+        android:layout_marginVertical="5dp"
+        android:layout_marginEnd="50dp"
+        android:src="@drawable/ic_research_btn_guide"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/med_kit"
@@ -101,5 +118,14 @@
         android:layout_alignStart="@id/defibrillator"
         android:layout_marginTop="12dp"
         android:src="@drawable/ic_book_close"/>
+    <ImageView
+        android:id="@+id/book_guide"
+        android:layout_width="61dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/defibrillator"
+        android:layout_alignStart="@id/defibrillator"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorLightYellow"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

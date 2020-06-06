@@ -88,6 +88,7 @@ public class Option4Preview extends AppCompatActivity {
                         if (checkCollision(magnifier, victim)) {
                             Intent intent = new Intent(Option4Preview.this, Option4Activity.class);
                             intent.putExtra("difficulty", difficulty);
+                            intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                             finish();
                             startActivity(intent);
                         }

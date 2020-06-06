@@ -96,7 +96,7 @@ public class Option2Activity extends AppCompatActivity {
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
-        ImageView defi = mMedKit.mLayout.findViewById(R.id.defibrillator);
+        ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
         defi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +116,7 @@ public class Option2Activity extends AppCompatActivity {
             }
         });
 
-        mMedKit.mLayout.findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.help_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mMedKit.DismissWindow();
@@ -137,7 +137,7 @@ public class Option2Activity extends AppCompatActivity {
         });
 
         final RelativeLayout book = findViewById(R.id.open_book);
-        mMedKit.mLayout.findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
+        mMedKit.getLayout().findViewById(R.id.book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 item1.setVisibility(View.GONE);
@@ -194,12 +194,12 @@ public class Option2Activity extends AppCompatActivity {
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isApplying = false;
 
-            MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 500);
-            MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 500);
-            MakePimplesDisappear mps13 = new MakePimplesDisappear(pimples13, 500);
-            MakePimplesDisappear mps21 = new MakePimplesDisappear(pimples21, 500);
-            MakePimplesDisappear mps22 = new MakePimplesDisappear(pimples22, 500);
-            MakePimplesDisappear mps23 = new MakePimplesDisappear(pimples23, 500);
+            MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 300);
+            MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 300);
+            MakePimplesDisappear mps13 = new MakePimplesDisappear(pimples13, 300);
+            MakePimplesDisappear mps21 = new MakePimplesDisappear(pimples21, 300);
+            MakePimplesDisappear mps22 = new MakePimplesDisappear(pimples22, 300);
+            MakePimplesDisappear mps23 = new MakePimplesDisappear(pimples23, 300);
 
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
@@ -441,6 +441,7 @@ public class Option2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option2Activity.this, Option3Preview.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);

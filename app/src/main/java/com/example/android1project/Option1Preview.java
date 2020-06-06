@@ -72,22 +72,10 @@ public class Option1Preview extends AppCompatActivity {
         btn_guide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                research_btn.performClick();
+
                 btn_guide.setVisibility(View.GONE);
                 btn_guide.clearAnimation();
-
-                research_btn.setAlpha(0.25f);
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                scaleAnimation.setDuration(50);
-                scaleAnimation.setRepeatMode(Animation.REVERSE);
-                scaleAnimation.setRepeatCount(1);
-                research_btn.startAnimation(scaleAnimation);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        research_btn.setAlpha(1f);
-                    }
-                }, 50);
-                magnifier.setVisibility(View.VISIBLE);
 
                 ScaleAnimation scaleAnimation1 = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
                 scaleAnimation1.setDuration(1000);
