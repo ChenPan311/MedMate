@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <ImageView
@@ -78,5 +79,19 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
         android:src="@drawable/ic_sound_on"/>
+
+    <!--Splash Screen-->
+    <ImageView
+        android:id="@+id/splash_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splash_anim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/medic_spinner_splash"/>
 
 </RelativeLayout>

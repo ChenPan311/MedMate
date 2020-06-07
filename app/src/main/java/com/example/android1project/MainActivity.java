@@ -3,6 +3,7 @@ package com.example.android1project;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,17 +12,24 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 
 public class MainActivity extends AppCompatActivity {
     private boolean mSoundOn = true;
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**<-------if the user chooses 'New Game' ask him which difficulty we'd like------->**/
+        /**<-------if the user chooses 'New Game' ask him which difficulty he'd like------->**/
         Button btn_new_game = findViewById(R.id.btn_new_game);
         btn_new_game.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,9 +136,10 @@ public class MainActivity extends AppCompatActivity {
         mHomeWatcher.startWatch();
 
         doBindService();
-        Intent music = new Intent();
+        final Intent music = new Intent();
         music.setClass(this, MusicService.class);
-        startService(music);
+
+
         if (!mSoundOn)
             mService.pauseMusic();
         btn_sound.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +158,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        /**<-------Splash screen------->**/
+        final ImageView splash_screen = findViewById(R.id.splash_screen);
+        final LottieAnimationView splash_anim = findViewById(R.id.splash_anim);
+        splash_anim.playAnimation();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AlphaAnimation fadeOutAnim = new AlphaAnimation(1f, 0f);
+                fadeOutAnim.setDuration(1000);
+                splash_screen.setAnimation(fadeOutAnim);
+                splash_anim.setAnimation(fadeOutAnim);
+                splash_screen.setVisibility(View.GONE);
+                splash_anim.setVisibility(View.GONE);
+
+                /**<-------Starts the music after the splash screen------->**/
+                startService(music);
+            }
+        }, 6000);
     }
 
     /**<----- Background Music ----->**/
