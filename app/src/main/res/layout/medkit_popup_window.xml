@@ -5,11 +5,19 @@
     android:id="@+id/medKit_popup"
     android:layoutDirection="ltr">
 
+    <ImageView
+        android:id="@+id/med_kit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ekg_btn"
+        android:src="@drawable/ic_medkit_open"/>
+
     <ImageButton
         android:id="@+id/ekg_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-20dp"
         android:layout_marginStart="50dp"
         android:src="@drawable/ic_ekg_btn"
         android:background="@color/transparent"
@@ -18,7 +26,8 @@
         android:id="@+id/ekg_btn_guide"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-20dp"
         android:layout_marginStart="50dp"
         android:src="@drawable/ic_research_btn_guide"
         android:visibility="invisible"/>
@@ -28,7 +37,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignEnd="@id/med_kit"
-        android:layout_marginVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-20dp"
         android:layout_marginEnd="50dp"
         android:src="@drawable/ic_nurse_btn"
         android:background="@color/transparent"
@@ -38,17 +48,11 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignEnd="@id/med_kit"
-        android:layout_marginVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-20dp"
         android:layout_marginEnd="50dp"
         android:src="@drawable/ic_research_btn_guide"
         android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/med_kit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ekg_btn"
-        android:src="@drawable/ic_medkit_open"/>
 
     <ImageView
         android:id="@+id/tweezers"

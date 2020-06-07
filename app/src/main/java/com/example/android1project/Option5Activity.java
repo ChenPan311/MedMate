@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -56,6 +57,10 @@ public class Option5Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_5);
 
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mDensity = getResources().getDisplayMetrics().density;
@@ -79,6 +84,7 @@ public class Option5Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_5);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setAllLevelGuide(getIntent().getBooleanExtra("guide", false));
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
@@ -394,6 +400,7 @@ public class Option5Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option5Activity.this, Option6Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -434,6 +441,7 @@ public class Option5Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option5Activity.this, Option5Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -474,6 +482,14 @@ public class Option5Activity extends AppCompatActivity {
                 mPlayer = null;
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

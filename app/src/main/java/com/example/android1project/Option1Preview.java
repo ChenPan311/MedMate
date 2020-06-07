@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
@@ -30,6 +31,10 @@ public class Option1Preview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_1);
+
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
@@ -126,6 +131,7 @@ public class Option1Preview extends AppCompatActivity {
                                 intent.putExtra("guide", true);
                             finish();
                             startActivity(intent);
+                            overridePendingTransition(R.anim.zoom_in_to, R.anim.zoom_in_from);
                         }
                         break;
                 }
@@ -180,5 +186,13 @@ public class Option1Preview extends AppCompatActivity {
         Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getLeft() + (int) (90 * mDensity), tool.getTop() + (int) (90 * mDensity));
         Rect R2 = new Rect(object.getLeft(), object.getBottom() - (int) (190 * mDensity), object.getRight(), object.getBottom());
         return R1.intersect(R2);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

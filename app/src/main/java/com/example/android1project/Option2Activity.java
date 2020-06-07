@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -60,6 +61,10 @@ public class Option2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_2_zoom);
 
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mDensity = getResources().getDisplayMetrics().density;
@@ -93,6 +98,7 @@ public class Option2Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_2);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setAllLevelGuide(getIntent().getBooleanExtra("guide", false));
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
@@ -318,6 +324,7 @@ public class Option2Activity extends AppCompatActivity {
                                     pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
                                     pimples22.getAlpha() == 0 && pimples23.getAlpha() == 0) {
                                 mHp.stop();
+                                item1.setVisibility(View.GONE);
 
                                 mData.edit().putInt("user_score_2", mHp.getHp() * mDifficulty).commit();
 
@@ -514,6 +521,7 @@ public class Option2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option2Activity.this, Option2Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -544,6 +552,14 @@ public class Option2Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

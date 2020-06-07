@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,6 +25,10 @@ public class Option4Preview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_4);
 
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
 
@@ -31,6 +37,14 @@ public class Option4Preview extends AppCompatActivity {
         final ImageView victim = findViewById(R.id.victim_4);
 
         final ImageView magnifier = findViewById(R.id.magnifier4);
+
+        final ImageView bee = findViewById(R.id.bee);
+        Animation fly_anim = AnimationUtils.loadAnimation(this, R.anim.flying_bee);
+        bee.setAnimation(fly_anim);
+        fly_anim.setDuration(800);
+        fly_anim.setRepeatMode(Animation.REVERSE);
+        fly_anim.setRepeatCount(Animation.INFINITE);
+        bee.startAnimation(fly_anim);
 
         /**<-------Sets the magnifier button's On Click Listener------->*/
         final ImageButton research_btn = findViewById(R.id.research_btn4);
@@ -91,6 +105,7 @@ public class Option4Preview extends AppCompatActivity {
                             intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                             finish();
                             startActivity(intent);
+                            overridePendingTransition(R.anim.zoom_in_to_4, R.anim.zoom_in_from_4);
                         }
                         break;
                 }
@@ -104,5 +119,13 @@ public class Option4Preview extends AppCompatActivity {
         Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getLeft() + (int) (90 * mDensity), tool.getTop() + (int) (90 * mDensity));
         Rect R2 = new Rect(object.getRight() - (int) (30 * mDensity), object.getBottom() - (int) (190 * mDensity), object.getRight(), object.getBottom() - (int) (160 * mDensity));
         return R1.intersect(R2);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

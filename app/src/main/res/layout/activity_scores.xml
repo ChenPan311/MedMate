@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@drawable/ic_background_scores"
     android:id="@+id/activity_score_main">
 
     <TextView

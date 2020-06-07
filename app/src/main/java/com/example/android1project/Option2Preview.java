@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
@@ -22,6 +23,10 @@ public class Option2Preview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_2);
+
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /**<-------getting the user's chosen difficulty and passing it on------->*/
         final int difficulty = getIntent().getIntExtra("difficulty", 1);
@@ -89,6 +94,7 @@ public class Option2Preview extends AppCompatActivity {
                             intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                             finish();
                             startActivity(intent);
+                            overridePendingTransition(R.anim.zoom_in_to_2, R.anim.zoom_in_from_2);
                         }
                         break;
                 }
@@ -102,5 +108,13 @@ public class Option2Preview extends AppCompatActivity {
         Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getLeft() + (int) (90 * mDensity), tool.getTop() + (int) (90 * mDensity));
         Rect R2 = new Rect(object.getLeft(), object.getTop(), object.getRight(), object.getBottom());
         return R1.intersect(R2);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

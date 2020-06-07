@@ -138,27 +138,27 @@
         android:layout_centerInParent="true"
         android:visibility="gone">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="47dp"
             android:text="@string/defibrillator_instruction_1"
             android:textSize="15sp"
             android:textStyle="italic|bold"
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginTop="74dp"
+            android:layout_marginStart="47dp"
             android:text="@string/defibrillator_instruction_2"
             android:textSize="15sp"
             android:textStyle="italic|bold"
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="147dp"
             android:layout_marginStart="50dp"
@@ -168,7 +168,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginStart="185dp"
@@ -178,7 +178,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="147dp"
             android:layout_marginStart="185dp"

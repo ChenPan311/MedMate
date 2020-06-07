@@ -32,24 +32,31 @@
     <string name="dlg_fail_title">אוי לא…</string>
     <string name="dlg_fail_msg">בהצלחה בפעם הבאה!</string>
 
+    <string name="dlg_defibrillator_title">זהירות!!!</string>
+
+    <string name="dlg_rating_title">דרגו אותנו!!</string>
+    <string name="dlg_rating_msg">כמה נהנת מהמשחק?</string>
+    <string name="dlg_rating_comment_1">תודה שדירגת אותנו</string>
+    <string name="dlg_rating_comment_2">לבבות!</string>
+
     <!--Score Board-->
     <string name="score_board_title">לוח תוצאות</string>
 
     <!--Save Score Dialog-->
     <string name="dlg_score_title">עבודה מצויינת!!!</string>
-    <string name="dlg_score_msg_1">הצלת את כולם</string>
-    <string name="dlg_score_msg_2">האם תרצה לשמור את תוצאתך?</string>
-    <string name="dlg_score_edit_txt">הכנס את שמך כאן…</string>
+    <string name="dlg_score_msg_1">הצלת את כולם!</string>
+    <string name="dlg_score_msg_2">האם תרצו לשמור את תוצאתכם?</string>
+    <string name="dlg_score_edit_txt">הכניסו את שמכם כאן…</string>
 
     <!--Too Late Toast-->
     <string name="too_late_toast">מאוחר מידי…</string>
 
     <!--Instruction Book-->
-    <string name="defibrillator_instruction_1"> מעביר\n שוק</string>
-    <string name="defibrillator_instruction_2"> חשמלי ללב בכדי\n להסדיר את קצבו</string>
-    <string name="pen_instruction"> לעיתים נדירות\n משומש עבור\n יצירת דרך אוויר</string>
-    <string name="epipen_instruction"> מזרק לטיפול\n בהתקפי אלרגיה\n חמורים</string>
-    <string name="ointment_instruction"> משחה לניקוי\n ומניעת\n זיהומים</string>
+    <string name="defibrillator_instruction_1">מעביר שוק חשמלי</string>
+    <string name="defibrillator_instruction_2">ללב בכדי להסדיר את קצבו</string>
+    <string name="pen_instruction">יכול לשמש לפתיחת דרך אוויר</string>
+    <string name="epipen_instruction">מזרק לטיפול בהתקפי אלרגיה חמורים</string>
+    <string name="ointment_instruction">משחה לניקוי ומניעת זיהומים</string>
 
     <!--Clues-->
     <string name="clue_1">זהירות בזמן הוצאת הקוצים…\n זה יכול להכאיב מאוד</string>
@@ -59,9 +66,10 @@
     <string name="clue_5">אני לא רואה שום בעיה אצלו…\n אולי תנסו לבדוק לו דופק</string>
     <string name="clue_6">ניסיתי כל מה שאני יכולה!\n צריך לפתוח לה דרך אוויר…</string>
 
-    <!--Clues-->
+    <!--Guidance-->
     <string name="guidance_title">זה המשחק הראשון שלך!</string>
     <string name="guidance_tv">האם להוסיף הדרכה לשלב הראשון?</string>
     <string name="medkit_guide_tv">פה נמצאים הכלים שלך, ספר הדרכה, כפתור למדידת דופק וכפתור לרמז מהאחות.</string>
     <string name="epipen_guide_tv">הידעת?\n מזריקים אפיפן לירך</string>
+
 </resources>

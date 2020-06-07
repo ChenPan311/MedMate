@@ -15,10 +15,13 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private boolean mSoundOn = true;
@@ -34,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        /**<-------Hides the status bar------->**/
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         final ImageView background_1 = findViewById(R.id.background_1);
         final ImageView background_2 = findViewById(R.id.background_2);
@@ -94,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         btn_rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showRatingDialog();
             }
         });
 
@@ -173,6 +183,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        /**<-------Hides the status bar------->**/
+        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        /**<-------Show the 'Resume Game' button if the user has a previous game------->**/
         mData = getSharedPreferences("score", MODE_PRIVATE);
         if (mData.getInt("user_score_1", 0) > 0) {
             btn_resume.setVisibility(View.VISIBLE);
@@ -277,6 +292,48 @@ public class MainActivity extends AppCompatActivity {
         });
 
         view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        alertDialog.show();
+    }
+
+
+    void showRatingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogTheme);
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating,
+                (RelativeLayout) findViewById(R.id.layoutDialogContainer));
+
+        builder.setView(view);
+
+        final RatingBar rating_bar = view.findViewById(R.id.rating_bar);
+        final TextView rating_comment = view.findViewById(R.id.rating_comment);
+
+        final AlertDialog alertDialog = builder.create();
+
+        rating_bar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                rating_comment.setVisibility(View.VISIBLE);
+                rating_comment.setText(getResources().getString(R.string.dlg_rating_comment_1) + " " + (int) (rating) + " " + getResources().getString(R.string.dlg_rating_comment_2));
+            }
+        });
+
+        view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();

@@ -42,6 +42,13 @@
         android:src="@drawable/ic_girl_2_wound"
         android:visibility="visible"/>
 
+    <com.example.android1project.OintmentWidget
+        android:id="@+id/ointment_apply"
+        android:layout_width="14dp"
+        android:layout_height="35dp"
+        android:layout_alignTop="@id/girl2_used_band_aid"
+        android:layout_alignStart="@id/girl2_used_band_aid"/>
+
     <ImageView
         android:id="@+id/girl2_used_band_aid"
         android:layout_width="13.5dp"
@@ -115,27 +122,27 @@
         android:layout_centerInParent="true"
         android:visibility="gone">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="47dp"
             android:text="@string/defibrillator_instruction_1"
             android:textSize="15sp"
             android:textStyle="italic|bold"
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="78dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginTop="74dp"
+            android:layout_marginStart="47dp"
             android:text="@string/defibrillator_instruction_2"
             android:textSize="15sp"
             android:textStyle="italic|bold"
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="147dp"
             android:layout_marginStart="50dp"
@@ -145,7 +152,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginStart="185dp"
@@ -155,7 +162,7 @@
             android:textAllCaps="false"
             android:textColor="@color/colorBlack"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="147dp"
             android:layout_marginStart="185dp"

@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -52,6 +53,8 @@ public class Option3Activity extends AppCompatActivity {
     private ImageView used_ba5;
     private ImageView used_ba6;
 
+    private OintmentWidget mOintmentWidget1, mOintmentWidget2;
+
     private MedKit mMedKit;
 
     private HealthBar mHp;
@@ -62,6 +65,10 @@ public class Option3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_3_zoom);
+
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
@@ -83,6 +90,9 @@ public class Option3Activity extends AppCompatActivity {
         used_ba5 = findViewById(R.id.used_band_aid_o3_5z);
         used_ba6 = findViewById(R.id.used_band_aid_o3_6z);
 
+        mOintmentWidget1 = findViewById(R.id.ointment_apply_1);
+        mOintmentWidget2 = findViewById(R.id.ointment_apply_2);
+
         /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar3z);
@@ -97,6 +107,7 @@ public class Option3Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_3);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setAllLevelGuide(getIntent().getBooleanExtra("guide", false));
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
@@ -225,10 +236,13 @@ public class Option3Activity extends AppCompatActivity {
         });
 
 
+
         /**<-------That's where we decide what happens with each user's decision
          *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
+            boolean isApplying1 = false, isApplied1 = false, isApplying2 = false, isApplied2 = false;
             boolean isBa1 = false, isBa2 = false, isBa3 = false, isBa4 = false, isBa5 = false, isBa6 = false;
+
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -252,49 +266,68 @@ public class Option3Activity extends AppCompatActivity {
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+
+                            /**<-------if the user picked ointment and is touching the wound
+                             *                  start applying the ointment------->*/
+                            if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget1) && !isApplying1 && !isBa1&& !isBa2 && !isBa3) {
+                                isApplying1 = true;
+                            } else if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget2) && !isApplying2&& !isBa4&& !isBa5 && !isBa6) {
+                                isApplying2 = true;
+                            } else if (!mMedKit.isOintment()) {
+                                isApplying1 = isApplying2 = false;
+                            }
+                            if (isApplying1) {
+                                mOintmentWidget1.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (120 * mDensity));
+                                isApplied1 = true;
+                            }
+                            if (isApplying2) {
+                                mOintmentWidget2.applyOintment(item1.getX() - (220 * mDensity), item1.getY() - (160 * mDensity));
+                                isApplied2 = true;
+                            }
+
                             v.setLayoutParams(layoutParams);
                             break;
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                            /**<-------if the user picked a bandage and put it on an untreated wound
+                            /**<-------if the user picked a bandage and put it on an untreated wound after the ointment has been applied,
                              *                  put that bandage on this wound------->*/
-                            if (mMedKit.isBandAid() && checkCollision(item1, wound1) && !isBa1) {
+                            if (mMedKit.isBandAid() && checkCollision(item1, wound1) && !isBa1 && isApplied1) {
                                 used_ba1.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa1 = true;
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound2) && !isBa2) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound2) && !isBa2 && isApplied1) {
                                 used_ba2.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa2 = true;
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound3) && !isBa3) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound3) && !isBa3 && isApplied1) {
                                 used_ba3.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa3 = true;
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound4) && !isBa4) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound4) && !isBa4 && isApplied2) {
                                 used_ba4.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa4 = true;
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound5) && !isBa5) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound5) && !isBa5 && isApplied2) {
                                 used_ba5.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                                 isBa5 = true;
-                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound6) && !isBa6) {
+                            } else if (mMedKit.isBandAid() && checkCollision(item1, wound6) && !isBa6 && isApplied2) {
                                 used_ba6.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
@@ -329,6 +362,10 @@ public class Option3Activity extends AppCompatActivity {
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                             }
+
+                            isApplying1 = isApplying2 = false;
+                            mOintmentWidget1.finishApplying();
+                            mOintmentWidget2.finishApplying();
                             break;
                     }
                     v.requestLayout();
@@ -498,6 +535,7 @@ public class Option3Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option3Activity.this, Option3Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -528,6 +566,14 @@ public class Option3Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

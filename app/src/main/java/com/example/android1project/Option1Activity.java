@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -60,6 +61,10 @@ public class Option1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_1_zoom);
 
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mDensity = getResources().getDisplayMetrics().density;
@@ -94,7 +99,7 @@ public class Option1Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_1);
         mMedKit.setItemId(item1.getId());
-        mMedKit.setGuide(guide);
+        mMedKit.setFirstLevelGuide(guide);
         mMedKit.setOnClickListener(mMedKit);
         if (guide) {
             mMedKit.setHealthBar(mHp);
@@ -711,6 +716,7 @@ public class Option1Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option1Activity.this, Option1Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", guide);
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -741,6 +747,14 @@ public class Option1Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

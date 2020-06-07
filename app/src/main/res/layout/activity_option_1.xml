@@ -2,8 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/nature_bg"
     android:layoutDirection="ltr">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/clouds"
+        android:layout_centerHorizontal="true"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/sun" />
 
     <ImageView
         android:id="@+id/victim_1"
@@ -171,6 +187,15 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_legs_guide"
         android:visibility="gone"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="80dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/grass"/>
 
     <ImageView
         android:id="@+id/magnifier_guide_1"

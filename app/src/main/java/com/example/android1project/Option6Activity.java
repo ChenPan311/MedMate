@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -47,6 +48,8 @@ public class Option6Activity extends AppCompatActivity {
     private ImageView used_ba;
     private ImageView good_spot;
 
+    private OintmentWidget mOintmentWidget;
+
     private MedKit mMedKit;
 
     private HealthBar mHp;
@@ -57,6 +60,10 @@ public class Option6Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_6);
+
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
@@ -72,6 +79,8 @@ public class Option6Activity extends AppCompatActivity {
         used_ba = findViewById(R.id.used_band_aid_o6_1);
         good_spot = findViewById(R.id.good_spot);
 
+        mOintmentWidget = findViewById(R.id.ointment_apply);
+
         /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
         mHp = findViewById(R.id.hp_bar6);
@@ -86,6 +95,7 @@ public class Option6Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_6);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setAllLevelGuide(getIntent().getBooleanExtra("guide", false));
         mMedKit.setOnClickListener(mMedKit);
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
@@ -214,9 +224,11 @@ public class Option6Activity extends AppCompatActivity {
         });
 
 
+
         /**<-------That's where we decide what happens with each user's decision
          *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
+            boolean isApplying = false, isApplied = false;
             boolean onNeck = false;
 
             RelativeLayout.LayoutParams layoutParams;
@@ -242,6 +254,18 @@ public class Option6Activity extends AppCompatActivity {
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+
+                            /**<-------if the user picked ointment and is touching the wound after an airway
+                             *                  has been opened, start applying the ointment------->*/
+                            if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget) && !isApplying && pen_cricothy.getVisibility() == View.VISIBLE) {
+                                isApplying = true;
+                            } else if (!mMedKit.isOintment()) {
+                                isApplying = false;
+                            }
+                            if (isApplying) {
+                                mOintmentWidget.applyOintment(item1.getX() - (135 * mDensity), item1.getY() - (260 * mDensity));
+                                isApplied = true;
+                            }
 
                             /**<-------if the user picked the pen is hovering above the girl's neck show the user the throat anatomy
                              *            so he'd be able to decide where's the right spot to open an airway with this pen------->*/
@@ -296,7 +320,7 @@ public class Option6Activity extends AppCompatActivity {
                                 mHp.setHp(0);
                             }
                             /**<-------Success!!!------->*/
-                            else if (mMedKit.isBandAid() && checkCollision(item1, pen_cricothy) && used_ba.getVisibility() != View.VISIBLE) {
+                            else if (isApplied && mMedKit.isBandAid() && checkCollision(item1, pen_cricothy) && used_ba.getVisibility() != View.VISIBLE) {
                                 used_ba.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 mHp.stop();
@@ -337,6 +361,9 @@ public class Option6Activity extends AppCompatActivity {
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                             }
+
+                            isApplying = false;
+                            mOintmentWidget.finishApplying();
                             break;
                     }
                     v.requestLayout();
@@ -456,6 +483,7 @@ public class Option6Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option6Activity.this, Option6Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -486,6 +514,14 @@ public class Option6Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override

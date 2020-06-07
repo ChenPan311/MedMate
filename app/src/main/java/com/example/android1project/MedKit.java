@@ -31,7 +31,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
     private boolean mIsTweezers, mIsBandAid, mIsOintment, mIsEpipen, mIsPen, mIsDefibrillator;
 
-    private boolean guide;
+    private boolean firstLevelGuide = false, allLevelGuide = false;
     private HealthBar mHp;
 
     private float mDensity;
@@ -172,12 +172,14 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             }
         });
 
-        if (guide) {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            scaleAnimation.setDuration(600);
-            guideTv.setAnimation(scaleAnimation);
-            guideTv.setVisibility(View.VISIBLE);
-            guideTv.startAnimation(scaleAnimation);
+        if (firstLevelGuide || allLevelGuide) {
+            if (firstLevelGuide) {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(600);
+                guideTv.setAnimation(scaleAnimation);
+                guideTv.setVisibility(View.VISIBLE);
+                guideTv.startAnimation(scaleAnimation);
+            }
 
             Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_out);
             final ImageView ekg_btn_guide = mLayout.findViewById(R.id.ekg_btn_guide);
@@ -205,13 +207,13 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (guide) {
+                if (firstLevelGuide) {
                     ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                     scaleAnimation.setDuration(300);
                     guideTv.setAnimation(scaleAnimation);
                     guideTv.setVisibility(View.GONE);
                     guideTv.startAnimation(scaleAnimation);
-                    guide = false;
+                    firstLevelGuide = false;
 
                     Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in_out);
                     final ImageView hp_guide = mContext.findViewById(R.id.hp_guide);
@@ -288,8 +290,12 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         this.mIsDefibrillator = isDefibrillator;
     }
 
-    public void setGuide(boolean guide) {
-        this.guide = guide;
+    public void setFirstLevelGuide(boolean firstLevelGuide) {
+        this.firstLevelGuide = firstLevelGuide;
+    }
+
+    public void setAllLevelGuide(boolean allLevelGuide) {
+        this.allLevelGuide = allLevelGuide;
     }
 
     public void setFirstEpipenUse(boolean firstEpipenUse) {

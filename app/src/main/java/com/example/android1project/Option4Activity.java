@@ -13,10 +13,12 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -42,6 +44,8 @@ public class Option4Activity extends AppCompatActivity {
     private ImageView splinter;
     private ImageView used_band_aid;
 
+    private OintmentWidget mOintmentWidget;
+
     private MedKit mMedKit;
 
     private HealthBar mHp;
@@ -53,6 +57,10 @@ public class Option4Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option_4_zoom);
 
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mData = getSharedPreferences("score", MODE_PRIVATE);
 
         mDensity = getResources().getDisplayMetrics().density;
@@ -61,6 +69,8 @@ public class Option4Activity extends AppCompatActivity {
         final ImageView item1 = findViewById(R.id.item4);
         splinter = findViewById(R.id.bee_splinter);
         used_band_aid = findViewById(R.id.girl2_used_band_aid);
+
+        mOintmentWidget = findViewById(R.id.ointment_apply);
 
         /**<-------Getting the user's chosen difficulty and sets the game accordingly------->*/
         mDifficulty = getIntent().getIntExtra("difficulty", 1);
@@ -77,7 +87,9 @@ public class Option4Activity extends AppCompatActivity {
 
         mMedKit = findViewById(R.id.first_aid_kit_4);
         mMedKit.setItemId(item1.getId());
+        mMedKit.setAllLevelGuide(getIntent().getBooleanExtra("guide", false));
         mMedKit.setOnClickListener(mMedKit);
+
         /**<-------if the user chose he'd like guidance a message will pop up
          *       to let him know the Epipen should be injected to the thigh------->*/
         mMedKit.setFirstEpipenUse(getIntent().getBooleanExtra("guide", false));
@@ -213,7 +225,9 @@ public class Option4Activity extends AppCompatActivity {
         /**<-------That's where we decide what happens with each user's decision
          *                  and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
+            boolean isApplying = false, isApplied = false;
             boolean isClosed = false, isOut = false, isBaUsed = false, isEpipenUsed = false;
+
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -248,6 +262,19 @@ public class Option4Activity extends AppCompatActivity {
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = isClosed ? layoutParams.topMargin : Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
+
+                            /**<-------if the user picked ointment and is touching the wound while the splinter
+                             *                  is out, start applying the ointment------->*/
+                            if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget) && !isApplying && isOut && !isBaUsed) {
+                                isApplying = true;
+                            } else if (!mMedKit.isOintment()) {
+                                isApplying = false;
+                            }
+                            if (isApplying) {
+                                mOintmentWidget.applyOintment(item1.getX() - (210 * mDensity), item1.getY() - (70 * mDensity));
+                                isApplied = true;
+                            }
+
                             v.setLayoutParams(layoutParams);
 
                             /**<-------if the tweezers are closed on the splinter while it's in
@@ -269,9 +296,9 @@ public class Option4Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_UP:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                            /**<-------if the user picked a bandage and put it on the untreated wound
-                             *                  put that bandage on the wound------->*/
-                            if (!isBaUsed && isOut && mMedKit.isBandAid() && checkCollision(item1, findViewById(R.id.girl_2_wound))) {
+                            /**<-------if the user picked a bandage and put it on the untreated wound after applying
+                             *                  ointment, put that bandage on the wound------->*/
+                            if (!isBaUsed && isOut && isApplied && mMedKit.isBandAid() && checkCollision(item1, findViewById(R.id.girl_2_wound))) {
                                 used_band_aid.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.INVISIBLE);
                                 isBaUsed = true;
@@ -312,6 +339,9 @@ public class Option4Activity extends AppCompatActivity {
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
                             }
+
+                            isApplying = false;
+                            mOintmentWidget.finishApplying();
                             break;
                     }
                     v.requestLayout();
@@ -453,6 +483,7 @@ public class Option4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Option4Activity.this, Option5Activity.class);
                 intent.putExtra("difficulty", mDifficulty);
+                intent.putExtra("guide", getIntent().getBooleanExtra("guide", false));
                 alertDialog.dismiss();
                 finish();
                 startActivity(intent);
@@ -524,6 +555,14 @@ public class Option4Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /**<-------Hides the status bar------->**/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
