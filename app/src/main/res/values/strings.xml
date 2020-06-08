@@ -60,7 +60,7 @@
     <!--Clues-->
     <string name="clue_1">Be careful when pulling out those thorns…\n it can hurt</string>
     <string name="clue_2">It looks like she got an infection…\n Must be itchy</string>
-    <string name="clue_3">Oh no! those wounds should be covered before he\'ll get an infection!</string>
+    <string name="clue_3">Oh no! those wounds should be treated before he\'ll get an infection!</string>
     <string name="clue_4">Bee sting can cause a severe allergic reaction…</string>
     <string name="clue_5">I can\'t find anything wrong…\n Maybe try to check his pulse</string>
     <string name="clue_6">I tried anything I could!\n It\'s time to open an airway…</string>
