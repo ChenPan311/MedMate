@@ -52,29 +52,6 @@ public class HealthBar extends ProgressBar {
         };
 
         mHandler.post(mRunnable);
-
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(mHp > 0 && !mStop) {
-                        mHp--;
-                        android.os.SystemClock.sleep(mMillis);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                setProgress(mHp);
-                            }
-                        });
-                    if (mHp == 0)
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                showFailDialog();
-                            }
-                        });
-                }
-            }
-        }).start();*/
     }
 
     @Override
@@ -122,29 +99,6 @@ public class HealthBar extends ProgressBar {
     public void resume() {
         this.mStop = false;
         mHandler.post(mRunnable);
-        /*mHp++;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(mHp > 0 && !mStop) {
-                    mHp--;
-                    android.os.SystemClock.sleep(mMillis);
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            setProgress(mHp);
-                        }
-                    });
-                }
-                if (mHp == 0)
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            showFailDialog();
-                        }
-                    });
-            }
-        }).start();*/
     }
 
 

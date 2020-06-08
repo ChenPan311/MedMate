@@ -299,26 +299,7 @@ public class Option2Activity extends AppCompatActivity {
                                 mps23.makePimpleDisappear();
                             }
 
-                            v.setLayoutParams(layoutParams);
-                            break;
 
-                        case MotionEvent.ACTION_UP:
-                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
-                            /**<-------if the user will try to pop up a "pimple" with a tweezers
-                             *                  it will damage the character------->*/
-                            if (mMedKit.isTweezers() && (checkCollision(item1, pimples11) || checkCollision(item1, pimples12) ||
-                                    checkCollision(item1, pimples13) || checkCollision(item1, pimples21) ||
-                                    checkCollision(item1, pimples22) || checkCollision(item1, pimples23))) {
-                                mHp.setHp(mHp.getHp() - 1);
-                                makeDeviceVibrate(100);
-                            }
-                            /**<-------Put the tool back in the kit------->*/
-                            if (checkCollision(item1, mMedKit)) {
-                                item1.setVisibility(View.GONE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
-                            }
                             /**<-------Success!!!------->*/
                             if (pimples11.getAlpha() == 0 && pimples12.getAlpha() == 0 &&
                                     pimples13.getAlpha() == 0 && pimples21.getAlpha() == 0 &&
@@ -349,6 +330,30 @@ public class Option2Activity extends AppCompatActivity {
                                     @Override
                                     public void onAnimationRepeat(Animation animation){}
                                 });
+
+                                isApplying = false;
+                                mOintmentWidget.finishApplying();
+                            }
+
+                            v.setLayoutParams(layoutParams);
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                            layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+
+                            /**<-------if the user will try to pop up a "pimple" with a tweezers
+                             *                  it will damage the character------->*/
+                            if (mMedKit.isTweezers() && (checkCollision(item1, pimples11) || checkCollision(item1, pimples12) ||
+                                    checkCollision(item1, pimples13) || checkCollision(item1, pimples21) ||
+                                    checkCollision(item1, pimples22) || checkCollision(item1, pimples23))) {
+                                mHp.setHp(mHp.getHp() - 1);
+                                makeDeviceVibrate(100);
+                            }
+                            /**<-------Put the tool back in the kit------->*/
+                            if (checkCollision(item1, mMedKit)) {
+                                item1.setVisibility(View.GONE);
+                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
+                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
                             }
                             /**<-------if the user will try to use the Epipen it will damage the character severely------->*/
                             if (mMedKit.isEpipen() && (checkCollision(item1, findViewById(R.id.body_o2)) || checkCollision(item1, mOintmentWidget))) {
