@@ -72,6 +72,7 @@ public class Option2Activity extends AppCompatActivity {
         white_bg = findViewById(R.id.white_bg_2);
         final ImageView item1 = findViewById(R.id.item2);
 
+        final ImageView eyes = findViewById(R.id.girl_1z_eyes);
         final ImageView mouth = findViewById(R.id.girl_1z_mouth);
         final ImageView smile = findViewById(R.id.girl_1z_smile);
 
@@ -231,6 +232,7 @@ public class Option2Activity extends AppCompatActivity {
          *                   and how will the app react to it------->*/
         item1.setOnTouchListener(new View.OnTouchListener() {
             boolean isApplying = false;
+            boolean isEyesClosed = false;
 
             MakePimplesDisappear mps11 = new MakePimplesDisappear(pimples11, 300);
             MakePimplesDisappear mps12 = new MakePimplesDisappear(pimples12, 300);
@@ -246,9 +248,18 @@ public class Option2Activity extends AppCompatActivity {
             int screenHeight = displayMetrics.heightPixels;
             int screenWidth = displayMetrics.widthPixels;
 
+            ScaleAnimation closeEyesAnim = new ScaleAnimation(1f, 1f, 1f, 0.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            ScaleAnimation openEyesAnim = new ScaleAnimation(1f, 1f, 0.1f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (item1.getVisibility() == View.VISIBLE) {
+                    closeEyesAnim.setDuration(100);
+                    closeEyesAnim.setFillAfter(true);
+                    openEyesAnim.setDuration(100);
+                    openEyesAnim.setStartOffset(500);
+
+
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
 
@@ -275,7 +286,13 @@ public class Option2Activity extends AppCompatActivity {
                                 isApplying = false;
                             }
                             if (isApplying) {
-                                mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (20 * mDensity));
+                                mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (35 * mDensity));
+
+                                /**<-------If the user applied ointment on the girl's eyes make her close her eyes------->*/
+                                if (!isEyesClosed) {
+                                    eyes.startAnimation(closeEyesAnim);
+                                    isEyesClosed = true;
+                                }
                             }
 
                             /**<-------if the "pimple" are still there, and the ointment is being applied
@@ -309,6 +326,13 @@ public class Option2Activity extends AppCompatActivity {
 
                                 mData.edit().putInt("user_score_2", mHp.getHp() * mDifficulty).commit();
 
+                                /**<-------Make the girl open her eys------->*/
+                                if (isEyesClosed) {
+                                    eyes.startAnimation(openEyesAnim);
+                                    isEyesClosed = false;
+                                }
+
+                                /**<-------Make the girl smile------->*/
                                 Animation animFadeOut = new AlphaAnimation(1f, 0f);
                                 animFadeOut.setDuration(1000);
                                 final Animation animFadeIn = new AlphaAnimation(0f, 1f);
@@ -361,8 +385,12 @@ public class Option2Activity extends AppCompatActivity {
                                 mHp.setHp(mHp.getHp() - 50);
                             }
 
-                            isApplying = false;
+                            if (isEyesClosed) {
+                                eyes.startAnimation(openEyesAnim);
+                                isEyesClosed = false;
+                            }
                             mOintmentWidget.finishApplying();
+                            isApplying = false;
                             break;
                     }
                     v.requestLayout();
