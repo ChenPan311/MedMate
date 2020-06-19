@@ -28,10 +28,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean mSoundOn = true;
     private boolean mIsBound = false;
     private MusicService mService;
-    HomeWatcher mHomeWatcher;
+    private HomeWatcher mHomeWatcher;
 
     private SharedPreferences mData;
 
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         /**<-------Hides the status bar------->**/
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_resume = findViewById(R.id.btn_resume_game);
 
-        /**<-------if the user started a game already show him the 'Resume Game' option------->**/
+        /**<-------if the user started a game before show him the 'Resume Game' option------->**/
         mData = getSharedPreferences("score", MODE_PRIVATE);
         if (mData.getInt("user_score_1", 0) > 0) {
             btn_resume.setVisibility(View.VISIBLE);
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /**<-------if the user chooses 'New Game' ask him which difficulty he'd like------->**/
-        Button btn_new_game = findViewById(R.id.btn_new_game);
+        final Button btn_new_game = findViewById(R.id.btn_new_game);
         btn_new_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btn_scores = findViewById(R.id.btn_score);
+        final Button btn_scores = findViewById(R.id.btn_score);
         btn_scores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btn_rate = findViewById(R.id.btn_rate);
+        final Button btn_rate = findViewById(R.id.btn_rate);
         btn_rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        /**<----- Background Music Set Up ----->**/
         final ImageView btn_sound = findViewById(R.id.btn_sound);
 
         mHomeWatcher = new HomeWatcher(this);
@@ -135,19 +134,18 @@ public class MainActivity extends AppCompatActivity {
         final Intent music = new Intent();
         music.setClass(this, MusicService.class);
 
-
-        if (!mSoundOn)
+        if (mService != null && !mService.isSoundOn())
             mService.pauseMusic();
         btn_sound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSoundOn) {
-                    mSoundOn = false;
+                if (mService.isSoundOn()) {
+                    mService.setSoundOn(false);
                     btn_sound.setImageResource(R.drawable.ic_sound_off);
                     if (mService != null)
                         mService.pauseMusic();
                 } else {
-                    mSoundOn = true;
+                    mService.setSoundOn(true);
                     btn_sound.setImageResource(R.drawable.ic_sound_on);
                     if (mService != null)
                         mService.resumeMusic();
@@ -162,6 +160,10 @@ public class MainActivity extends AppCompatActivity {
         final LottieAnimationView splash_anim = findViewById(R.id.splash_anim);
         splash_anim.playAnimation();
 
+        /**<-------Set all buttons disabled during splash screen------->**/
+        btn_resume.setEnabled(false); btn_scores.setEnabled(false);
+        btn_rate.setEnabled(false); btn_sound.setEnabled(false); btn_new_game.setEnabled(false);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -172,17 +174,21 @@ public class MainActivity extends AppCompatActivity {
                 splash_screen.setVisibility(View.GONE);
                 splash_anim.setVisibility(View.GONE);
 
-                /**<-------Starts the music after the splash screen------->**/
+                /**<-------Set all buttons enabled after splash screen------->**/
+                btn_resume.setEnabled(true); btn_scores.setEnabled(true);
+                btn_rate.setEnabled(true); btn_sound.setEnabled(true); btn_new_game.setEnabled(true);
+
+                /**<-------Starts the music after splash screen------->**/
                 startService(music);
             }
         }, 6000);
     }
 
-    /**<----- Background Music ----->**/
-    private ServiceConnection serviceConnection = new ServiceConnection(){
 
-        public void onServiceConnected(ComponentName name, IBinder
-                binder) {
+    /**<----- Background Music Methods ----->**/
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder binder) {
             mService = ((MusicService.ServiceBinder)binder).getService();
         }
 
@@ -191,27 +197,26 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    void doBindService(){
+    void doBindService() {
         bindService(new Intent(this,MusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
         mIsBound = true;
     }
 
     void doUnbindService()
     {
-        if(mIsBound)
-        {
+        if(mIsBound) {
             unbindService(serviceConnection);
             mIsBound = false;
         }
     }
-    /**<----- Background Music ----->**/
+    /**<----- Background Music Methods ----->**/
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
         /**<-------Hides the status bar------->**/
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /**<-------Show the 'Resume Game' button if the user has a previous game------->**/
@@ -220,17 +225,15 @@ public class MainActivity extends AppCompatActivity {
             btn_resume.setVisibility(View.VISIBLE);
         }
 
-        /**<----- Background Music ----->**/
-        if (mService != null && mSoundOn) {
+        /**<----- Background Music: If the user didn't mute the music resume background music ----->**/
+        if (mService != null && mService.isSoundOn())
             mService.resumeMusic();
-        }
-        /**<----- Background Music ----->**/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        /**<----- Background Music ----->**/
+        /**<----- Background Music: Detect idle screen to stop music ----->**/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = false;
         if (pm != null) {
@@ -242,19 +245,17 @@ public class MainActivity extends AppCompatActivity {
                 mService.pauseMusic();
             }
         }
-        /**<----- Background Music ----->**/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /**<----- Background Music ----->**/
+        /**<----- Background Music: Unbind music ----->**/
         doUnbindService();
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
         stopService(music);
         mHomeWatcher.stopWatch();
-        /**<----- Background Music ----->**/
     }
 
 

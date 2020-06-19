@@ -1,8 +1,10 @@
 package com.example.android1project;
 
 import android.animation.Animator;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +12,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
@@ -34,6 +38,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 
 public class Option3Activity extends AppCompatActivity {
+    private boolean mIsBound = false;
+    private MusicService mService;
+    private HomeWatcher mHomeWatcher;
+
     private SharedPreferences mData;
 
     private int mDifficulty;
@@ -373,7 +381,58 @@ public class Option3Activity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        /**<----- Background Music Set Up ----->**/
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mService != null) {
+                    mService.pauseMusic();
+                }
+            }
+            @Override
+            public void onHomeLongPressed() {
+                if (mService != null) {
+                    mService.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
+
+        doBindService();
+        final Intent music = new Intent();
+        music.setClass(this, MusicService.class);
     }
+
+
+    /**<----- Background Music Methods ----->**/
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            mService = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+        }
+    };
+
+    void doBindService() {
+        bindService(new Intent(this,MusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService()
+    {
+        if(mIsBound) {
+            unbindService(serviceConnection);
+            mIsBound = false;
+        }
+    }
+    /**<----- Background Music Methods ----->**/
+
 
     public boolean checkCollision(View tool, View object) {
         Rect R2;
@@ -566,6 +625,20 @@ public class Option3Activity extends AppCompatActivity {
             final_score += mData.getInt("user_score_" + i, 0);
 
         mData.edit().putInt("final_score", final_score).commit();
+
+
+        /**<----- Background Music: Detect idle screen to stop music ----->**/
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isScreenOn();
+        }
+
+        if (!isScreenOn) {
+            if (mService != null) {
+                mService.pauseMusic();
+            }
+        }
     }
 
     @Override
@@ -574,11 +647,26 @@ public class Option3Activity extends AppCompatActivity {
 
         /**<-------Hides the status bar------->**/
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        /**<----- Background Music: If the user didn't mute the music resume background music ----->**/
+        if (mService != null && mService.isSoundOn())
+            mService.resumeMusic();
     }
 
     @Override
     public void onBackPressed() {
         mHp.stop();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /**<----- Background Music: Unbind music ----->**/
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        stopService(music);
+        mHomeWatcher.stopWatch();
     }
 }

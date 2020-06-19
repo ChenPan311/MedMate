@@ -11,6 +11,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     private final IBinder mBinder = new ServiceBinder();
     MediaPlayer mPlayer;
     private int length = 0;
+    private boolean mIsSoundOn = true;
 
     public MusicService() {
     }
@@ -42,7 +43,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
 
             public boolean onError(MediaPlayer mp, int what, int extra) {
 
-                return MusicService.this.onError(mPlayer, what, extra); //BEFORE: without 'return MusicService.this.'
+                return MusicService.this.onError(mPlayer, what, extra); //BEFORE FIX: without 'return MusicService.this.'
                 //return true;
             }
         });
@@ -91,6 +92,14 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    public boolean isSoundOn() {
+        return mIsSoundOn;
+    }
+
+    public void setSoundOn(boolean isSoundOn) {
+        this.mIsSoundOn = isSoundOn;
     }
 
     @Override
