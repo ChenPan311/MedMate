@@ -293,10 +293,9 @@ public class Option4Activity extends AppCompatActivity {
 
                                 splinter.setX(Math.max(item1.getX() - splinter.getWidth() + (40 * mDensity), findViewById(R.id.girl_2_wound).getX()));
                                 splinter.setLeft((int) (Math.max(item1.getX() - splinter.getWidth() + (40 * mDensity), findViewById(R.id.girl_2_wound).getX())));
-                                //splinter.setY(item1.getY() + item1.getHeight() - (15 * mDensity));
                                 splinter.invalidate();
 
-                                if (splinterX > splinter.getX() && checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound)))
+                                if (splinterX > splinter.getX() && checkSimpleCollision(splinter, findViewById(R.id.girl_2_wound)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             }
                             break;
