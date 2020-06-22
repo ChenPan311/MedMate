@@ -57,13 +57,6 @@ public class Option1Activity extends AppCompatActivity {
 
     private boolean guide = false;
 
-    /*private boolean mIsTweezers = false;
-    private boolean mIsEpipen = false;
-    private boolean mIsBandAid = false;
-    private boolean mIsOintment = false;
-    private boolean mIsDefibrillator = false;
-    private boolean mIsPen = false;*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,66 +124,7 @@ public class Option1Activity extends AppCompatActivity {
                 mMedKit.performClick();
             }
         });
-        /*final ImageView first_aid_kit = findViewById(R.id.first_aid_kit_1);
-        first_aid_kit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(Option1Activity.this, v);
-                getMenuInflater().inflate(R.menu.first_aid_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.epipen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_epipen);
-                            mIsEpipen = true;
-                            mIsTweezers = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
 
-                        } else if (item.getItemId() == R.id.tweezers_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_tweezers_open);
-                            mIsTweezers = true;
-                            mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.band_aid_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_band_aid);
-                            mIsBandAid = true;
-                            mIsTweezers = mIsEpipen = mIsOintment = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.ointment_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_ointment);
-                            mIsOintment = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsDefibrillator = mIsPen = false;
-
-                        } else if (item.getItemId() == R.id.defibrillator_menu) {
-                            //item1.setVisibility(View.VISIBLE);
-                            //item1.setImageResource(R.drawable.ic_defibrillator);
-                            mIsDefibrillator = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsPen = false;
-
-                            makeDeviceVibrate(1000);
-                            AlphaAnimation anim = new AlphaAnimation(1f, 0f);
-                            anim.setDuration(1000);
-                            white_bg.startAnimation(anim);
-                            mHp.setHp(0);
-
-                        } else if (item.getItemId() == R.id.pen_menu) {
-                            item1.setVisibility(View.VISIBLE);
-                            item1.setImageResource(R.drawable.ic_pen);
-                            mIsPen = true;
-                            mIsTweezers = mIsEpipen = mIsBandAid = mIsOintment = mIsDefibrillator = false;
-
-                        } else {
-                            item1.setVisibility(View.INVISIBLE);
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });*/
 
         /**<-------Setting OnClick Listeners to the MedKit items and buttons------->*/
         ImageView defi = mMedKit.getLayout().findViewById(R.id.defibrillator);
@@ -278,14 +212,16 @@ public class Option1Activity extends AppCompatActivity {
                 mMedKit.setIsPen(false);
                 mMedKit.DismissWindow();
 
-                ScaleAnimation anim = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                ScaleAnimation anim = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF,
+                        0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 anim.setDuration(200);
                 book.startAnimation(anim);
                 book.setVisibility(View.VISIBLE);
                 findViewById(R.id.close_book_btn).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ScaleAnimation anim2 = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        ScaleAnimation anim2 = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF,
+                                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                         anim2.setDuration(200);
                         book.startAnimation(anim2);
                         book.setVisibility(View.GONE);
@@ -300,7 +236,8 @@ public class Option1Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 play_pause_btn.setAlpha(0.25f);
-                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 0.8f, 1f, 0.8f, Animation.RELATIVE_TO_SELF,
+                        0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 scaleAnimation.setDuration(50);
                 scaleAnimation.setRepeatMode(Animation.REVERSE);
                 scaleAnimation.setRepeatCount(1);
@@ -412,8 +349,8 @@ public class Option1Activity extends AppCompatActivity {
                             v.setLayoutParams(layoutParams);
 
                             /**<-------if the tweezers closed on a thorn, pull it out accordingly to the user's movement.
-                             *          But if the user is not being gentle or is pushing the thorn farther into the
-                             *                      skin, it will damage the character------->*/
+                             *         But if the user is not being gentle or is pushing the thorn farther into the skin,
+                             *                 it will damage the character (unless the difficulty level is 'Easy')------->*/
                             float thorn1X, thorn2X, thorn3X, thorn4X, thorn5X, thorn6X;
                             if (isClosed && isThorn1) {
                                 thorn1X = thorn1.getX();
@@ -424,7 +361,7 @@ public class Option1Activity extends AppCompatActivity {
                                 //thorn1.setY(item1.getY() + item1.getHeight() - (10 * mDensity));
                                 thorn1.invalidate();
 
-                                if (thorn1X > thorn1.getX() && checkSimpleCollision(thorn1, findViewById(R.id.skin_1z)))
+                                if (thorn1X > thorn1.getX() && checkSimpleCollision(thorn1, findViewById(R.id.skin_1z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn2) {
                                 thorn2X = thorn2.getX();
@@ -433,7 +370,7 @@ public class Option1Activity extends AppCompatActivity {
                                 thorn2.setLeft((int) (Math.max(item1.getX() - thorn2.getWidth() + (30 * mDensity), findViewById(R.id.skin_2z).getX())));
                                 thorn2.invalidate();
 
-                                if (thorn2X > thorn2.getX() && checkSimpleCollision(thorn2, findViewById(R.id.skin_2z)))
+                                if (thorn2X > thorn2.getX() && checkSimpleCollision(thorn2, findViewById(R.id.skin_2z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn3) {
                                 thorn3X = thorn3.getX();
@@ -442,7 +379,7 @@ public class Option1Activity extends AppCompatActivity {
                                 thorn3.setLeft((int) (Math.max(item1.getX() - thorn3.getWidth() + (30 * mDensity), findViewById(R.id.skin_3z).getX())));
                                 thorn3.invalidate();
 
-                                if (thorn3X > thorn3.getX() && checkSimpleCollision(thorn3, findViewById(R.id.skin_3z)))
+                                if (thorn3X > thorn3.getX() && checkSimpleCollision(thorn3, findViewById(R.id.skin_3z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn4) {
                                 thorn4X = thorn4.getX();
@@ -452,27 +389,25 @@ public class Option1Activity extends AppCompatActivity {
                                 //thorn4.setX(item1.getX() + (15 * mDensity));
                                 thorn4.invalidate();
 
-                                if (thorn4X < thorn4.getX() && checkSimpleCollision(thorn4, findViewById(R.id.skin_4z)))
+                                if (thorn4X < thorn4.getX() && checkSimpleCollision(thorn4, findViewById(R.id.skin_4z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn5) {
                                 thorn5X = thorn5.getX();
 
                                 thorn5.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_5z).getX() - (17 * mDensity)));
                                 thorn5.setRight((int) (item1.getX() + thorn5.getWidth() + (15 * mDensity)));
-                                //thorn5.setX(item1.getX() + (15 * mDensity));
                                 thorn5.invalidate();
 
-                                if (thorn5X < thorn5.getX() && checkSimpleCollision(thorn5, findViewById(R.id.skin_5z)))
+                                if (thorn5X < thorn5.getX() && checkSimpleCollision(thorn5, findViewById(R.id.skin_5z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             } else if (isClosed && isThorn6) {
                                 thorn6X = thorn6.getX();
 
                                 thorn6.setX(Math.min(item1.getX() + (15 * mDensity), findViewById(R.id.skin_6z).getX() - (17 * mDensity)));
                                 thorn6.setRight((int) (item1.getX() + thorn6.getWidth() + (15 * mDensity)));
-                                //thorn6.setX(item1.getX() + (15 * mDensity));
                                 thorn6.invalidate();
 
-                                if (thorn6X < thorn6.getX() && checkSimpleCollision(thorn6, findViewById(R.id.skin_6z)))
+                                if (thorn6X < thorn6.getX() && checkSimpleCollision(thorn6, findViewById(R.id.skin_6z)) && mDifficulty > 1)
                                     mHp.setHp(mHp.getHp() - 1);
                             }
                             break;
@@ -483,7 +418,6 @@ public class Option1Activity extends AppCompatActivity {
                              *                  remove the thorn away form the screen------->*/
                             if (!isOut1 && isThorn1 && !checkSimpleCollision(thorn1, findViewById(R.id.skin_1z))) {
                                 item1.setImageResource(R.drawable.ic_tweezers_open);
-                                //item1.setX(item1.getX() - (20 * mDensity));
                                 item1.invalidate();
                                 thorn1.setVisibility(View.GONE);
                                 isClosed = isThorn1 = false;
@@ -539,7 +473,7 @@ public class Option1Activity extends AppCompatActivity {
                             }
 
                             /**<-------Put the tool back in the kit------->*/
-                            if (checkCollision(item1, mMedKit/*first_aid_kit*/)) {
+                            if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
                                 layoutParams.leftMargin = (screenWidth - deltaX) / 2;
                                 layoutParams.topMargin = (screenHeight - deltaY) / 2;
@@ -563,7 +497,7 @@ public class Option1Activity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onHomeLongPressed() {
+            public void onRecentAppsPressed() {
                 if (mService != null) {
                     mService.pauseMusic();
                 }
@@ -611,15 +545,18 @@ public class Option1Activity extends AppCompatActivity {
         if (mMedKit.isEpipen()) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isTweezers()) {
-            R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (15 * mDensity), tool.getBottom());
         } else if (mMedKit.isBandAid()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isOintment()) {
-            R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (18 * mDensity), tool.getBottom());
         } else if (mMedKit.isDefibrillator()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isPen()) {
-            R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (16 * mDensity), tool.getBottom());
         } else {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         }
@@ -654,16 +591,6 @@ public class Option1Activity extends AppCompatActivity {
 
         final ImageButton btn_back = view.findViewById(R.id.btn_cancel);
         LottieAnimationView anim = view.findViewById(R.id.count_down_anim);
-        /*anim.addValueCallback(
-                new KeyPath("**"),
-                LottieProperty.COLOR_FILTER,
-                new SimpleLottieValueCallback<ColorFilter>() {
-                    @Override
-                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
-                        return new PorterDuffColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                    }
-                }
-        );*/
         anim.setMinAndMaxFrame(300, 600);
         anim.addAnimatorListener(new Animator.AnimatorListener() {
             @Override

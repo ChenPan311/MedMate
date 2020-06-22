@@ -160,7 +160,7 @@ public class Option1Preview extends AppCompatActivity {
                 }
             }
             @Override
-            public void onHomeLongPressed() {
+            public void onRecentAppsPressed() {
                 if (mService != null) {
                     mService.pauseMusic();
                 }

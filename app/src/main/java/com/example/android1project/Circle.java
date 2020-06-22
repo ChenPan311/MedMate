@@ -2,9 +2,7 @@ package com.example.android1project;
 
 import android.graphics.Color;
 
-import java.io.Serializable;
-
-public class Circle implements Serializable {
+public class Circle {
     private float mX;
     private float mY;
     private float mRadius;

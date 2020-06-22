@@ -7,11 +7,10 @@ import android.content.IntentFilter;
 
 public class HomeWatcher {
 
-    //static final String TAG = "hg";
     private Context mContext;
     private IntentFilter mFilter;
     private OnHomePressedListener mListener;
-    private InnerRecevier mReceiver;
+    private InnerReceiver mReceiver;
 
     public HomeWatcher(Context context) {
         mContext = context;
@@ -20,7 +19,7 @@ public class HomeWatcher {
 
     public void setOnHomePressedListener(OnHomePressedListener listener) {
         mListener = listener;
-        mReceiver = new InnerRecevier();
+        mReceiver = new InnerReceiver();
     }
 
     public void startWatch() {
@@ -35,7 +34,7 @@ public class HomeWatcher {
         }
     }
 
-    class InnerRecevier extends BroadcastReceiver {
+    class InnerReceiver extends BroadcastReceiver {
         final String SYSTEM_DIALOG_REASON_KEY = "reason";
         final String SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS = "globalactions";
         final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
@@ -47,12 +46,11 @@ public class HomeWatcher {
             if (action != null && action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 if (reason != null) {
-                    //Log.e(TAG, "action:" + action + ",reason:" + reason);
                     if (mListener != null) {
                         if (reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
                             mListener.onHomePressed();
                         } else if (reason.equals(SYSTEM_DIALOG_REASON_RECENT_APPS)) {
-                            mListener.onHomeLongPressed();
+                            mListener.onRecentAppsPressed();
                         }
                     }
                 }
@@ -63,6 +61,6 @@ public class HomeWatcher {
     public interface OnHomePressedListener {
         void onHomePressed();
 
-        void onHomeLongPressed();
+        void onRecentAppsPressed();
     }
 }

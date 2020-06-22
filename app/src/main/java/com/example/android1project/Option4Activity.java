@@ -368,7 +368,7 @@ public class Option4Activity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onHomeLongPressed() {
+            public void onRecentAppsPressed() {
                 if (mService != null) {
                     mService.pauseMusic();
                 }
@@ -423,19 +423,22 @@ public class Option4Activity extends AppCompatActivity {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
         } else if (mMedKit.isTweezers()) {
-            Rect R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
+            Rect R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (15 * mDensity), tool.getBottom());
             return R1.intersect(R2);
         } else if (mMedKit.isBandAid()) {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
         } else if (mMedKit.isOintment()) {
-            Rect R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
+            Rect R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (18 * mDensity), tool.getBottom());
             return R1.intersect(R2);
         } else if (mMedKit.isDefibrillator()) {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
             return R1.intersect(R2);
         } else if (mMedKit.isPen()) {
-            Rect R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
+            Rect R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (16 * mDensity), tool.getBottom());
             return R1.intersect(R2);
         } else {
             Rect R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());

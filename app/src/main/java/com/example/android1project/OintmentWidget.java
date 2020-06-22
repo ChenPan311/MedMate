@@ -9,10 +9,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class OintmentWidget extends View implements Serializable {
+public class OintmentWidget extends View {
     private ArrayList<Circle> circles = new ArrayList<>();
     private Paint paint;
 

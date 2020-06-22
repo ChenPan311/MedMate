@@ -272,7 +272,7 @@ public class Option5Activity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onHomeLongPressed() {
+            public void onRecentAppsPressed() {
                 if (mService != null) {
                     mService.pauseMusic();
                 }
@@ -320,15 +320,18 @@ public class Option5Activity extends AppCompatActivity {
         if (mMedKit.isEpipen()) {
             R1 = new Rect(tool.getLeft(), tool.getTop() + (int) (160 * mDensity), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isTweezers()) {
-            R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (15 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (30 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (15 * mDensity), tool.getBottom());
         } else if (mMedKit.isBandAid()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isOintment()) {
-            R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (18 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (18 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (18 * mDensity), tool.getBottom());
         } else if (mMedKit.isDefibrillator()) {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         } else if (mMedKit.isPen()) {
-            R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity), tool.getRight() - (int) (16 * mDensity), tool.getBottom());
+            R1 = new Rect(tool.getLeft() + (int) (6 * mDensity), tool.getBottom() - (int) (20 * mDensity),
+                    tool.getRight() - (int) (16 * mDensity), tool.getBottom());
         } else {
             R1 = new Rect(tool.getLeft(), tool.getTop(), tool.getRight(), tool.getBottom());
         }

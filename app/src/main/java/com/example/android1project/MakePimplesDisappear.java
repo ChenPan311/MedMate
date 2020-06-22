@@ -28,16 +28,3 @@ class MakePimplesDisappear {
         return isActive;
     }
 }
-
-/*new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Thread.sleep(milliseconds);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                view.setAlpha(view.getAlpha() > 0 ? view.getAlpha() - 0.1f : 0);
-            }
-        }.start();*/
