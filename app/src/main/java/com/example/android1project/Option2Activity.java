@@ -99,11 +99,11 @@ public class Option2Activity extends AppCompatActivity {
         mHp.setActivity(this);
         if (mDifficulty == 1) {
             mHp.setMillis(1000);
-        }
-        else if (mDifficulty == 2)
+        } else if (mDifficulty == 2) {
             mHp.setMillis(500);
-        else if (mDifficulty == 3)
+        } else if (mDifficulty == 3) {
             mHp.setMillis(250);
+        }
 
         mMedKit = findViewById(R.id.first_aid_kit_2);
         mMedKit.setItemId(item1.getId());
@@ -378,8 +378,8 @@ public class Option2Activity extends AppCompatActivity {
                             if (mMedKit.isTweezers() && (checkCollision(item1, pimples11) || checkCollision(item1, pimples12) ||
                                     checkCollision(item1, pimples13) || checkCollision(item1, pimples21) ||
                                     checkCollision(item1, pimples22) || checkCollision(item1, pimples23))) {
-                                mHp.setHp(mHp.getHp() - 1);
-                                makeDeviceVibrate(100);
+                                mHp.setHp(mHp.getHp() - mDifficulty);
+                                makeDeviceVibrate(200);
                             }
                             /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {

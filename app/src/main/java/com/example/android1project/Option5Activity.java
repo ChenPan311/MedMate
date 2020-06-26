@@ -60,6 +60,8 @@ public class Option5Activity extends AppCompatActivity {
     private ImageView white_bg;
     private ImageView ekg;
 
+    private boolean isEkgInAction = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +86,11 @@ public class Option5Activity extends AppCompatActivity {
         mHp.setActivity(this);
         if (mDifficulty == 1) {
             mHp.setMillis(1000);
-        }
-        else if (mDifficulty == 2)
+        } else if (mDifficulty == 2) {
             mHp.setMillis(500);
-        else if (mDifficulty == 3)
+        } else if (mDifficulty == 3) {
             mHp.setMillis(250);
+        }
 
         mMedKit = findViewById(R.id.first_aid_kit_5);
         mMedKit.setItemId(item1.getId());
@@ -120,6 +122,7 @@ public class Option5Activity extends AppCompatActivity {
         mMedKit.getLayout().findViewById(R.id.ekg_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMedKit.getLayout().findViewById(R.id.ekg_btn).setEnabled(false);
                 ekg.setVisibility(View.VISIBLE);
                 mPlayer = MediaPlayer.create(Option5Activity.this, R.raw.flatline_heartbeat);
                 mPlayer.start();
@@ -127,6 +130,7 @@ public class Option5Activity extends AppCompatActivity {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
                         ekg.setVisibility(View.GONE);
+                        mMedKit.getLayout().findViewById(R.id.ekg_btn).setEnabled(true);
                     }
                 });
                 mMedKit.DismissWindow();

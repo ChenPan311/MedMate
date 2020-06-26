@@ -77,11 +77,11 @@ public class Option1Activity extends AppCompatActivity {
         mHp.setActivity(Option1Activity.this);
         if (mDifficulty == 1) {
             mHp.setMillis(1000);
-        }
-        else if (mDifficulty == 2)
+        } else if (mDifficulty == 2) {
             mHp.setMillis(500);
-        else if (mDifficulty == 3)
+        } else if (mDifficulty == 3) {
             mHp.setMillis(250);
+        }
 
         white_bg = findViewById(R.id.white_bg_1);
         final ImageView thorn1, thorn2, thorn3, thorn4, thorn5, thorn6;

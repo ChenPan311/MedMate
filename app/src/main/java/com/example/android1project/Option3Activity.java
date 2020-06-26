@@ -107,11 +107,11 @@ public class Option3Activity extends AppCompatActivity {
         mHp.setActivity(this);
         if (mDifficulty == 1) {
             mHp.setMillis(1000);
-        }
-        else if (mDifficulty == 2)
+        } else if (mDifficulty == 2) {
             mHp.setMillis(500);
-        else if (mDifficulty == 3)
+        } else if (mDifficulty == 3) {
             mHp.setMillis(250);
+        }
 
         mMedKit = findViewById(R.id.first_aid_kit_3);
         mMedKit.setItemId(item1.getId());
