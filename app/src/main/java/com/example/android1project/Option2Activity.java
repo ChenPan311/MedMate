@@ -17,7 +17,6 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -280,8 +279,6 @@ public class Option2Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_MOVE:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-                            Log.d("ScreenHeight", screenHeight + " " + (layoutParams.topMargin + item1.getHeight() + 96));
-                            Log.d("screenWidth", screenWidth + " " + (layoutParams.leftMargin + item1.getWidth()));
 
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);

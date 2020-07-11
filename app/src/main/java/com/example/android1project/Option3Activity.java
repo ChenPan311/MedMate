@@ -254,8 +254,8 @@ public class Option3Activity extends AppCompatActivity {
             RelativeLayout.LayoutParams layoutParams;
             int deltaX = 0, deltaY = 0;
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-            int screenHeight = displayMetrics.heightPixels;
-            int screenWidth = displayMetrics.widthPixels;
+            final int screenHeight = displayMetrics.heightPixels;
+            final int screenWidth = displayMetrics.widthPixels;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -304,43 +304,43 @@ public class Option3Activity extends AppCompatActivity {
                                 used_ba1.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa1 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound2) && !isBa2 && isApplied1) {
                                 used_ba2.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa2 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound3) && !isBa3 && isApplied1) {
                                 used_ba3.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa3 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound4) && !isBa4 && isApplied2) {
                                 used_ba4.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa4 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound5) && !isBa5 && isApplied2) {
                                 used_ba5.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa5 = true;
                             } else if (mMedKit.isBandAid() && checkCollision(item1, wound6) && !isBa6 && isApplied2) {
                                 used_ba6.setVisibility(View.VISIBLE);
                                 item1.setVisibility(View.GONE);
                                 item1.setVisibility(View.VISIBLE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                                 isBa6 = true;
                             }
 
@@ -367,8 +367,8 @@ public class Option3Activity extends AppCompatActivity {
                             /**<-------Put the tool back in the kit------->*/
                             if (checkCollision(item1, mMedKit)) {
                                 item1.setVisibility(View.GONE);
-                                layoutParams.leftMargin = (screenWidth - deltaX) / 2;
-                                layoutParams.topMargin = (screenHeight - deltaY) / 2;
+                                layoutParams.leftMargin = (screenWidth - item1.getWidth()) / 2;
+                                layoutParams.topMargin = (screenHeight - item1.getHeight()) / 2;
                             }
 
                             isApplying1 = isApplying2 = false;

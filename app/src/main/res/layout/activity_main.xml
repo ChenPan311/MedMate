@@ -57,6 +57,7 @@
             android:padding="10dp"
             android:text="@string/score_board"
             style="@style/MenuBtnStyle"
+            android:textStyle="normal"
             android:background="@drawable/main_menu_btn_selector"/>
 
         <Button
@@ -67,6 +68,7 @@
             android:padding="10dp"
             android:text="@string/rate_us"
             style="@style/MenuBtnStyle"
+            android:textStyle="normal"
             android:background="@drawable/main_menu_btn_selector"/>
 
     </LinearLayout>

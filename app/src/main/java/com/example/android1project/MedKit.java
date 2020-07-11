@@ -67,6 +67,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         //Some offset to align the popup a bit to the right, and a bit down, relative to button's position:
         int OFFSET_X = (int) (200 * mDensity);
         int OFFSET_Y = (int) (310 * mDensity);
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         final int screenHeight = displayMetrics.heightPixels;
         final int screenWidth = displayMetrics.widthPixels;
@@ -74,15 +75,6 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
         // Displaying the popup at the specified location, + offsets:
         mPopupWindow.showAtLocation(mLayout, Gravity.NO_GRAVITY, (int) this.getX() - OFFSET_X, (int) this.getY() - OFFSET_Y);
         item = this.mContext.findViewById(mToolId);
-
-        /**<-------if the user picked any item for the first time locate it
-         *      in the center of the screen close the tweezers on that thorn------->*/
-        if (isFirstItemsPick) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) item.getLayoutParams();
-            layoutParams.leftMargin = (screenWidth / 2) - item.getWidth();
-            layoutParams.topMargin = (screenHeight / 2) - item.getHeight();
-            isFirstItemsPick = false;
-        }
 
         ImageView tweezers = mLayout.findViewById(R.id.tweezers);
         ImageView band_aid = mLayout.findViewById(R.id.bandaid);
@@ -96,6 +88,11 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             @Override
             public void onClick(View v) {
                 item.setImageResource(R.drawable.ic_tweezers_open);
+                //For some reason the item doesn't get the width and height it should get, so when trying to
+                //locate the item on the center of the screen - it can't be done bc the width and height of the
+                //item are needed (it just stays 0)...So i'm using this instead:
+                item.setMaxWidth(getResources().getDrawable(R.drawable.ic_tweezers_open).getIntrinsicWidth());
+                item.setMaxHeight(getResources().getDrawable(R.drawable.ic_tweezers_open).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
                 mPopupWindow.dismiss();
 
@@ -108,6 +105,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             @Override
             public void onClick(View v) {
                 item.setImageResource(R.drawable.ic_band_aid);
+                item.setMaxWidth(getResources().getDrawable(R.drawable.ic_band_aid).getIntrinsicWidth());
+                item.setMaxHeight(getResources().getDrawable(R.drawable.ic_band_aid).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
                 mPopupWindow.dismiss();
 
@@ -120,6 +119,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             @Override
             public void onClick(View v) {
                 item.setImageResource(R.drawable.ic_ointment);
+                item.setMaxWidth(getResources().getDrawable(R.drawable.ic_ointment).getIntrinsicWidth());
+                item.setMaxHeight(getResources().getDrawable(R.drawable.ic_ointment).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
                 mPopupWindow.dismiss();
 
@@ -132,6 +133,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             @Override
             public void onClick(View v) {
                 item.setImageResource(R.drawable.ic_epipen);
+                item.setMaxWidth(getResources().getDrawable(R.drawable.ic_epipen).getIntrinsicWidth());
+                item.setMaxHeight(getResources().getDrawable(R.drawable.ic_epipen).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
                 mPopupWindow.dismiss();
 
@@ -164,6 +167,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
             @Override
             public void onClick(View v) {
                 item.setImageResource(R.drawable.ic_pen);
+                item.setMaxWidth(getResources().getDrawable(R.drawable.ic_pen).getIntrinsicWidth());
+                item.setMaxHeight(getResources().getDrawable(R.drawable.ic_pen).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
                 mPopupWindow.dismiss();
 
@@ -229,6 +234,15 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
                     if (mHp != null)
                         mHp.resume();
+                }
+
+                /**<-------if the user picked any item for the first time
+                 *              locate it in the center of the screen------->*/
+                if (isFirstItemsPick) {
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) item.getLayoutParams();
+                    layoutParams.leftMargin = (screenWidth - item.getMaxWidth()) / 2;
+                    layoutParams.topMargin = (screenHeight - item.getMaxHeight()) / 2;
+                    isFirstItemsPick = false;
                 }
             }
         });
