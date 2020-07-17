@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
     private int mToolId;
     private boolean isFirstItemsPick = true;
+
     private boolean isFirstEpipenUse = false;
 
     private boolean mIsTweezers, mIsBandAid, mIsOintment, mIsEpipen, mIsPen, mIsDefibrillator;
@@ -94,10 +96,11 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 item.setMaxWidth(getResources().getDrawable(R.drawable.ic_tweezers_open).getIntrinsicWidth());
                 item.setMaxHeight(getResources().getDrawable(R.drawable.ic_tweezers_open).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
-                mPopupWindow.dismiss();
 
                 mIsTweezers = true;
                 mIsBandAid = mIsOintment = mIsEpipen = mIsDefibrillator = mIsPen = false;
+
+                mPopupWindow.dismiss();
             }
         });
 
@@ -108,10 +111,11 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 item.setMaxWidth(getResources().getDrawable(R.drawable.ic_band_aid).getIntrinsicWidth());
                 item.setMaxHeight(getResources().getDrawable(R.drawable.ic_band_aid).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
-                mPopupWindow.dismiss();
 
                 mIsBandAid = true;
                 mIsTweezers = mIsOintment = mIsEpipen = mIsDefibrillator = mIsPen = false;
+
+                mPopupWindow.dismiss();
             }
         });
 
@@ -122,10 +126,11 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 item.setMaxWidth(getResources().getDrawable(R.drawable.ic_ointment).getIntrinsicWidth());
                 item.setMaxHeight(getResources().getDrawable(R.drawable.ic_ointment).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
-                mPopupWindow.dismiss();
 
                 mIsOintment = true;
                 mIsTweezers = mIsBandAid = mIsEpipen = mIsDefibrillator = mIsPen = false;
+
+                mPopupWindow.dismiss();
             }
         });
 
@@ -136,7 +141,6 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 item.setMaxWidth(getResources().getDrawable(R.drawable.ic_epipen).getIntrinsicWidth());
                 item.setMaxHeight(getResources().getDrawable(R.drawable.ic_epipen).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
-                mPopupWindow.dismiss();
 
                 if (isFirstEpipenUse) {
                     final TextView epipen_guide = mContext.findViewById(R.id.epipen_guide);
@@ -160,6 +164,8 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
                 mIsEpipen = true;
                 mIsTweezers = mIsBandAid = mIsOintment = mIsDefibrillator = mIsPen = false;
+
+                mPopupWindow.dismiss();
             }
         });
 
@@ -170,10 +176,11 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
                 item.setMaxWidth(getResources().getDrawable(R.drawable.ic_pen).getIntrinsicWidth());
                 item.setMaxHeight(getResources().getDrawable(R.drawable.ic_pen).getIntrinsicHeight());
                 item.setVisibility(VISIBLE);
-                mPopupWindow.dismiss();
 
                 mIsPen = true;
                 mIsTweezers = mIsBandAid = mIsOintment = mIsEpipen = mIsDefibrillator = false;
+
+                mPopupWindow.dismiss();
             }
         });
 
@@ -238,7 +245,7 @@ public class MedKit extends androidx.appcompat.widget.AppCompatImageView impleme
 
                 /**<-------if the user picked any item for the first time
                  *              locate it in the center of the screen------->*/
-                if (isFirstItemsPick) {
+                if (isFirstItemsPick && (mIsTweezers || mIsBandAid || mIsOintment || mIsEpipen || mIsPen)) {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) item.getLayoutParams();
                     layoutParams.leftMargin = (screenWidth - item.getMaxWidth()) / 2;
                     layoutParams.topMargin = (screenHeight - item.getMaxHeight()) / 2;

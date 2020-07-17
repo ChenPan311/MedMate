@@ -17,6 +17,7 @@ import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -279,11 +280,10 @@ public class Option2Activity extends AppCompatActivity {
 
                         case MotionEvent.ACTION_MOVE:
                             layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
-
                             layoutParams.leftMargin = Math.min(Math.max(0, (x - deltaX)), screenWidth - v.getWidth());
                             layoutParams.topMargin = Math.min(Math.max(0, (y - deltaY)), screenHeight - v.getHeight() - 100);
 
-                            /**<-------if the user picked ointment and is touching the "pimples"
+                            /**<-------If the user picked ointment and is touching the "pimples"
                              *                  start applying the ointment------->*/
                             if (mMedKit.isOintment() && checkCollision(item1, mOintmentWidget) && !isApplying) {
                                 isApplying = true;
@@ -291,7 +291,10 @@ public class Option2Activity extends AppCompatActivity {
                                 isApplying = false;
                             }
                             if (isApplying) {
-                                mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (35 * mDensity));
+                                //mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (35 * mDensity));
+                                mOintmentWidget.applyOintment(item1.getLeft() + (item1.getWidth() / 2), item1.getBottom()); //This should work
+
+                                Log.d("XY"," " + (item1.getLeft() + (item1.getWidth() / 2)) + ", " + item1.getBottom());
 
                                 /**<-------If the user applied ointment on the girl's eyes make her close her eyes------->*/
                                 if (!isEyesClosed) {
@@ -392,7 +395,16 @@ public class Option2Activity extends AppCompatActivity {
 
                             if (isEyesClosed) {
                                 eyes.startAnimation(openEyesAnim);
-                                isEyesClosed = false;
+                                openEyesAnim.setAnimationListener(new Animation.AnimationListener() {
+                                    @Override
+                                    public void onAnimationStart(Animation animation){}
+                                    @Override
+                                    public void onAnimationEnd(Animation animation) {
+                                        isEyesClosed = false;
+                                    }
+                                    @Override
+                                    public void onAnimationRepeat(Animation animation){}
+                                });
                             }
                             mOintmentWidget.finishApplying();
                             isApplying = false;
