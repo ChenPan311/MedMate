@@ -40,7 +40,7 @@ public class OintmentWidget extends View {
 
         for (Circle circle : circles) {
             paint.setColor(circle.getColor());
-            Log.wtf("XY"," " + circle.getX() + ", " + circle.getY());
+            //Log.wtf("XY"," " + circle.getX() + ", " + circle.getY());
             canvas.drawCircle(circle.getX(), circle.getY(), 5 * mDensity, paint);
         }
     }
