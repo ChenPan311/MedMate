@@ -49,7 +49,7 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/btn_dummy"
         android:layout_toStartOf="@id/btn_dummy"
-        android:src="@drawable/ic_cancel_btn"
+        android:src="@drawable/cancel_btn_selector"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
 
@@ -68,7 +68,7 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/btn_dummy"
         android:layout_toEndOf="@id/btn_dummy"
-        android:src="@drawable/ic_confirm_btn"
+        android:src="@drawable/confirm_btn_selector"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
 

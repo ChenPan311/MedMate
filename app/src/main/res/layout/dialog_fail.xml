@@ -46,7 +46,7 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/btn_dummy"
         android:layout_toStartOf="@id/btn_dummy"
-        android:src="@drawable/ic_menu_btn"
+        android:src="@drawable/menu_btn_selector"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
 
@@ -65,7 +65,7 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/btn_dummy"
         android:layout_toEndOf="@id/btn_dummy"
-        android:src="@drawable/ic_restart_btn"
+        android:src="@drawable/restart_btn_selector"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
 

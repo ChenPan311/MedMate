@@ -81,7 +81,7 @@
         android:layout_marginTop="265dp"
         android:layout_marginHorizontal="25dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_cancel_btn"
+        android:src="@drawable/cancel_btn_selector"
         android:background="@color/transparent"
         android:scaleType="fitCenter"/>
 

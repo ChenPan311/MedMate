@@ -290,11 +290,9 @@ public class Option2Activity extends AppCompatActivity {
                             } else if (!mMedKit.isOintment()) {
                                 isApplying = false;
                             }
+
                             if (isApplying) {
                                 mOintmentWidget.applyOintment(item1.getX() - (40 * mDensity), item1.getY() - (35 * mDensity));
-                                //mOintmentWidget.applyOintment(item1.getLeft() + (item1.getWidth() / 2), item1.getBottom()); //This should work
-
-                                //Log.d("XY"," " + (item1.getLeft() + (item1.getWidth() / 2)) + ", " + item1.getBottom());
 
                                 /**<-------If the user applied ointment on the girl's eyes make her close her eyes------->*/
                                 if (!isEyesClosed) {

@@ -40,7 +40,7 @@ public class OintmentWidget extends View {
 
         for (Circle circle : circles) {
             paint.setColor(circle.getColor());
-            //Log.wtf("XY"," " + circle.getX() + ", " + circle.getY());
+
             canvas.drawCircle(circle.getX(), circle.getY(), 5 * mDensity, paint);
         }
     }
@@ -89,13 +89,14 @@ public class OintmentWidget extends View {
                     invalidate();
                 }
             }, 400);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    circles.clear();
-                    invalidate();
-                }
-            }, 500);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                circles.clear();
+                invalidate();
+            }
+        }, 500);
     }
 }
